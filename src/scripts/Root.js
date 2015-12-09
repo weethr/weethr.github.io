@@ -87,9 +87,9 @@ module.exports = React.createClass({
                 this.setState((oldState) => {
                     var noSuchCity = oldState.cityList.filter((x) => x.name === cityName).length === 0;
                     if(noSuchCity) {
-                        this.setState(update(this.state, {
+                        return update(oldState, {
                             cityList: {$push: [newCity]}
-                        }))
+                        });
                     }
                 });
             })
@@ -98,11 +98,20 @@ module.exports = React.createClass({
             });
     },
 
+    onRemoveCity: function (cityName) {
+        this.setState((oldState) => {
+            var newCityList = oldState.cityList.filter((x) => x.name !== cityName);
+            return update(oldState, {
+                cityList: {$set: newCityList}
+            });
+        });
+    },
+
     render: function () {
         return (
             <div>
                 <NewCity onAdd={this.onNewCity}/>
-                <CityList data={this.state.cityList}/>
+                <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
             </div>
         )
     }

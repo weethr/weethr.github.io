@@ -19,25 +19,38 @@ function formatTemp(temp) {
 }
 
 module.exports = React.createClass({
+    onRemove: function(name) {
+        return () => {
+            this.props.onRemove(name)
+        }
+    },
+
     render: function () {
         return (
             <div>
                 {
                     this.props.data.map((city) => {
-                        if(city.weather) {
-                            return (
-                                <div key={city.name}>
+                        var description;
+                        if (city.weather) {
+                            description = (
+                                <span>
                                     { city.name }: { formatTemp(city.weather.temp) } <span> ({(new Date(city.weather.dt)).toGMTString()})</span>
-                                </div>
+                                </span>
                             )
                         }
                         else {
-                            return (
-                                <div key={city.name}>
+                            description = (
+                                <span>
                                     { city.name }: no data yet
-                                </div>
+                                </span>
                             )
                         }
+                        return (
+                            <div key={city.name}>
+                                {description}
+                                <button onClick={this.onRemove(city.name)}>Remove</button>
+                            </div>
+                        )
                     })
                 }
             </div>
