@@ -29,7 +29,7 @@ build/Release
 node_modules
 
 debug
-
+public
 
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
