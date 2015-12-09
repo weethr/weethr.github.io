@@ -19,6 +19,7 @@
     "watchify": "^3.6.0"
   },
   "dependencies": {
+    "express": "^4.13.3",
     "react": "^0.14.2",
     "react-addons-update": "^0.14.2",
     "react-dom": "^0.14.2",

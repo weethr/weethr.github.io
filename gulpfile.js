@@ -38,7 +38,7 @@ var gulp = require('gulp'),
 
 var DEBUG_ROOT = './debug';
 var SRC_ROOT = './src';
-var PROD_ROOT = './out';
+var PROD_ROOT = './public';
 
 
 gulp.task('html', function(){
