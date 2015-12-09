@@ -10,7 +10,7 @@
 var React = require('react');
 
 function formatTemp(temp) {
-    if(temp > 0) {
+    if (temp > 0) {
         return "+" + temp;
     }
     else {
@@ -23,11 +23,22 @@ module.exports = React.createClass({
         return (
             <div>
                 {
-                    this.props.data.map((city) => (
-                        <div key={city.name}>
-                            { city.name }: { formatTemp(city.weather.temp) }
-                        </div>
-                    ))
+                    this.props.data.map((city) => {
+                        if(city.weather) {
+                            return (
+                                <div key={city.name}>
+                                    { city.name }: { formatTemp(city.weather.temp) } <span> ({(new Date(city.weather.dt)).toGMTString()})</span>
+                                </div>
+                            )
+                        }
+                        else {
+                            return (
+                                <div key={city.name}>
+                                    { city.name }: no data yet
+                                </div>
+                            )
+                        }
+                    })
                 }
             </div>
         )
