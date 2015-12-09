@@ -20,12 +20,12 @@
  */
 
 var React = require('react'),
-    ReactDom = require('react-dom');
+    ReactDom = require('react-dom'),
+    Root = require('./Root');
 
 document.addEventListener('DOMContentLoaded', () => {
     ReactDom.render(
-        <h1>Hello!</h1>,
+        <Root/>,
         document.getElementById("react")
     );
-
 });
