@@ -11,15 +11,19 @@ var express = require('express'),
 
 var app = express();
 
-var publicDir = process.argv[2] || "public";
-var apiKey = process.argv[3] || "";
+var cli = require('command-line-args')([
+    { name: 'staticDir', alias: 's', type: String },
+    { name: 'owmApiKey', alias: 'k', type: String }
+]);
 
-app.use(express.static(publicDir));
+var options = cli.parse();
+
+app.use(express.static(options.staticDir));
 
 app.get('/weather', (req, res) => {
     var params = require('url').parse(req.url, true).query;
     if(params.q) {
-        http.get('http://api.openweathermap.org/data/2.5/weather?q='+encodeURIComponent(params.q)+'&appid=' + apiKey + '&units=metric', (apiRes) => {
+        http.get('http://api.openweathermap.org/data/2.5/weather?q='+encodeURIComponent(params.q)+'&appid=' + options.owmApiKey + '&units=metric', (apiRes) => {
             var data = "";
             apiRes.on('data', (chunk) => { if(chunk) {data += chunk} });
             apiRes.on('end', () => {
@@ -51,6 +55,5 @@ var server = app.listen(3001, () => {
     var port = server.address().port;
 
     console.log('Server listening at http://%s:%s', host, port);
-    console.log('Serving static files in: ' + publicDir);
 });
 
