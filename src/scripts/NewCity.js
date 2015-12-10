@@ -8,7 +8,30 @@
  */
 
 var React = require('react'),
-    update = require('react-addons-update');
+    update = require('react-addons-update'),
+    Q = require('kew'),
+    nanoajax = require('nanoajax');
+
+var Select = require('react-select');
+
+function ajax(url) {
+    var promise = new Q.defer();
+
+    nanoajax.ajax({url: url}, (code, responseText) => {
+
+        if (code === 200) {
+            promise.resolve(JSON.parse(responseText)); //todo: check for errors
+        }
+        else {
+            promise.reject({
+                code:code,
+                responseText:responseText
+            });
+        }
+    });
+
+    return promise;
+}
 
 module.exports = React.createClass({
 
@@ -19,11 +42,11 @@ module.exports = React.createClass({
             waiting: {$set: true}
         }));
 
-        var result = this.props.onAdd(this.state.text);
+        var result = this.props.onAdd(this.state.selectValue.value);
 
         result.then(() => {
             this.setState(update(this.state, {
-                text: {$set: ""},
+                selectValue: {$set: ""},
                 error: {$set: null},
                 waiting: {$set: false}
             }));
@@ -49,27 +72,52 @@ module.exports = React.createClass({
 
     getInitialState: function () {
         return {
-            text: "",
+            selectValue: { value: ''},
             waiting: false,
             error: null
         }
     },
 
-    updateText: function (e) {
+    loadOptions: function(input, callback) {
+        ajax('/cities?q=' + input).then((cities) => {
+            var options = cities.map((item) => {
+                return {
+                    value: item.city,
+                    label: item.city
+                }
+            });
+            callback(null, {
+                options: options,
+                complete: false
+            });
+        });
+    },
+
+    onFinishSearch: function(val) {
+        val = val || { value: '', label: '' };
         this.setState(update(this.state, {
-            text: {$set: e.target.value},
-            error: {$set: null}
+            selectValue: {$set:val}
         }));
     },
 
     render: function () {
+
         return (
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit} className="new-city">
                 <label>
                     <span>New city: </span>
-                    <input type="text" value={this.state.text} disabled={this.state.waiting} onChange={this.updateText}/>
-                    <button type="submit" disabled={this.state.waiting || this.state.text === ""}>Add</button>
-                    <img src="images/ajax-loader.gif" style={{display:this.state.waiting ? "inline" : "none"}}/>
+                    <Select.Async
+                        name="form-field-name"
+                        value={this.state.selectValue}
+                        onChange={this.onFinishSearch}
+                        multi={false}
+                        className="new-city__select"
+                        loadOptions={this.loadOptions}
+                        />
+                    <button type="submit"
+                            disabled={this.state.waiting || this.state.selectValue.value === ""}>Add</button>
+                    <img src="images/ajax-loader.gif"
+                         style={{display:this.state.waiting ? "inline" : "none"}}/>
                 </label>
                 <p style={{color: 'red'}}>{this.state.error}</p>
             </form>
