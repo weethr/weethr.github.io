@@ -16,26 +16,18 @@ var React = require('react'),
 var NewCity = require('./NewCity'),
     CityList = require('./CityList');
 
-function requestWeather(city) {
-
+function ajax(url) {
     var promise = new Q.defer();
-    nanoajax.ajax({url: '/weather?q=' + city}, (code, responseText) => {
+
+    nanoajax.ajax({url: url}, (code, responseText) => {
+
         if (code === 200) {
-            var weatherData = JSON.parse(responseText); //todo: check for errors
-            var newCity = {
-                name: city,
-                weather: {
-                    temp: weatherData.main.temp,
-                    dt: weatherData.dt * 1000
-                }
-            };
-            promise.resolve(newCity);
+            promise.resolve(JSON.parse(responseText)); //todo: check for errors
         }
         else {
             promise.reject({
-                code: code,
-                city: city,
-                message: responseText
+                code:code,
+                responseText:responseText
             });
         }
     });
@@ -43,21 +35,86 @@ function requestWeather(city) {
     return promise;
 }
 
+function requestWeather(city) {
+
+    return ajax('/weather?q=' + city).then((weatherData) => {
+        return {
+            name: city,
+            weather: {
+                temp: weatherData.main.temp,
+                dt: weatherData.dt * 1000
+            }
+        };
+    }, (error) => {
+        return Q.reject({
+            code: error.code,
+            city: city,
+            message: error.responseText
+        })
+    });
+}
+
 module.exports = React.createClass({
 
     getInitialState: function () {
-        return {
-            cityList: [
-                {name: "London"},
-                {name: "Saint Petersburg"},
-                {name: "New York"},
-                {name: "Murmansk"},
-                {name: "Sidney"},
-                {name: "Dublin"},
-                {name: "Berlin"},
-                {name: "Moscow"}
-            ]
+
+
+        var defaultState = {
+            cityList: []
+        };
+        var state = localStorage.getItem("reactState");
+        if(state !== null) {
+            try {
+                return JSON.parse(state);
+            } catch (e) {
+                console.error("Unable to parse old state, use default");
+                return defaultState
+            }
         }
+        else {
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position);
+                var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&sensor=true&language=en';
+                console.log(url);
+                ajax(url).then((geoInfo) => {
+                    if(geoInfo.results.length > 0) {
+                        return geoInfo.results[0];
+                    }
+                    throw new Error("Google hasn't found anything");
+                }).then((result) => {
+                    var components = result.address_components;
+                    components = components.filter((comp) => {
+                        return comp.types.indexOf("administrative_area_level_1") != -1
+                            && comp.types.indexOf("political") != -1;
+                    });
+                    if(components.length>0) {
+                        return components[0];
+                    }
+                    throw new Error("City component hasn't found");
+                }).then((cityComponent) => {
+                    var cityName = cityComponent.long_name;
+                    this.setState((oldState) => {
+                        if(oldState.cityList.length === 0) {
+                            return update(oldState, {
+                                cityList: {$set: [{name:cityName}]}
+                            })
+                        }
+                        else {
+                            return oldState;
+                        }
+                    })
+                }).fail((error) => {
+                    console.log(error);
+                })
+            });
+
+            return defaultState;
+        }
+    },
+
+    saveState: function(state){
+        state = state || this.state;
+        localStorage.setItem("reactState", JSON.stringify(state));
     },
 
     componentDidMount: function () {
@@ -94,8 +151,9 @@ module.exports = React.createClass({
                 })
             });
 
-            // When all requests finished - set timeout for next update
+            // When all requests finished
             Q.all(newCityPromiseList).then(() => {
+                this.saveState();
                 setTimeout(updateList, 3000);
             })
         };
@@ -103,25 +161,34 @@ module.exports = React.createClass({
     },
 
     onNewCity: function (cityName) {
-        return requestWeather(cityName)
-            .then((newCity) => {
-                this.setState((oldState) => {
-                    var noSuchCity = oldState.cityList.filter((x) => x.name === cityName).length === 0;
-                    if(noSuchCity) {
-                        return update(oldState, {
-                            cityList: {$push: [newCity]}
-                        });
-                    }
-                });
-            })
+        var promise = requestWeather(cityName);
+        return promise.then((newCity) => {
+            this.setState((oldState) => {
+                var noSuchCity = oldState.cityList.filter((x) => x.name === cityName).length === 0;
+                var newState;
+                if (noSuchCity) {
+                    newState = update(oldState, {
+                        cityList: {$push: [newCity]}
+                    });
+                }
+                else {
+                    newState = oldState;
+                }
+                this.saveState(newState);
+                return newState;
+            });
+            return promise;
+        });
     },
 
     onRemoveCity: function (cityName) {
         this.setState((oldState) => {
             var newCityList = oldState.cityList.filter((x) => x.name !== cityName);
-            return update(oldState, {
+            var newState = update(oldState, {
                 cityList: {$set: newCityList}
             });
+            this.saveState(newState);
+            return newState;
         });
     },
 

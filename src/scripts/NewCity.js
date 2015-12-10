@@ -19,16 +19,20 @@ module.exports = React.createClass({
             waiting: {$set: true}
         }));
 
-        this.props.onAdd(this.state.text).then(() => {
+        var result = this.props.onAdd(this.state.text);
+
+        result.then(() => {
             this.setState(update(this.state, {
                 text: {$set: ""},
-                error: null,
+                error: {$set: null},
                 waiting: {$set: false}
             }));
-        }).fail((error) => {
+        });
+
+        result.fail((error) => {
             var message;
             if(error.code == 404) {
-                message = "city not found";
+                message = "city have not found";
             }
             else if(error.code == 500) {
                 message = "internal server error. Sorry :(";
@@ -64,7 +68,7 @@ module.exports = React.createClass({
                 <label>
                     <span>New city: </span>
                     <input type="text" value={this.state.text} disabled={this.state.waiting} onChange={this.updateText}/>
-                    <button type="submit" disabled={this.state.waiting}>Add</button>
+                    <button type="submit" disabled={this.state.waiting || this.state.text === ""}>Add</button>
                     <img src="images/ajax-loader.gif" style={{display:this.state.waiting ? "inline" : "none"}}/>
                 </label>
                 <p style={{color: 'red'}}>{this.state.error}</p>

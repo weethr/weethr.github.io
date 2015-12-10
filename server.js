@@ -29,8 +29,12 @@ app.get('/weather', (req, res) => {
             apiRes.on('end', () => {
                 var dataJson = JSON.parse(data);
                 if(dataJson.cod == 200) {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(data);
+                    setTimeout(() => {
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(data);
+                    }, 2000 * Math.random())
+    //                res.writeHead(200, { 'Content-Type': 'application/json' });
+    //                res.end(data);
                 }
                 else {
                     res.writeHead(dataJson.cod, { 'Content-Type': 'text/plain' });
