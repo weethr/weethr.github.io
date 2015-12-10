@@ -1,8 +1,1 @@
-.new-city {
-  &__select {
-    > input {
-      width: 200px;
-
-    }
-  }
-}
+@import "../../node_modules/react-select/scss/default.scss";
