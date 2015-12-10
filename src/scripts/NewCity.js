@@ -113,12 +113,13 @@ module.exports = React.createClass({
                         multi={false}
                         className="new-city__select"
                         loadOptions={this.loadOptions}
+                        disabled={this.state.waiting}
                         />
-                    <button type="submit"
-                            disabled={this.state.waiting || this.state.selectValue.value === ""}>Add</button>
-                    <img src="images/ajax-loader.gif"
-                         style={{display:this.state.waiting ? "inline" : "none"}}/>
                 </label>
+                <button type="submit"
+                        disabled={this.state.waiting || this.state.selectValue.value === ""}>Add</button>
+                <img src="images/ajax-loader.gif"
+                     style={{display:this.state.waiting ? "inline" : "none"}}/>
                 <p style={{color: 'red'}}>{this.state.error}</p>
             </form>
         )
