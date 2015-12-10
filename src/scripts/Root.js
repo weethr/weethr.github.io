@@ -57,8 +57,6 @@ function requestWeather(city) {
 module.exports = React.createClass({
 
     getInitialState: function () {
-
-
         var defaultState = {
             cityList: []
         };
@@ -73,9 +71,7 @@ module.exports = React.createClass({
         }
         else {
             navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position);
                 var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&sensor=true&language=en';
-                console.log(url);
                 ajax(url).then((geoInfo) => {
                     if(geoInfo.results.length > 0) {
                         return geoInfo.results[0];
@@ -103,8 +99,8 @@ module.exports = React.createClass({
                             return oldState;
                         }
                     })
-                }).fail((error) => {
-                    console.log(error);
+                }, (error) => {
+                    console.error(error);
                 })
             });
 
@@ -138,7 +134,7 @@ module.exports = React.createClass({
                         })
                     });
                 }).fail((reason) => {
-                    console.log("Failed to update '"+reason.city+"': " + reason.message);
+                    console.error("Failed to update '"+reason.city+"': " + reason.message);
                 })
             });
 
