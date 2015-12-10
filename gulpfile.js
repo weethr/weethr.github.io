@@ -75,7 +75,13 @@ gulp.task('styles', function(){
         .pipe(gulp.dest(PROD_ROOT + '/styles'))
 });
 
-gulp.task('default', ['html', 'scripts', 'styles']);
+gulp.task('images', function(){
+    var files = SRC_ROOT + '/images/**';
+    return gulp.src(files)
+        .pipe(gulp.dest(PROD_ROOT + '/images'))
+});
+
+gulp.task('default', ['html', 'scripts', 'styles', 'images']);
 
 
 //***************** Debug *****************
@@ -138,6 +144,13 @@ gulp.task('debug_styles', function(){
         .pipe(gulp.dest(DEBUG_ROOT + '/styles'))
 });
 
-gulp.task('debug', ['debug_html', 'debug_scripts', 'debug_styles']);
+gulp.task('debug_images', function(){
+    var files = SRC_ROOT + '/images/**';
+    return gulp.src(files)
+        .pipe(watch(files))
+        .pipe(gulp.dest(DEBUG_ROOT + '/images'))
+});
+
+gulp.task('debug', ['debug_html', 'debug_scripts', 'debug_styles', 'debug_images']);
 
 
