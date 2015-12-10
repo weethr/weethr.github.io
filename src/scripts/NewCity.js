@@ -14,21 +14,47 @@ module.exports = React.createClass({
 
     onSubmit: function (e) {
         e.preventDefault();
-        this.props.onAdd(this.state.text);
+
         this.setState(update(this.state, {
-            text: {$set: ""}
+            waiting: {$set: true}
         }));
+
+        this.props.onAdd(this.state.text).then(() => {
+            this.setState(update(this.state, {
+                text: {$set: ""},
+                error: null,
+                waiting: {$set: false}
+            }));
+        }).fail((error) => {
+            var message;
+            if(error.code == 404) {
+                message = "city not found";
+            }
+            else if(error.code == 500) {
+                message = "internal server error. Sorry :(";
+            }
+            else {
+                message = error.message;
+            }
+            this.setState(update(this.state, {
+                waiting: {$set: false},
+                error: {$set: "Unable to add city '"+error.city+"': " + message}
+            }));
+        })
     },
 
     getInitialState: function () {
         return {
-            text: ""
+            text: "",
+            waiting: false,
+            error: null
         }
     },
 
     updateText: function (e) {
         this.setState(update(this.state, {
-            text: {$set: e.target.value}
+            text: {$set: e.target.value},
+            error: {$set: null}
         }));
     },
 
@@ -37,9 +63,11 @@ module.exports = React.createClass({
             <form onSubmit={this.onSubmit}>
                 <label>
                     <span>New city: </span>
-                    <input type="text" value={this.state.text} onChange={this.updateText}/>
-                    <button type="submit">Add</button>
+                    <input type="text" value={this.state.text} disabled={this.state.waiting} onChange={this.updateText}/>
+                    <button type="submit" disabled={this.state.waiting}>Add</button>
+                    <img src="images/ajax-loader.gif" style={{display:this.state.waiting ? "inline" : "none"}}/>
                 </label>
+                <p style={{color: 'red'}}>{this.state.error}</p>
             </form>
         )
     }

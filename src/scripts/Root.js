@@ -9,6 +9,7 @@
 
 var React = require('react'),
     update = require('react-addons-update'),
+    Q = require('kew'),
     nanoajax = require('nanoajax');
 
 
@@ -17,27 +18,29 @@ var NewCity = require('./NewCity'),
 
 function requestWeather(city) {
 
-    return new Promise((resolve, reject) => {
-        nanoajax.ajax({url: '/weather?q=' + city}, (code, responseText) => {
-            if (code === 200) {
-                var weatherData = JSON.parse(responseText); //todo: check for errors
-                var newCity = {
-                    name: city,
-                    weather: {
-                        temp: weatherData.main.temp,
-                        dt: weatherData.dt * 1000
-                    }
-                };
-                resolve(newCity);
-            }
-            else {
-                reject(responseText);
-                throw new Error(responseText);
-            }
-        });
+    var promise = new Q.defer();
+    nanoajax.ajax({url: '/weather?q=' + city}, (code, responseText) => {
+        if (code === 200) {
+            var weatherData = JSON.parse(responseText); //todo: check for errors
+            var newCity = {
+                name: city,
+                weather: {
+                    temp: weatherData.main.temp,
+                    dt: weatherData.dt * 1000
+                }
+            };
+            promise.resolve(newCity);
+        }
+        else {
+            promise.reject({
+                code: code,
+                city: city,
+                message: responseText
+            });
+        }
     });
 
-
+    return promise;
 }
 
 module.exports = React.createClass({
@@ -58,8 +61,9 @@ module.exports = React.createClass({
     },
 
     componentDidMount: function () {
-        setInterval(() => {
+        var updateList = () => {
             var newCityPromiseList = this.state.cityList.map((city) => requestWeather(city.name));
+
             newCityPromiseList.forEach((newCityPromise) => {
                 newCityPromise.then((newCity) => {
                     // Atomically update old state, replacing old city with new, if this city is still in the list
@@ -75,14 +79,31 @@ module.exports = React.createClass({
                         return update(oldState, {
                             cityList: {$set: newCityList}
                         })
-                    })
+                    });
+                }).fail((reason) => {
+                    console.log("Failed to update '"+reason.city+"': " + reason.message);
                 })
             });
-        }, 1000)
+
+            // Resolve all promises, even if some of them failed
+            newCityPromiseList = newCityPromiseList.map((newCityPromise) => {
+                return newCityPromise.then((newCity) => {
+                    return newCityPromise;
+                }, (error) => {
+                    return Q.resolve(error);
+                })
+            });
+
+            // When all requests finished - set timeout for next update
+            Q.all(newCityPromiseList).then(() => {
+                setTimeout(updateList, 3000);
+            })
+        };
+        updateList();
     },
 
     onNewCity: function (cityName) {
-        requestWeather(cityName)
+        return requestWeather(cityName)
             .then((newCity) => {
                 this.setState((oldState) => {
                     var noSuchCity = oldState.cityList.filter((x) => x.name === cityName).length === 0;
@@ -93,9 +114,6 @@ module.exports = React.createClass({
                     }
                 });
             })
-            .catch((reason) => {
-                throw new Error(reason);
-            });
     },
 
     onRemoveCity: function (cityName) {
