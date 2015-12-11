@@ -30,6 +30,7 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     watchify = require('watchify'),
     anybar = require('anybar'),
+    anybar = require('browserify')
 
     fs = require('fs');
 
@@ -53,7 +54,8 @@ gulp.task('scripts', function(){
         debug: false,
         cache: {},
         packageCache: {},
-        fullPaths: true
+        fullPaths: true,
+        extensions: [".js", ".jsx"]
     });
 
     bundler = bundler.transform(reactify, {"es6": true});
@@ -100,7 +102,8 @@ gulp.task('debug_scripts', function(){
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: true
+        fullPaths: true,
+        extensions: [".js", ".jsx"]
     });
 
     bundler = bundler.transform(reactify);
@@ -152,5 +155,3 @@ gulp.task('debug_images', function(){
 });
 
 gulp.task('debug', ['debug_html', 'debug_scripts', 'debug_styles', 'debug_images']);
-
-
