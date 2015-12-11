@@ -72,6 +72,7 @@ module.exports = React.createClass({
         else {
             navigator.geolocation.getCurrentPosition((position) => {
                 var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&sensor=true&language=en';
+                console.log(url);
                 ajax(url).then((geoInfo) => {
                     if(geoInfo.results.length > 0) {
                         return geoInfo.results[0];
@@ -102,6 +103,8 @@ module.exports = React.createClass({
                 }, (error) => {
                     console.error(error);
                 })
+            }, (error) => {
+               console.error(error);
             });
 
             return defaultState;
