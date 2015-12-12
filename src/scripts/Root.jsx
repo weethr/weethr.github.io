@@ -39,31 +39,36 @@ module.exports = React.createClass({
 
     getInitialState: function () {
         var defaultState = {
-            initializing: true,
+            initilized: false,
             cityList: []
         };
-        var state = localStorage.getItem("reactState");
-        if(state !== null) {
+        var state;
+        var savedState = localStorage.getItem("reactState");
+        if (localStorage.getItem("reactState") !== null) {
             try {
-                return JSON.parse(state);
+                state = JSON.parse(localStorage.getItem("reactState"));
             } catch (e) {
                 console.error("Unable to parse old state, use default");
-                return defaultState
+                state = defaultState
             }
         }
         else {
+            state = defaultState;
+        }
+
+        if (!state.initilized) {
             var stopInitializing = () => {
                 this.setState((oldState) => {
                     return update(oldState, {
-                        initializing: {$set:false}
+                        initializing: {$set: false}
                     })
                 })
             };
+
             navigator.geolocation.getCurrentPosition((position) => {
-                var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&sensor=true&language=en';
-                console.log(url);
+                var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + ',' + position.coords.longitude + '&sensor=true&language=en';
                 ajax.get(url).then((geoInfo) => {
-                    if(geoInfo.results.length > 0) {
+                    if (geoInfo.results.length > 0) {
                         return geoInfo.results[0];
                     }
                     throw new Error("Google hasn't found anything");
@@ -73,37 +78,37 @@ module.exports = React.createClass({
                         return comp.types.indexOf("administrative_area_level_1") != -1
                             && comp.types.indexOf("political") != -1;
                     });
-                    if(components.length>0) {
+                    if (components.length > 0) {
                         return components[0];
                     }
                     throw new Error("City component hasn't found");
                 }).then((cityComponent) => {
                     var cityName = cityComponent.long_name;
+                    return requestWeather(cityName);
+                }).then((cityInfo) => {
                     this.setState((oldState) => {
-                        if(oldState.cityList.length === 0) {
+                        if (oldState.cityList.length === 0) {
                             return update(oldState, {
-                                cityList: {$set: [{name:cityName}]}
+                                cityList: {$set: [{name: cityName}]}
                             })
                         }
                         else {
                             return oldState;
                         }
                     })
-                    stopInitializing();
                 }, (error) => {
                     console.error(error);
+                }).fin(() => {
                     stopInitializing();
                 })
             }, (error) => {
                 console.error(error);
                 stopInitializing();
             });
-
-            return defaultState;
         }
     },
 
-    saveState: function(state){
+    saveState: function (state) {
         state = state || this.state;
         localStorage.setItem("reactState", JSON.stringify(state));
     },
@@ -129,7 +134,7 @@ module.exports = React.createClass({
                         })
                     });
                 }).fail((reason) => {
-                    console.error("Failed to update '"+reason.city+"': " + reason.message);
+                    console.error("Failed to update '" + reason.city + "': " + reason.message);
                 })
             });
 
@@ -187,6 +192,7 @@ module.exports = React.createClass({
         return (
             <div>
                 <NewCity onAdd={this.onNewCity} disabled={this.state.initializing}/>
+
                 <p>{ this.state.initializing ? "Determing current city..." : "" }</p>
                 <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
             </div>

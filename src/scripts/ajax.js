@@ -22,7 +22,7 @@ module.exports.get = (url) => {
               promise.reject({
                 code: -1,
                 responseTex: "failed to parse response as JSON: " + responseText
-              }});
+              });
             }
         }
         else {
