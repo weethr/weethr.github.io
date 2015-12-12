@@ -10,34 +10,15 @@
 var React = require('react'),
     update = require('react-addons-update'),
     Q = require('kew'),
-    nanoajax = require('nanoajax');
+    ajax = require('./ajax');
 
 
 var NewCity = require('./NewCity'),
     CityList = require('./CityList');
 
-function ajax(url) {
-    var promise = new Q.defer();
-
-    nanoajax.ajax({url: url}, (code, responseText) => {
-
-        if (code === 200) {
-            promise.resolve(JSON.parse(responseText)); //todo: check for errors
-        }
-        else {
-            promise.reject({
-                code:code,
-                responseText:responseText
-            });
-        }
-    });
-
-    return promise;
-}
-
 function requestWeather(city) {
 
-    return ajax('/weather?q=' + city).then((weatherData) => {
+    return ajax.get('/weather?q=' + city).then((weatherData) => {
         return {
             name: city,
             weather: {
@@ -58,6 +39,7 @@ module.exports = React.createClass({
 
     getInitialState: function () {
         var defaultState = {
+            initializing: true,
             cityList: []
         };
         var state = localStorage.getItem("reactState");
@@ -70,10 +52,17 @@ module.exports = React.createClass({
             }
         }
         else {
+            var stopInitializing = () => {
+                this.setState((oldState) => {
+                    return update(oldState, {
+                        initializing: {$set:false}
+                    })
+                })
+            };
             navigator.geolocation.getCurrentPosition((position) => {
                 var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+position.coords.latitude+','+position.coords.longitude+'&sensor=true&language=en';
                 console.log(url);
-                ajax(url).then((geoInfo) => {
+                ajax.get(url).then((geoInfo) => {
                     if(geoInfo.results.length > 0) {
                         return geoInfo.results[0];
                     }
@@ -100,11 +89,14 @@ module.exports = React.createClass({
                             return oldState;
                         }
                     })
+                    stopInitializing();
                 }, (error) => {
                     console.error(error);
+                    stopInitializing();
                 })
             }, (error) => {
-               console.error(error);
+                console.error(error);
+                stopInitializing();
             });
 
             return defaultState;
@@ -194,7 +186,8 @@ module.exports = React.createClass({
     render: function () {
         return (
             <div>
-                <NewCity onAdd={this.onNewCity}/>
+                <NewCity onAdd={this.onNewCity} disabled={this.state.initializing}/>
+                <p>{ this.state.initializing ? "Determing current city..." : "" }</p>
                 <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
             </div>
         )

@@ -60,6 +60,7 @@ app.get('/cities', (req, res) => {
     var params = require('url').parse(req.url, true).query;
     if(params.q) {
         var url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + encodeURIComponent(params.q) + '&key=' + encodeURIComponent(options.googleApiKey) + '&language=en&types=(cities)';
+        console.log(url);
         https.get(url, (apiRes) => {
             var data = "";
             apiRes.on('data', (chunk) => { if(chunk) {data += chunk} });

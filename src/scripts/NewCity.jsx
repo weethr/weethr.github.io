@@ -9,29 +9,10 @@
 
 var React = require('react'),
     update = require('react-addons-update'),
-    Q = require('kew'),
-    nanoajax = require('nanoajax');
+    ajax = require('./ajax');
 
 var Select = require('react-select');
 
-function ajax(url) {
-    var promise = new Q.defer();
-
-    nanoajax.ajax({url: url}, (code, responseText) => {
-
-        if (code === 200) {
-            promise.resolve(JSON.parse(responseText)); //todo: check for errors
-        }
-        else {
-            promise.reject({
-                code:code,
-                responseText:responseText
-            });
-        }
-    });
-
-    return promise;
-}
 
 module.exports = React.createClass({
 
@@ -79,7 +60,7 @@ module.exports = React.createClass({
     },
 
     loadOptions: function(input, callback) {
-        ajax('/cities?q=' + input).then((cities) => {
+        ajax.get('/cities?q=' + input).then((cities) => {
             var options = cities.map((item) => {
                 return {
                     value: item.city,
@@ -113,11 +94,11 @@ module.exports = React.createClass({
                         multi={false}
                         className="new-city__select"
                         loadOptions={this.loadOptions}
-                        disabled={this.state.waiting}
+                        disabled={this.props.disabled || this.state.waiting}
                         />
                 </label>
                 <button type="submit"
-                        disabled={this.state.waiting || this.state.selectValue.value === ""}>Add</button>
+                        disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>
                 <img src="images/ajax-loader.gif"
                      style={{display:this.state.waiting ? "inline" : "none"}}/>
                 <p style={{color: 'red'}}>{this.state.error}</p>
