@@ -29,8 +29,7 @@ var gulp = require('gulp'),
     reactify = require('reactify'),
     source = require('vinyl-source-stream'),
     watchify = require('watchify'),
-    anybar = require('anybar'),
-    anybar = require('browserify')
+    anybar = require('anybar')
 
     fs = require('fs');
 
@@ -116,22 +115,24 @@ gulp.task('debug_scripts', function(){
     }
 
     function rebundle() {
+        anybar('yellow');
         var bundle = bundler.bundle()
             .on('error',  onError)
             .pipe(source('app.js'))
             .on('error', onError)
             .pipe(gulp.dest(DEBUG_ROOT + '/scripts'))
-            .on('error', onError);
+            .on('error', onError)
+            .on('end', function(){
+                anybar('green');
+            })
         return bundle
     }
 
     bundler.on('update', function() {
-        anybar('yellow');
         var start = Date.now();
         gutil.log('Rebundle...');
         var bundle = rebundle();
         bundle.on('end', function(){
-            anybar('green');
             gutil.log("Done! Time: " + (Date.now() - start));
         });
     });
