@@ -39,7 +39,7 @@ module.exports = React.createClass({
 
     getInitialState: function () {
         var defaultState = {
-            initilized: false,
+            initialized: false,
             cityList: []
         };
         var state;
@@ -56,49 +56,61 @@ module.exports = React.createClass({
             state = defaultState;
         }
 
-        if (!state.initilized) {
+        // If state is not initialized - try to determine user's city and load weather for it
+        if (!state.initialized) {
             var stopInitializing = () => {
                 this.setState((oldState) => {
-                    return update(oldState, {
-                        initializing: {$set: false}
-                    })
+                    var newState = update(oldState, {
+                        initialized: {$set: true}
+                    });
+                    this.saveState(newState);
+                    return newState;
                 })
             };
+
+            // Stop initilizing if it lasts to long
+            setTimeout(stopInitializing, 10000)
 
             navigator.geolocation.getCurrentPosition((position) => {
                 var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + ',' + position.coords.longitude + '&sensor=true&language=en';
                 ajax.get(url).then((geoInfo) => {
-                    if (geoInfo.results.length > 0) {
-                        return geoInfo.results[0];
+                    if (!geoInfo.results.length > 0) {
+                        throw new Error("Google hasn't found anything");
                     }
-                    throw new Error("Google hasn't found anything");
-                }).then((result) => {
+                    var result = geoInfo.results[0]
                     var components = result.address_components;
                     components = components.filter((comp) => {
                         return comp.types.indexOf("administrative_area_level_1") != -1
                             && comp.types.indexOf("political") != -1;
                     });
-                    if (components.length > 0) {
-                        return components[0];
+                    if (!components.length > 0) {
+                        throw new Error("City component hasn't found");
                     }
-                    throw new Error("City component hasn't found");
-                }).then((cityComponent) => {
+                    var cityComponent = components[0];
                     var cityName = cityComponent.long_name;
                     return requestWeather(cityName);
-                }).then((cityInfo) => {
+                })
+                .then((cityWeather) => {
                     this.setState((oldState) => {
+                        // If app is already initialized (for example, by timeout) - do nothing
+                        if(oldState.initialized) return oldState;
+                        var newState;
                         if (oldState.cityList.length === 0) {
-                            return update(oldState, {
-                                cityList: {$set: [{name: cityName}]}
-                            })
+                            newState = update(oldState, {
+                                cityList: {$set: [cityWeather]}
+                            });
                         }
                         else {
-                            return oldState;
+                            newState = oldState;
                         }
+                        this.saveState(newState);
+                        return newState;
                     })
-                }, (error) => {
+                })
+                .fail((error) => {
                     console.error(error);
-                }).fin(() => {
+                })
+                .fin(() => {
                     stopInitializing();
                 })
             }, (error) => {
@@ -106,6 +118,8 @@ module.exports = React.createClass({
                 stopInitializing();
             });
         }
+        this.saveState(state);
+        return state;
     },
 
     saveState: function (state) {
@@ -133,24 +147,21 @@ module.exports = React.createClass({
                             cityList: {$set: newCityList}
                         })
                     });
-                }).fail((reason) => {
+                })
+                .fail((reason) => {
                     console.error("Failed to update '" + reason.city + "': " + reason.message);
                 })
             });
 
             // Resolve all promises, even if some of them failed
             newCityPromiseList = newCityPromiseList.map((newCityPromise) => {
-                return newCityPromise.then((newCity) => {
-                    return newCityPromise;
-                }, (error) => {
-                    return Q.resolve(error);
-                })
+                return newCityPromise.fail((error) => Q.resolve(error))
             });
 
             // When all requests finished
             Q.all(newCityPromiseList).then(() => {
                 this.saveState();
-                setTimeout(updateList, 3000);
+                setTimeout(updateList, 10000);
             })
         };
         updateList();
@@ -191,9 +202,8 @@ module.exports = React.createClass({
     render: function () {
         return (
             <div>
-                <NewCity onAdd={this.onNewCity} disabled={this.state.initializing}/>
-
-                <p>{ this.state.initializing ? "Determing current city..." : "" }</p>
+                <p>{ (!this.state.initialized) ? "Determing current city..." : "" }</p>
+                <NewCity onAdd={this.onNewCity} disabled={!this.state.initialized}/>
                 <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
             </div>
         )
