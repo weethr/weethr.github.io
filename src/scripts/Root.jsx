@@ -22,7 +22,7 @@ function requestWeather(city) {
         return {
             name: city,
             weather: {
-                temp: weatherData.main.temp,
+                temp: weatherData.main.temp || 0 ,
                 dt: weatherData.dt * 1000
             }
         };
@@ -202,8 +202,12 @@ module.exports = React.createClass({
     render: function () {
         return (
             <div className="root">
-                <p>{ (!this.state.initialized) ? "Determing current city..." : "" }</p>
                 <NewCity onAdd={this.onNewCity} disabled={!this.state.initialized}/>
+                {
+                    (!this.state.initialized)
+                    ? <p>Determing current city...</p>
+                    : ""
+                }
                 <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
             </div>
         )

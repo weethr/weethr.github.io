@@ -101,7 +101,7 @@ module.exports = React.createClass({
                     <button type="submit"
                             disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>
                     <img src="images/ajax-loader.gif"
-                         style={{display:this.state.waiting ? "inline" : "none"}}/>
+                         style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
                 </form>
                 <div className="error">{this.state.error}</div>
             </div>
