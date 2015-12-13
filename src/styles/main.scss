@@ -1,11 +1,21 @@
 @import "../../node_modules/react-select/scss/default.scss";
 
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.root {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
 .new-city {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
-    margin: 1rem;
 
     form, form > label {
         display: flex;
@@ -24,5 +34,11 @@
     .error {
         color: red;
         margin: 0.25rem;
+    }
+}
+
+.city-list {
+    .city {
+        margin: 1.5rem 0.5rem;
     }
 }

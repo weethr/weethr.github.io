@@ -27,7 +27,7 @@ module.exports = React.createClass({
 
     render: function () {
         return (
-            <div>
+            <div className="city-list">
                 {
                     this.props.data.map((city) => {
                         var description;
@@ -46,7 +46,7 @@ module.exports = React.createClass({
                             )
                         }
                         return (
-                            <div key={city.name}>
+                            <div key={city.name} className="city">
                                 {description}
                                 <button onClick={this.onRemove(city.name)}>Remove</button>
                             </div>

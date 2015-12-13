@@ -201,7 +201,7 @@ module.exports = React.createClass({
 
     render: function () {
         return (
-            <div>
+            <div className="root">
                 <p>{ (!this.state.initialized) ? "Determing current city..." : "" }</p>
                 <NewCity onAdd={this.onNewCity} disabled={!this.state.initialized}/>
                 <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
