@@ -22,6 +22,7 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
     watch = require('gulp-watch'),
     streamify = require('gulp-streamify'),
     uglify = require('gulp-uglify'),
@@ -73,6 +74,7 @@ gulp.task('styles', function(){
     var files = SRC_ROOT + '/styles/**.scss';
     return gulp.src(files)
         .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({browsers: ['last 2 versions']}))
         .pipe(gulp.dest(PROD_ROOT + '/styles'))
 });
 
