@@ -23,7 +23,11 @@ function requestWeather(city) {
             name: city,
             weather: {
                 temp: weatherData.main.temp || 0 ,
-                dt: weatherData.dt * 1000
+                pressure: weatherData.main.pressure,
+                humidity: weatherData.main.humidity,
+                dt: weatherData.dt * 1000,
+                wind: weatherData.wind,
+                desc: weatherData.weather[0]
             }
         };
     }, (error) => {

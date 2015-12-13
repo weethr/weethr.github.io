@@ -43,6 +43,34 @@ html {
 
 .city-list {
     .city {
+        margin-bottom: 2rem;
+        &__icon {
+            padding: 0;
+            vertical-align: middle;
+            text-align: center;
+            img {
+                width: 75%;
+                vertical-align: bottom;
+            }
+        }
+        &__name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding-left: 1rem;
+        }
+        &__temp {
+            font-size: 1.5rem;
+            vertical-align: top;
+            text-align: center;
+        }
+        &__details {
+            padding-left: 1rem;
+        }
+    }
+}
+
+/* .city-list {
+    .city {
         margin: 1.5rem 0.5rem;
 
         &__description {
@@ -58,4 +86,4 @@ html {
             }
         }
     }
-}
+} */

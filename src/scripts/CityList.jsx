@@ -10,6 +10,7 @@
 var React = require('react');
 
 function formatTemp(temp) {
+    temp = Math.round(temp);
     if (temp > 0) {
         return "+" + temp;
     }
@@ -32,25 +33,37 @@ module.exports = React.createClass({
                     this.props.data.map((city) => {
                         var description;
                         if (city.weather) {
-                            description = (
+                            /*description = (
+
                                 <div className="city__description">
                                     <div className="city__description__main-info">
                                         <span className="city__description__name">{ city.name }: </span>
                                         <span className="city__description__temp"> { formatTemp(city.weather.temp) }</span>
                                     </div>
+                                    <div className="city__description__aux-param">
+                                        <img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/>
+                                        Description: {city.weather.desc.main } ({city.weather.desc.description})
+                                    </div>
+                                    <div className="city__description__aux-param">
+                                        Pressure: {city.weather.pressure} hPa
+                                    </div>
+                                    <div className="city__description__aux-param">
+                                        Humidity: {city.weather.humidity}%
+                                    </div>
+                                    <div className="city__description__aux-param">
+                                        Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
+                                    </div>
                                     <div className="city__description__last-update">
                                         {(new Date(city.weather.dt)).toGMTString()}
                                     </div>
                                 </div>
-                            )
+                            )*/
                         }
                         else {
                             description = (
                                 <div className="city__description">
                                     <div className="city__description__main-info">
-                                        <span className="city__description__name">
-                                            { city.name }:
-                                        </span>
+                                        <span className="city__description__name">{ city.name }: </span>
                                         <span>
                                             no data yet
                                         </span>
@@ -59,10 +72,32 @@ module.exports = React.createClass({
                             )
                         }
                         return (
-                            <div key={city.name} className="city">
-                                {description}
-                                <button onClick={this.onRemove(city.name)}>Remove</button>
-                            </div>
+                            <table key={city.name} className="city">
+                                <tbody>
+                                    <tr>
+                                        <td className="city__icon"><img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/></td>
+                                        <td className="city__name">{ city.name }</td>
+                                        <td><button onClick={this.onRemove(city.name)}>Remove</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="city__temp">{ formatTemp(city.weather.temp) }</td>
+                                        <td className="city__details">
+                                            <div className="city__aux-param">
+                                                Pressure: {city.weather.pressure} hPa
+                                            </div>
+                                            <div className="city__aux-param">
+                                                Humidity: {city.weather.humidity}%
+                                            </div>
+                                            <div className="city__aux-param">
+                                                Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
+                                            </div>
+                                            <div className="city__last-update">
+                                                {(new Date(city.weather.dt)).toGMTString()}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         )
                     })
                 }
