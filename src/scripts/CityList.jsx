@@ -33,16 +33,29 @@ module.exports = React.createClass({
                         var description;
                         if (city.weather) {
                             description = (
-                                <span>
-                                    { city.name }: { formatTemp(city.weather.temp) } <span> ({(new Date(city.weather.dt)).toGMTString()})</span>
-                                </span>
+                                <div className="city__description">
+                                    <div className="city__description__main-info">
+                                        <span className="city__description__name">{ city.name }: </span>
+                                        <span className="city__description__temp"> { formatTemp(city.weather.temp) }</span>
+                                    </div>
+                                    <div className="city__description__last-update">
+                                        {(new Date(city.weather.dt)).toGMTString()}
+                                    </div>
+                                </div>
                             )
                         }
                         else {
                             description = (
-                                <span>
-                                    { city.name }: no data yet
-                                </span>
+                                <div className="city__description">
+                                    <div className="city__description__main-info">
+                                        <span className="city__description__name">
+                                            { city.name }:
+                                        </span>
+                                        <span>
+                                            no data yet
+                                        </span>
+                                    </div>
+                                </div>
                             )
                         }
                         return (

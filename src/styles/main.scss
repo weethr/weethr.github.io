@@ -1,4 +1,8 @@
 @import "../../node_modules/react-select/scss/default.scss";
+html {
+    font-size: 12pt;
+    font-family: 'PT Sans', sans-serif;
+}
 
 .body {
     display: flex;
@@ -40,5 +44,18 @@
 .city-list {
     .city {
         margin: 1.5rem 0.5rem;
+
+        &__description {
+            &__name {
+                font-size: 1.2rem;
+            }
+            &__temp {
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            &__last-update {
+                font-size: 0.65rem;
+            }
+        }
     }
 }
