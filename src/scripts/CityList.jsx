@@ -32,76 +32,61 @@ module.exports = React.createClass({
             <div className="city-list">
                 {
                     this.props.data.map((city) => {
-                        var description;
-                        if (city.weather) {
-                            /*description = (
+                        var tempClasses = "city__temp";
+                        if(city.weather.temp > 0) {tempClasses += " city__temp--warm"}
+                        else if(city.weather.temp < 0) {tempClasses += " city__temp--cold"}
 
-                                <div className="city__description">
-                                    <div className="city__description__main-info">
-                                        <span className="city__description__name">{ city.name }: </span>
-                                        <span className="city__description__temp"> { formatTemp(city.weather.temp) }</span>
-                                    </div>
-                                    <div className="city__description__aux-param">
-                                        <img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/>
-                                        Description: {city.weather.desc.main } ({city.weather.desc.description})
-                                    </div>
-                                    <div className="city__description__aux-param">
-                                        Pressure: {city.weather.pressure} hPa
-                                    </div>
-                                    <div className="city__description__aux-param">
-                                        Humidity: {city.weather.humidity}%
-                                    </div>
-                                    <div className="city__description__aux-param">
-                                        Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
-                                    </div>
-                                    <div className="city__description__last-update">
-                                        {(new Date(city.weather.dt)).toGMTString()}
-                                    </div>
-                                </div>
-                            )*/
-                        }
-                        else {
-                            description = (
-                                <div className="city__description">
-                                    <div className="city__description__main-info">
-                                        <span className="city__description__name">{ city.name }: </span>
-                                        <span>
-                                            no data yet
-                                        </span>
-                                    </div>
-                                </div>
+                        if(this.props.displayMode === "full") {
+                            return (
+                                <table key={city.name} className="city city--full">
+                                    <tbody>
+                                        <tr>
+                                            <td className="city__icon" title={city.weather.desc.description}>
+                                                <img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/>
+                                            </td>
+                                            <td className="city__name" colSpan="2">{ city.name }</td>
+                                        </tr>
+                                        <tr>
+                                            <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
+                                            <td className="city__details">
+                                                <div>
+                                                    <span className="city__aux-param">
+                                                        Pressure: {city.weather.pressure} hPa
+                                                    </span>
+                                                    <span className="city__aux-param">
+                                                        Humidity: {city.weather.humidity}%
+                                                    </span>
+                                                    <span className="city__aux-param">
+                                                        Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
+                                                    </span>
+                                                </div>
+                                                <div className="city__last-update">
+                                                    Last update: {strftime('%T %F', new Date(city.weather.dt))}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="city__remove-button" colSpan="3" ><button onClick={this.onRemove(city.name)}>Remove</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             )
                         }
-                        return (
-                            <table key={city.name} className="city">
-                                <tbody>
-                                    <tr>
-                                        <td className="city__icon"><img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/></td>
-                                        <td className="city__name">{ city.name }</td>
-                                        <td className="city__remove-button" rowSpan="2" ><button onClick={this.onRemove(city.name)}>Remove</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="city__temp">{ formatTemp(city.weather.temp) }</td>
-                                        <td className="city__details">
-                                            <div>
-                                                <span className="city__aux-param">
-                                                    Pressure: {city.weather.pressure} hPa
-                                                </span>
-                                                <span className="city__aux-param">
-                                                    Humidity: {city.weather.humidity}%
-                                                </span>
-                                                <span className="city__aux-param">
-                                                    Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
-                                                </span>
-                                            </div>
-                                            <div className="city__last-update">
-                                                Last update: {strftime('%T %F', new Date(city.weather.dt))}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        )
+                        else {
+                            return (
+                                <table key={city.name} className="city city--short">
+                                    <tbody>
+                                        <tr>
+                                            <td className="city__icon" title={city.weather.desc.description}><img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/></td>
+                                            <td className="city__name">{ city.name }</td>
+                                            <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
+                                            <td className="city__remove-button" rowSpan="2" ><button onClick={this.onRemove(city.name)}>Remove</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            )
+                        }
+
                     })
                 }
             </div>

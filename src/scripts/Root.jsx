@@ -44,7 +44,8 @@ module.exports = React.createClass({
     getInitialState: function () {
         var defaultState = {
             initialized: false,
-            cityList: []
+            cityList: [],
+            displayMode: "full"
         };
         var state;
         var savedState = localStorage.getItem("reactState");
@@ -203,6 +204,17 @@ module.exports = React.createClass({
         });
     },
 
+    onChangeDisplayMode: function(e, a) {
+        this.setState((oldState) => {
+            var newMode = this.state.displayMode === "full" ? "short" : "full";
+            var newState = update(oldState, {
+                displayMode: {$set: newMode}
+            });
+            this.saveState(newState);
+            return newState;
+        })
+    },
+
     render: function () {
         return (
             <div className="root">
@@ -212,7 +224,10 @@ module.exports = React.createClass({
                     ? <p>Determing current city...</p>
                     : ""
                 }
-                <CityList data={this.state.cityList} onRemove={this.onRemoveCity}/>
+                <div className="display-settings">
+                    <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                </div>
+                <CityList data={this.state.cityList} onRemove={this.onRemoveCity} displayMode={this.state.displayMode}/>
             </div>
         )
     }
