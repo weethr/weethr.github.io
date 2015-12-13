@@ -44,6 +44,7 @@ html {
 .city-list {
     .city {
         margin-bottom: 2rem;
+
         &__icon {
             padding: 0;
             vertical-align: middle;
@@ -63,27 +64,37 @@ html {
             vertical-align: top;
             text-align: center;
         }
+
         &__details {
             padding-left: 1rem;
         }
-    }
-}
 
-/* .city-list {
-    .city {
-        margin: 1.5rem 0.5rem;
+        &__aux-param {
+            margin-right: 2rem;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
 
-        &__description {
-            &__name {
-                font-size: 1.2rem;
+        &__last-update {
+            font-size: 0.6rem;
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+
+        .city__remove-button {
+            button {
+                visibility: hidden;
             }
-            &__temp {
-                font-weight: bold;
-                font-size: 1.2rem;
-            }
-            &__last-update {
-                font-size: 0.65rem;
+        }
+
+        :hover {
+            .city__remove-button {
+                button {
+                    visibility: visible;
+                }
             }
         }
     }
-} */
+
+
+}

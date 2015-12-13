@@ -7,7 +7,8 @@
  * Created: 09.12.2015 22:31
  */
 
-var React = require('react');
+var React = require('react'),
+    strftime = require('strftime');
 
 function formatTemp(temp) {
     temp = Math.round(temp);
@@ -77,22 +78,24 @@ module.exports = React.createClass({
                                     <tr>
                                         <td className="city__icon"><img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/></td>
                                         <td className="city__name">{ city.name }</td>
-                                        <td><button onClick={this.onRemove(city.name)}>Remove</button></td>
+                                        <td className="city__remove-button" rowSpan="2" ><button onClick={this.onRemove(city.name)}>Remove</button></td>
                                     </tr>
                                     <tr>
                                         <td className="city__temp">{ formatTemp(city.weather.temp) }</td>
                                         <td className="city__details">
-                                            <div className="city__aux-param">
-                                                Pressure: {city.weather.pressure} hPa
-                                            </div>
-                                            <div className="city__aux-param">
-                                                Humidity: {city.weather.humidity}%
-                                            </div>
-                                            <div className="city__aux-param">
-                                                Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
+                                            <div>
+                                                <span className="city__aux-param">
+                                                    Pressure: {city.weather.pressure} hPa
+                                                </span>
+                                                <span className="city__aux-param">
+                                                    Humidity: {city.weather.humidity}%
+                                                </span>
+                                                <span className="city__aux-param">
+                                                    Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
+                                                </span>
                                             </div>
                                             <div className="city__last-update">
-                                                {(new Date(city.weather.dt)).toGMTString()}
+                                                Last update: {strftime('%T %F', new Date(city.weather.dt))}
                                             </div>
                                         </td>
                                     </tr>
