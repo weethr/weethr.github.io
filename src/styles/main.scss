@@ -1,1 +1,28 @@
 @import "../../node_modules/react-select/scss/default.scss";
+
+.new-city {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin: 1rem;
+
+    form, form > label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .Select {
+        min-width: 200px;
+    }
+
+    form > *, form label > * {
+        margin: 0.25rem;
+    }
+
+    .error {
+        color: red;
+        margin: 0.25rem;
+    }
+}

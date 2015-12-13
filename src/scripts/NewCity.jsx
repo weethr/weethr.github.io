@@ -84,25 +84,28 @@ module.exports = React.createClass({
     render: function () {
 
         return (
-            <form onSubmit={this.onSubmit} className="new-city">
-                <label>
-                    <span>New city: </span>
-                    <Select.Async
-                        name="form-field-name"
-                        value={this.state.selectValue}
-                        onChange={this.onFinishSearch}
-                        multi={false}
-                        className="new-city__select"
-                        loadOptions={this.loadOptions}
-                        disabled={this.props.disabled || this.state.waiting}
-                        />
-                </label>
-                <button type="submit"
-                        disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>
-                <img src="images/ajax-loader.gif"
-                     style={{display:this.state.waiting ? "inline" : "none"}}/>
-                <p style={{color: 'red'}}>{this.state.error}</p>
-            </form>
+            <div className="new-city">
+                <form onSubmit={this.onSubmit} >
+                    <label>
+                        <span>New city: </span>
+                        <Select.Async
+                            name="form-field-name"
+                            value={this.state.selectValue}
+                            onChange={this.onFinishSearch}
+                            multi={false}
+                            className="new-city__select"
+                            loadOptions={this.loadOptions}
+                            disabled={this.props.disabled || this.state.waiting}
+                            />
+                    </label>
+                    <button type="submit"
+                            disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>
+                    <img src="images/ajax-loader.gif"
+                         style={{display:this.state.waiting ? "inline" : "none"}}/>
+                </form>
+                <div className="error">{this.state.error}</div>
+            </div>
+
         )
     }
 });
