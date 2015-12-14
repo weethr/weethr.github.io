@@ -27,14 +27,12 @@ var gulp = require('gulp'),
     streamify = require('gulp-streamify'),
     uglify = require('gulp-uglify'),
     browserify = require('browserify'),
+    es6ify = require('es6ify'),
     reactify = require('reactify'),
     source = require('vinyl-source-stream'),
     watchify = require('watchify'),
     anybar = require('anybar')
-
     fs = require('fs');
-
-
 
 
 var DEBUG_ROOT = './debug';
@@ -59,6 +57,8 @@ gulp.task('scripts', function(){
     });
 
     bundler = bundler.transform(reactify, {"es6": true});
+    bundler = bundler.add(es6ify.runtime)
+    bundler = bundler.transform(es6ify.configure(/\.jsx?$/))
 
     return bundler.bundle()
         .on('error',  gutil.log)
@@ -94,7 +94,6 @@ gulp.task('debug_html', function(){
     return gulp.src(files)
         .pipe(watch(files))
         .pipe(gulp.dest(DEBUG_ROOT))
-
 });
 
 
@@ -108,7 +107,6 @@ gulp.task('debug_scripts', function(){
     });
 
     bundler = bundler.transform(reactify);
-
     bundler = watchify(bundler);
 
     function onError() {

@@ -23,9 +23,9 @@ var React = require('react'),
     ReactDom = require('react-dom'),
     Root = require('./Root');
 
-document.addEventListener('DOMContentLoaded', () => {
-    ReactDom.render(
-        <Root/>,
-        document.getElementById("react")
-    );
-});
+    document.addEventListener('DOMContentLoaded', () => {
+        ReactDom.render(
+            <Root/>,
+            document.getElementById("react")
+        );
+    });
