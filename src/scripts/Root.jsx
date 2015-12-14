@@ -63,6 +63,8 @@ module.exports = React.createClass({
 
         // If state is not initialized - try to determine user's city and load weather for it
         if (!state.initialized) {
+
+
             var stopInitializing = () => {
                 this.setState((oldState) => {
                     var newState = update(oldState, {
@@ -74,7 +76,7 @@ module.exports = React.createClass({
             };
 
             // Stop initilizing if it lasts to long
-            setTimeout(stopInitializing, 10000)
+            setTimeout(stopInitializing, 12000)
 
             navigator.geolocation.getCurrentPosition((position) => {
                 var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + ',' + position.coords.longitude + '&sensor=true&language=en';
@@ -100,14 +102,9 @@ module.exports = React.createClass({
                         // If app is already initialized (for example, by timeout) - do nothing
                         if(oldState.initialized) return oldState;
                         var newState;
-                        if (oldState.cityList.length === 0) {
-                            newState = update(oldState, {
-                                cityList: {$set: [cityWeather]}
-                            });
-                        }
-                        else {
-                            newState = oldState;
-                        }
+                        newState = update(oldState, {
+                            cityList: {$push: [cityWeather]}
+                        });
                         this.saveState(newState);
                         return newState;
                     })
@@ -252,12 +249,12 @@ module.exports = React.createClass({
     render: function () {
         return (
             <div className="root">
-                <NewCity onAdd={this.onNewCity} disabled={!this.state.initialized}/>
                 {
                     (!this.state.initialized)
-                    ? <p>Determing current city...</p>
+                    ? <p className="initializing-msg">Determining current city...</p>
                     : ""
                 }
+                <NewCity onAdd={this.onNewCity}/>
                 <div className="display-settings">
                     <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
                 </div>
