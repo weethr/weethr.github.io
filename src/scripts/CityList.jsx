@@ -27,6 +27,18 @@ module.exports = React.createClass({
         }
     },
 
+    onMoveUp: function(name) {
+        return () => {
+            this.props.onMoveUp(name)
+        }
+    },
+
+    onMoveDown: function(name) {
+        return () => {
+            this.props.onMoveDown(name)
+        }
+    },
+
     render: function () {
         return (
             <div className="city-list">
@@ -66,7 +78,11 @@ module.exports = React.createClass({
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="city__remove-button" colSpan="3" ><button onClick={this.onRemove(city.name)}>Remove</button></td>
+                                            <td className="city__remove-button" colSpan="3" >
+                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                                <button onClick={this.onRemove(city.name)}>Remove</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -80,7 +96,13 @@ module.exports = React.createClass({
                                             <td className="city__icon" title={city.weather.desc.description}><img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/></td>
                                             <td className="city__name">{ city.name }</td>
                                             <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
-                                            <td className="city__remove-button" rowSpan="2" ><button onClick={this.onRemove(city.name)}>Remove</button></td>
+                                            <td className="city__remove-button" rowSpan="2" >
+                                                <button onClick={this.onRemove(city.name)}>Remove</button>
+                                            </td>
+                                            <td className="city__up-down-buttons" rowSpan="2" >
+                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

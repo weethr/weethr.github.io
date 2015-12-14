@@ -13,8 +13,6 @@ html {
 .root {
     display: flex;
     flex-direction: column;
-    align-items: left;
-    min-width: 500px;
 }
 
 .new-city {
@@ -29,7 +27,7 @@ html {
     }
 
     .Select {
-        min-width: 200px;
+        min-width: 350px;
     }
 
     form > *, form label > * {
@@ -88,8 +86,33 @@ html {
             }
         }
 
+        .arrow-up, .arrow-down {
+            width: 0;
+            height: 0;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 0.5rem 0 0;
+            visibility: hidden;
+            border-color: #D4D4D4;
+            border-width: 6px;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-left-style: solid;
+            border-right-style: solid;
+        }
+
+        .arrow-up {
+            border-bottom-style: solid;
+        }
+
+        .arrow-down {
+            border-top-style: solid;
+        }
+
 
     }
+
+
 
     .#{$el}:hover {
         background: #F5F5F5;
@@ -99,7 +122,13 @@ html {
                 visibility: visible;
             }
         }
+
+        .arrow-up, .arrow-down {
+            visibility: visible;
+        }
     }
+
+
 
     .#{$el}.city--full {
         margin-bottom: 0rem;
@@ -141,12 +170,19 @@ html {
         }
 
         .#{$el}__remove-button {
-            width: 40px;
-            padding: 1rem;
+            width: 20px;
+            padding: 0.75rem;
             text-align: center;
         }
 
+        .#{$el}__up-down-buttons {
+            width: 10px;
+            padding: 0rem;
+            text-align: center;
+        }
 
     }
+
+
 
 }

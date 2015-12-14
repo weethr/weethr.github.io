@@ -215,6 +215,40 @@ module.exports = React.createClass({
         })
     },
 
+    onMoveCityUp: function (cityName) {
+        this.setState((oldState) => {
+            var newCityList = oldState.cityList.slice(0);
+            for (var i = 1; i < newCityList.length; i++) {
+                if(newCityList[i].name === cityName) {
+                    var tmp = newCityList[i-1];
+                    newCityList[i-1] = newCityList[i]
+                    newCityList[i] = tmp;
+                    break;
+                }
+            }
+            return update(oldState, {
+                cityList: {$set: newCityList}
+            })
+        })
+    },
+
+    onMoveCityDown: function(cityName) {
+        this.setState((oldState) => {
+            var newCityList = oldState.cityList.slice(0);
+            for (var i = 0; i < newCityList.length - 1; i++) {
+                if(newCityList[i].name === cityName) {
+                    var tmp = newCityList[i+1];
+                    newCityList[i+1] = newCityList[i]
+                    newCityList[i] = tmp;
+                    break;
+                }
+            }
+            return update(oldState, {
+                cityList: {$set: newCityList}
+            })
+        })
+    },
+
     render: function () {
         return (
             <div className="root">
@@ -227,7 +261,12 @@ module.exports = React.createClass({
                 <div className="display-settings">
                     <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
                 </div>
-                <CityList data={this.state.cityList} onRemove={this.onRemoveCity} displayMode={this.state.displayMode}/>
+                <CityList data={this.state.cityList}
+                    displayMode={this.state.displayMode}
+                    onRemove={this.onRemoveCity}
+                    onMoveUp={this.onMoveCityUp}
+                    onMoveDown={this.onMoveCityDown}
+                    />
             </div>
         )
     }
