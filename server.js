@@ -25,18 +25,15 @@ app.use(express.static(options.staticDir));
 app.get('/weather', (req, res) => {
     var params = require('url').parse(req.url, true).query;
     if(params.q) {
-        http.get('http://api.openweathermap.org/data/2.5/weather?q='+encodeURIComponent(params.q)+'&appid=' + options.owmApiKey + '&units=metric', (apiRes) => {
+        var url = 'http://api.openweathermap.org/data/2.5/weather?q='+encodeURIComponent(params.q)+'&appid=' + options.owmApiKey + '&units=metric';
+        http.get(url, (apiRes) => {
             var data = "";
             apiRes.on('data', (chunk) => { if(chunk) {data += chunk} });
             apiRes.on('end', () => {
                 var dataJson = JSON.parse(data);
                 if(dataJson.cod == 200) {
-                    setTimeout(() => {
-                        res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(data);
-                    }, 2000 * Math.random());
-    //                res.writeHead(200, { 'Content-Type': 'application/json' });
-    //                res.end(data);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(data);
                 }
                 else {
                     res.writeHead(dataJson.cod, { 'Content-Type': 'text/plain' });
@@ -60,7 +57,6 @@ app.get('/cities', (req, res) => {
     var params = require('url').parse(req.url, true).query;
     if(params.q) {
         var url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + encodeURIComponent(params.q) + '&key=' + encodeURIComponent(options.googleApiKey) + '&language=en&types=(cities)';
-        console.log(url);
         https.get(url, (apiRes) => {
             var data = "";
             apiRes.on('data', (chunk) => { if(chunk) {data += chunk} });
@@ -102,4 +98,3 @@ var server = app.listen(3001, () => {
 
     console.log('Server listening at http://%s:%s', host, port);
 });
-
