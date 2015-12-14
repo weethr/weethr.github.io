@@ -1,6 +1,8 @@
 # 4xxi_weather
 Simple weather app for 4xxi
 
+![Screenshot](screenshot.png)
+
 ## Building
 For production:
 ```bash
