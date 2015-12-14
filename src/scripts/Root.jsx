@@ -56,7 +56,7 @@ module.exports = React.createClass({
             setTimeout(stopInitializing, 12000)
 
             dataAccess.fetchCurrentCity().then((cityName) => {
-                return dataAccess.requestWeather(cityName);
+                return dataAccess.fetchWeather(cityName);
             })
             .then((cityWeather) => {
                 this.setState((oldState) => {
@@ -88,7 +88,7 @@ module.exports = React.createClass({
 
     componentDidMount: function () {
         var updateList = () => {
-            var newCityPromiseList = this.state.cityList.map((city) => dataAccess.requestWeather(city.name));
+            var newCityPromiseList = this.state.cityList.map((city) => dataAccess.fetchWeather(city.name));
 
             newCityPromiseList.forEach((newCityPromise) => {
                 newCityPromise.then((newCity) => {
@@ -127,7 +127,7 @@ module.exports = React.createClass({
     },
 
     onNewCity: function (cityName) {
-        var promise = dataAccess.requestWeather(cityName);
+        var promise = dataAccess.fetchWeather(cityName);
         return promise.then((newCity) => {
             this.setState((oldState) => {
                 var noSuchCity = oldState.cityList.filter((x) => x.name === cityName).length === 0;

@@ -9,7 +9,7 @@
 var Q = require('kew'),
     ajax = require('./ajax');
 
-module.exports.requestWeather = (city) => {
+module.exports.fetchWeather = (city) => {
 
     return ajax.get('/weather?q=' + city).then((weatherData) => {
         return {
