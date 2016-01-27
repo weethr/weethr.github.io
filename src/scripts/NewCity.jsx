@@ -83,7 +83,7 @@ module.exports = React.createClass({
                 <form onSubmit={this.onSubmit} >
                     <label>
                         <span>New city: </span>
-                        <DynamicSelect loadOptions={this.loadOptions}/>
+                        <DynamicSelect loadOptions={this.loadOptions} onChange={this.onFinishSearch}/>
                     </label>
                     <button type="submit"
                             disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>

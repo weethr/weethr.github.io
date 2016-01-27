@@ -67,8 +67,16 @@ module.exports = React.createClass({
                 })
             });
         });
+    },
 
-
+    onSelect: function(option) {
+        if(this.props.onChange) {
+            this.props.onChange(option)
+        }
+        this.setState(update(this.state, {
+            focused: {$set: false},
+            value: {$set: option.label},
+        }))
     },
 
     render: function () {
@@ -81,13 +89,13 @@ module.exports = React.createClass({
         //todo: check default option text
         return (
             <div className={className}>
-                <input className="dynamic-select__input" type="text" onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onInput}/>
+                <input className="dynamic-select__input" type="text" value={this.value} onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onInput}/>
                 <div className="dynamic-select__options">
                     {
                         (this.state.options.length === 0)
                         ? (<div className="dynamic-select__options__option">Begin input city name</div>)
-                        : this.state.options.map(function(option){
-                            return <div key={option.label} className="dynamic-select__options__option">{option.label}</div>
+                        : this.state.options.map(option => {
+                            return <div key={option.label} className="dynamic-select__options__option" onClick={() => this.onSelect(option)}>{option.label}</div>
                         })
                     }
                 </div>
