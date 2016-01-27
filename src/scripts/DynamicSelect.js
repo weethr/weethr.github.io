@@ -89,7 +89,7 @@ module.exports = React.createClass({
         //todo: check default option text
         return (
             <div className={className}>
-                <input className="dynamic-select__input" type="text" value={this.value} onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onInput}/>
+                <input className="dynamic-select__input" type="text" value={this.state.value} onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onInput}/>
                 <div className="dynamic-select__options">
                     {
                         (this.state.options.length === 0)
