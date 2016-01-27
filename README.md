@@ -1,5 +1,7 @@
 # 4xxi_weather
-Simple weather app for 4xxi
+(this app was made as a test for a job vacancy)
+
+![Screenshot](screenshot.png)
 
 ## Building
 For production:
