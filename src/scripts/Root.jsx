@@ -9,8 +9,8 @@
 
 var React = require('react'),
     update = require('react-addons-update'),
-    Q = require('kew'),
-    ajax = require('./ajax');
+    ajax = require('./ajax'),
+    Promise = require('es6-promise').Promise;
 
 
 var NewCity = require('./NewCity'),
@@ -70,10 +70,10 @@ module.exports = React.createClass({
                     return newState;
                 })
             })
-            .fail((error) => {
+            .catch((error) => {
                 console.error(error);
             })
-            .fin(() => {
+            .then(() => {
                 stopInitializing();
             });
         }
@@ -107,18 +107,18 @@ module.exports = React.createClass({
                         })
                     });
                 })
-                .fail((reason) => {
+                .catch((reason) => {
                     console.error("Failed to update '" + reason.city + "': " + reason.message);
                 })
             });
 
             // Resolve all promises, even if some of them failed
             newCityPromiseList = newCityPromiseList.map((newCityPromise) => {
-                return newCityPromise.fail((error) => Q.resolve(error))
+                return newCityPromise.catch((error) => Promise.resolve(error))
             });
 
             // When all requests finished
-            Q.all(newCityPromiseList).then(() => {
+            Promise.all(newCityPromiseList).then(() => {
                 this.saveState();
                 setTimeout(updateList, 10000);
             })

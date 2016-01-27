@@ -6,7 +6,7 @@
  *
  * Created: 14.12.2015 05:14
  */
-var Q = require('kew'),
+var Promise = require('es6-promise').Promise,
     ajax = require('./ajax');
 
 module.exports.fetchWeather = (city) => {
@@ -24,7 +24,7 @@ module.exports.fetchWeather = (city) => {
             }
         };
     }, (error) => {
-        return Q.reject({
+        return Promise.reject({
             code: error.code,
             city: city,
             message: error.responseText
@@ -33,13 +33,13 @@ module.exports.fetchWeather = (city) => {
 }
 
 module.exports.fetchCurrentCity = () => {
-    var promise = new Q.defer();
-
-    navigator.geolocation.getCurrentPosition((position) => {
-        promise.resolve(position);
-    }, (error) => {
-        promise.reject(error);
-    });
+    var promise = new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            resolve(position);
+        }, (error) => {
+            reject(error);
+        });
+    })
 
     return promise.then((position) => {
         var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='

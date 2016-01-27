@@ -11,8 +11,7 @@ var React = require('react'),
     update = require('react-addons-update'),
     ajax = require('./ajax');
 
-var Select = require('react-select');
-
+var DynamicSelect = require('./DynamicSelect');
 
 module.exports = React.createClass({
 
@@ -33,7 +32,7 @@ module.exports = React.createClass({
             }));
         });
 
-        result.fail((error) => {
+        result.catch((error) => {
             var message;
             if(error.code == 404) {
                 message = "city have not found";
@@ -59,17 +58,13 @@ module.exports = React.createClass({
         }
     },
 
-    loadOptions: function(input, callback) {
-        ajax.get('/cities?q=' + input).then((cities) => {
-            var options = cities.map((item) => {
+    loadOptions: function(input) {
+        return ajax.get('/cities?q=' + input).then((cities) => {
+            return cities.map((item) => {
                 return {
                     value: item.city,
                     label: item.city
                 }
-            });
-            callback(null, {
-                options: options,
-                complete: false
             });
         });
     },
@@ -88,15 +83,7 @@ module.exports = React.createClass({
                 <form onSubmit={this.onSubmit} >
                     <label>
                         <span>New city: </span>
-                        <Select.Async
-                            name="form-field-name"
-                            value={this.state.selectValue}
-                            onChange={this.onFinishSearch}
-                            multi={false}
-                            className="new-city__select"
-                            loadOptions={this.loadOptions}
-                            disabled={this.props.disabled || this.state.waiting}
-                            />
+                        <DynamicSelect loadOptions={this.loadOptions}/>
                     </label>
                     <button type="submit"
                             disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>

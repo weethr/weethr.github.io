@@ -22,7 +22,9 @@ module.exports = React.createClass({
 
     getInitialState: function(){
         return {
-            focused: false
+            value: "",
+            focused: false,
+            options: []
         }
     },
 
@@ -38,6 +40,37 @@ module.exports = React.createClass({
         }))
     },
 
+    onInput: function(e) {
+
+        var newValue = e.target.value;
+        this.setState(update(this.state, {
+            value: {$set: newValue}
+        }), () => {
+            //todo: handle failed future
+            this.props.loadOptions(this.state.value).then(result => {
+                this.setState( oldState => {
+                    if(oldState.value === newValue) {
+                        var dedupResult = [];
+                        result.forEach((x) => {
+                            if(dedupResult.filter((y) => x.label === y.label).length === 0) {
+                                dedupResult.push(x)
+                            }
+                        })
+
+                        return update(oldState, {
+                            options: {$set: dedupResult}
+                        })
+                    }
+                    else {
+                        return oldState
+                    }
+                })
+            });
+        });
+
+
+    },
+
     render: function () {
 
         var className = "dynamic-select";
@@ -45,13 +78,18 @@ module.exports = React.createClass({
             className += " dynamic-select--focused"
         }
 
+        //todo: check default option text
         return (
             <div className={className}>
-                <input className="dynamic-select__input" type="text" onFocus={this.onFocus} onBlur={this.onBlur}/>
+                <input className="dynamic-select__input" type="text" onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onInput}/>
                 <div className="dynamic-select__options">
-                    <div className="dynamic-select__options__option">first</div>
-                    <div className="dynamic-select__options__option">second</div>
-                    <div className="dynamic-select__options__option">third</div>
+                    {
+                        (this.state.options.length === 0)
+                        ? (<div className="dynamic-select__options__option">Begin input city name</div>)
+                        : this.state.options.map(function(option){
+                            return <div key={option.label} className="dynamic-select__options__option">{option.label}</div>
+                        })
+                    }
                 </div>
             </div>
         )
