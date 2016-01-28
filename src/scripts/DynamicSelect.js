@@ -129,6 +129,77 @@ module.exports = React.createClass({
         })
     },
 
+    onKeyDown: function(e) {
+        if(e.keyCode === 40) { //down
+            this.setState((state) => {
+                var options = state.options;
+                var highlightedOption = state.highlightedOption;
+                if(options.length !== 0) {
+                    if(highlightedOption === null) {
+                        return {
+                            highlightedOption: options[0]
+                        }
+                    }
+                    else {
+                        for(var i = 0; i < options.length; ++i) {
+                            if(options[i].value === highlightedOption.value) {
+                                if(i === options.length - 1) {
+                                    return {
+                                        highlightedOption: options[0]
+                                    }
+                                }
+                                else {
+                                    return {
+                                        highlightedOption: options[i+1]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return state
+            })
+            e.preventDefault();
+        }
+        else if(e.keyCode === 38) { //up
+            this.setState((state) => {
+                var options = state.options;
+                var highlightedOption = state.highlightedOption;
+                if(options.length !== 0) {
+                    if(highlightedOption === null) {
+                        return {
+                            highlightedOption: options[0]
+                        }
+                    }
+                    else {
+                        for(var i = 0; i < options.length; ++i) {
+                            if(options[i].value === highlightedOption.value) {
+                                if(i === 0) {
+                                    return {
+                                        highlightedOption: options[options.length - 1]
+                                    }
+                                }
+                                else {
+                                    return {
+                                        highlightedOption: options[i-1]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return state
+            })
+            e.preventDefault();
+        }
+        else if(e.keyCode === 13) {
+            if(this.state.highlightedOption !== null) {
+                this.onSelect(this.state.highlightedOption)
+                e.preventDefault();
+            }
+        }
+    },
+
     render: function () {
         var className = "dynamic-select";
         if(this.state.focused) {
@@ -149,6 +220,8 @@ module.exports = React.createClass({
                        onBlur={this.onBlur}
                        onChange={this.onInput}
                        onClick={this.onClick}
+                       onKeyDown={this.onKeyDown}
+                       autoComplete="off"
                         />
                 <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
                 <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
