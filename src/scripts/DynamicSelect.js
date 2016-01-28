@@ -117,7 +117,18 @@ module.exports = React.createClass({
             highlightedOption: null,
         })
     },    
-    
+
+    onReset: function() {
+        console.log("on reset")
+        this.setState({
+            text: ""
+        }, () => {
+            if(this.props.onReset) {
+                this.props.onReset()
+            }
+        })
+    },
+
     render: function () {
         var className = "dynamic-select";
         if(this.state.focused) {
@@ -126,18 +137,20 @@ module.exports = React.createClass({
 
         var value = this.props.value || {value:"",label:""};
 
-        //todo: check default option text
+        /* todo: is it save to use symbol like this &#10006; */
         return (
             <div className={className}>
-                <input className="dynamic-select__input"
+                <input id={this.props.id}
+                       className="dynamic-select__input"
                        type="text"
-                       placeholder={(!this.state.focused && this.state.text === "") ? "Begin writing city name" : ""}
+                       placeholder={(!this.state.focused && this.state.text === "") ? this.props.placeholder : ""}
                        value={this.state.focused ? this.state.text : value.label}
                        onFocus={this.onFocus}
                        onBlur={this.onBlur}
                        onChange={this.onInput}
                        onClick={this.onClick}
                         />
+                <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
                 <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
                     {
                         (this.state.options.length === 0)

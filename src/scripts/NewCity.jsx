@@ -25,13 +25,9 @@ module.exports = React.createClass({
 
         result.then(() => {
             this.setState({
-                selectValue: "",
-                error: null,
-                waiting: false
+                error: null
             });
-        });
-
-        result.catch((error) => {
+        }).catch(error => {
             var message;
             if(error.code == 404) {
                 message = "city have not found";
@@ -43,8 +39,12 @@ module.exports = React.createClass({
                 message = error.message;
             }
             this.setState({
-                waiting: false,
                 error: "Unable to add city '"+error.city+"': " + message
+            });
+        }).then(() => {
+            this.setState({
+                selectValue: null,
+                waiting: false
             });
         })
     },
@@ -69,27 +69,33 @@ module.exports = React.createClass({
     },
 
     onFinishSearch: function(selectedOption) {
-        //val = val || { value: '', label: '' };
-        //this.setState({
-        //    selectValue: val
-        //});
-        console.log(selectedOption)
         this.setState({
             selectValue: selectedOption
         });
     },
 
+    onSelectReset: function() {
+        this.setState({
+            selectValue: null
+        });
+    },
+
     render: function () {
 
+        //todo: change placeholder text
         return (
             <div className="new-city">
                 <form onSubmit={this.onSubmit} >
-                    <label>
+                    <label htmlFor="city">
                         <span>New city: </span>
-                        <DynamicSelect loadOptions={this.loadOptions}
-                                       value={this.state.selectValue}
-                                       onChange={this.onFinishSearch}/>
                     </label>
+                    <DynamicSelect id="city"
+                                   loadOptions={this.loadOptions}
+                                   value={this.state.selectValue}
+                                   onReset={this.onSelectReset}
+                                   onChange={this.onFinishSearch}
+                                   placeholder="Begin writing city name"
+                    />
                     <button type="submit"
                             disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}>Add</button>
                     <img src="images/ajax-loader.gif"

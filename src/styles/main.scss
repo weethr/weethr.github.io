@@ -241,5 +241,16 @@ html {
         }
 
     }
+
+    &__reset {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        margin-top: -10px;
+        color: #BBB;
+        font-size: 12px;
+        cursor: default;
+        padding: 2px;
+    }
 }
 
