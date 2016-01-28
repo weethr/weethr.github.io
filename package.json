@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "command-line-args": "^2.1.3",
+    "es6-promise": "^3.0.2",
     "express": "^4.13.3",
     "kew": "^0.7.0",
     "nanoajax": "^0.4.0",
