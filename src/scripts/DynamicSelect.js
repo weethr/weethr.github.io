@@ -25,6 +25,7 @@ module.exports = React.createClass({
             value: "",
             focused: false,
             blurDisabled: false,
+            highlightedOption: null,
             options: []
         }
     },
@@ -86,22 +87,38 @@ module.exports = React.createClass({
             this.props.onChange(option)
             this.refs["inp"].blur()
         })
-
     },
 
-    onMouseOverOptions: function() {
+    onMouseOverOptionList: function() {
         this.setState(update(this.state, {
             blurDisabled: {$set: true},
         }))
     },
 
-    onMouseOutOptions: function() {
+    onMouseOutOptionList: function() {
         this.setState(update(this.state, {
             blurDisabled: {$set: false},
         }))
     },
 
+    onMouseOverOption: function(option) {
+        console.log("highlight", option)
+        this.setState(update(this.state, {
+            highlightedOption: {$set: option},
+        }))
+    },
+
+    onMouseOutOption: function() {
+        console.log("highlight off")
+        this.setState(update(this.state, {
+            highlightedOption: {$set: null},
+        }))
+    },    
+    
     render: function () {
+
+        console.log("render!")
+        console.log(this.state)
 
         var className = "dynamic-select";
         if(this.state.focused) {
@@ -119,12 +136,24 @@ module.exports = React.createClass({
                        onChange={this.onInput}
                        onClick={this.onClick}
                         />
-                <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptions} onMouseOut={this.onMouseOutOptions} >
+                <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
                     {
                         (this.state.options.length === 0)
                         ? (<div className="dynamic-select__options__option">Begin input city name</div>)
                         : this.state.options.map(option => {
-                            return <div key={option.label} className="dynamic-select__options__option" onClick={(e) => {e.preventDefault();this.onSelect(option)}}>{option.label}</div>
+                            var className = "dynamic-select__options__option";
+                            if(this.state.highlightedOption) {
+                                console.log(this.state.highlightedOption.label, "!=", option.label)
+                            }
+                            if(this.state.highlightedOption !== null && this.state.highlightedOption.value === option.value) {
+                                className += " dynamic-select__options__option--highlighted";
+                            }
+                            return <div key={option.label}
+                                        className={className}
+                                        onMouseOver={e => this.onMouseOverOption(option)}
+                                        onMouseOut={e => this.onMouseOutOption()}
+                                        onClick={(e) => {e.preventDefault();this.onSelect(option)}}
+                                    >{option.label}</div>
                         })
                     }
                 </div>
