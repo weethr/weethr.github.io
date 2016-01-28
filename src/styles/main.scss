@@ -45,6 +45,13 @@ button {
         color: red;
         margin: 0.25rem;
     }
+
+    /* customize dynamic-select */
+    .dynamic-select {
+        &__input {
+            min-width: 250px;
+        }
+    }
 }
 
 .display-settings {
