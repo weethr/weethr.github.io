@@ -15,14 +15,13 @@
  * Created: 09.12.2015 22:31
  */
 
-var React = require('react'),
-    update = require('react-addons-update');
+var React = require('react');
 
 module.exports = React.createClass({
 
     getInitialState: function(){
         return {
-            value: "",
+            text: "",
             focused: false,
             blurDisabled: false,
             highlightedOption: null,
@@ -31,44 +30,51 @@ module.exports = React.createClass({
     },
 
     onFocus: function(e) {
-        this.setState(update(this.state, {
-            focused: {$set: true}
-        }))
+        this.setState({
+            focused: true
+        })
     },
 
     onBlur: function(e) {
         if(!this.state.blurDisabled) {
-            this.setState(update(this.state, {
-                focused: {$set: false}
-            }))
-        }
-        else {
-            this.setState(update(this.state, {
-                focused: {$set: true}
-            }))
+            this.setState({
+                focused: false,
+                text:"",
+                options:[]
+            })
         }
     },
 
     onInput: function(e) {
 
-        var newValue = e.target.value;
-        this.setState(update(this.state, {
-            value: {$set: newValue}
-        }), () => {
+        var newText = e.target.value;
+        this.setState({
+            text: newText
+        }, () => {
             //todo: handle failed future
-            this.props.loadOptions(this.state.value).then(result => {
+            this.props.loadOptions(this.state.text).then(result => {
                 this.setState( oldState => {
-                    if(oldState.value === newValue) {
+                    if(oldState.text === newText) {
                         var dedupResult = [];
                         result.forEach((x) => {
-                            if(dedupResult.filter((y) => x.label === y.label).length === 0) {
+                            if(dedupResult.filter((y) => x.value === y.value).length === 0) {
                                 dedupResult.push(x)
                             }
                         })
-
-                        return update(oldState, {
-                            options: {$set: dedupResult}
-                        })
+                        return {
+                            options: dedupResult
+                        }
+                    }
+                    else {
+                        return oldState
+                    }
+                })
+            }, (err) => {
+                this.setState( oldState => {
+                    if(oldState.text === newText) {
+                        return {
+                            options: []
+                        }
                     }
                     else {
                         return oldState
@@ -79,58 +85,54 @@ module.exports = React.createClass({
     },
 
     onSelect: function(option) {
-        this.setState(update(this.state, {
-            value: {$set: option.label},
-            blurDisabled: {$set: false},
-            focused: {$set: false},
-        }), () => {
+        this.setState({
+            text: "",
+            blurDisabled: false,
+            focused: false,
+        }, () => {
             this.props.onChange(option)
-            this.refs["inp"].blur()
         })
     },
 
     onMouseOverOptionList: function() {
-        this.setState(update(this.state, {
-            blurDisabled: {$set: true},
-        }))
+        this.setState({
+            blurDisabled: true,
+        })
     },
 
     onMouseOutOptionList: function() {
-        this.setState(update(this.state, {
-            blurDisabled: {$set: false},
-        }))
+        this.setState({
+            blurDisabled: false,
+        })
     },
 
     onMouseOverOption: function(option) {
-        console.log("highlight", option)
-        this.setState(update(this.state, {
-            highlightedOption: {$set: option},
-        }))
+        this.setState({
+            highlightedOption: option,
+        })
     },
 
     onMouseOutOption: function() {
-        console.log("highlight off")
-        this.setState(update(this.state, {
-            highlightedOption: {$set: null},
-        }))
+        this.setState({
+            highlightedOption: null,
+        })
     },    
     
     render: function () {
-
-        console.log("render!")
-        console.log(this.state)
-
         var className = "dynamic-select";
         if(this.state.focused) {
             className += " dynamic-select--focused"
         }
+
+        var value = this.props.value || {value:"",label:""};
 
         //todo: check default option text
         return (
             <div className={className}>
                 <input className="dynamic-select__input"
                        type="text"
-                       value={this.state.value}
+                       placeholder={(!this.state.focused && this.state.text === "") ? "Begin writing city name" : ""}
+                       value={this.state.focused ? this.state.text : value.label}
                        onFocus={this.onFocus}
                        onBlur={this.onBlur}
                        onChange={this.onInput}
@@ -139,16 +141,13 @@ module.exports = React.createClass({
                 <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
                     {
                         (this.state.options.length === 0)
-                        ? (<div className="dynamic-select__options__option">Begin input city name</div>)
+                        ? (<div className="dynamic-select__options__option dynamic-select__options__option--nothing-found">Nothing found</div>)
                         : this.state.options.map(option => {
                             var className = "dynamic-select__options__option";
-                            if(this.state.highlightedOption) {
-                                console.log(this.state.highlightedOption.label, "!=", option.label)
-                            }
                             if(this.state.highlightedOption !== null && this.state.highlightedOption.value === option.value) {
                                 className += " dynamic-select__options__option--highlighted";
                             }
-                            return <div key={option.label}
+                            return <div key={option.value}
                                         className={className}
                                         onMouseOver={e => this.onMouseOverOption(option)}
                                         onMouseOut={e => this.onMouseOutOption()}

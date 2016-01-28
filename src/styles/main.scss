@@ -224,6 +224,10 @@ html {
         &__option:last-child {
             border-radius: 0 0 5px 5px;
         }
+
+        &__option--nothing-found {
+            color: #BDBDBD;
+        }
     }
 
     &--focused {

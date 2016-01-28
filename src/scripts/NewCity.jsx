@@ -8,7 +8,6 @@
  */
 
 var React = require('react'),
-    update = require('react-addons-update'),
     ajax = require('./ajax');
 
 var DynamicSelect = require('./DynamicSelect');
@@ -18,18 +17,18 @@ module.exports = React.createClass({
     onSubmit: function (e) {
         e.preventDefault();
 
-        this.setState(update(this.state, {
-            waiting: {$set: true}
-        }));
+        this.setState({
+            waiting: true
+        });
 
         var result = this.props.onAdd(this.state.selectValue.value);
 
         result.then(() => {
-            this.setState(update(this.state, {
-                selectValue: {$set: ""},
-                error: {$set: null},
-                waiting: {$set: false}
-            }));
+            this.setState({
+                selectValue: "",
+                error: null,
+                waiting: false
+            });
         });
 
         result.catch((error) => {
@@ -43,16 +42,16 @@ module.exports = React.createClass({
             else {
                 message = error.message;
             }
-            this.setState(update(this.state, {
-                waiting: {$set: false},
-                error: {$set: "Unable to add city '"+error.city+"': " + message}
-            }));
+            this.setState({
+                waiting: false,
+                error: "Unable to add city '"+error.city+"': " + message
+            });
         })
     },
 
     getInitialState: function () {
         return {
-            selectValue: { value: ''},
+            selectValue: null,
             waiting: false,
             error: null
         }
@@ -69,11 +68,15 @@ module.exports = React.createClass({
         });
     },
 
-    onFinishSearch: function(val) {
-        val = val || { value: '', label: '' };
-        this.setState(update(this.state, {
-            selectValue: {$set:val}
-        }));
+    onFinishSearch: function(selectedOption) {
+        //val = val || { value: '', label: '' };
+        //this.setState({
+        //    selectValue: val
+        //});
+        console.log(selectedOption)
+        this.setState({
+            selectValue: selectedOption
+        });
     },
 
     render: function () {
@@ -83,10 +86,12 @@ module.exports = React.createClass({
                 <form onSubmit={this.onSubmit} >
                     <label>
                         <span>New city: </span>
-                        <DynamicSelect loadOptions={this.loadOptions} onChange={this.onFinishSearch}/>
+                        <DynamicSelect loadOptions={this.loadOptions}
+                                       value={this.state.selectValue}
+                                       onChange={this.onFinishSearch}/>
                     </label>
                     <button type="submit"
-                            disabled={this.props.disabled || this.state.waiting || this.state.selectValue.value === ""}>Add</button>
+                            disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}>Add</button>
                     <img src="images/ajax-loader.gif"
                          style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
                 </form>
