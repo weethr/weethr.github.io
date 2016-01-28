@@ -24,20 +24,28 @@ module.exports = React.createClass({
         return {
             value: "",
             focused: false,
+            blurDisabled: false,
             options: []
         }
     },
 
-    onFocus: function() {
+    onFocus: function(e) {
         this.setState(update(this.state, {
             focused: {$set: true}
         }))
     },
 
-    onBlur: function() {
-        this.setState(update(this.state, {
-            focused: {$set: false}
-        }))
+    onBlur: function(e) {
+        if(!this.state.blurDisabled) {
+            this.setState(update(this.state, {
+                focused: {$set: false}
+            }))
+        }
+        else {
+            this.setState(update(this.state, {
+                focused: {$set: true}
+            }))
+        }
     },
 
     onInput: function(e) {
@@ -70,12 +78,26 @@ module.exports = React.createClass({
     },
 
     onSelect: function(option) {
-        if(this.props.onChange) {
-            this.props.onChange(option)
-        }
         this.setState(update(this.state, {
-            focused: {$set: false},
             value: {$set: option.label},
+            blurDisabled: {$set: false},
+            focused: {$set: false},
+        }), () => {
+            this.props.onChange(option)
+            this.refs["inp"].blur()
+        })
+
+    },
+
+    onMouseOverOptions: function() {
+        this.setState(update(this.state, {
+            blurDisabled: {$set: true},
+        }))
+    },
+
+    onMouseOutOptions: function() {
+        this.setState(update(this.state, {
+            blurDisabled: {$set: false},
         }))
     },
 
@@ -89,13 +111,20 @@ module.exports = React.createClass({
         //todo: check default option text
         return (
             <div className={className}>
-                <input className="dynamic-select__input" type="text" value={this.state.value} onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onInput}/>
-                <div className="dynamic-select__options">
+                <input className="dynamic-select__input"
+                       type="text"
+                       value={this.state.value}
+                       onFocus={this.onFocus}
+                       onBlur={this.onBlur}
+                       onChange={this.onInput}
+                       onClick={this.onClick}
+                        />
+                <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptions} onMouseOut={this.onMouseOutOptions} >
                     {
                         (this.state.options.length === 0)
                         ? (<div className="dynamic-select__options__option">Begin input city name</div>)
                         : this.state.options.map(option => {
-                            return <div key={option.label} className="dynamic-select__options__option" onClick={() => this.onSelect(option)}>{option.label}</div>
+                            return <div key={option.label} className="dynamic-select__options__option" onClick={(e) => {e.preventDefault();this.onSelect(option)}}>{option.label}</div>
                         })
                     }
                 </div>
