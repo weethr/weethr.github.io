@@ -46,10 +46,10 @@ module.exports = React.createClass({
     },
 
     onInput: function(e) {
-
         var newText = e.target.value;
         this.setState({
-            text: newText
+            text: newText,
+            highlightedOption: null
         }, () => {
             //todo: handle failed future
             this.props.loadOptions(this.state.text).then(result => {
@@ -119,7 +119,6 @@ module.exports = React.createClass({
     },    
 
     onReset: function() {
-        console.log("on reset")
         this.setState({
             text: ""
         }, () => {
@@ -195,9 +194,19 @@ module.exports = React.createClass({
         else if(e.keyCode === 13) {
             if(this.state.highlightedOption !== null) {
                 this.onSelect(this.state.highlightedOption)
-                e.preventDefault();
+            }
+            e.preventDefault();
+        }
+        else if(e.keyCode === 9) {
+            if(this.state.highlightedOption !== null) {
+                this.onSelect(this.state.highlightedOption)
             }
         }
+        else if(e.keyCode === 27) {
+            this.onReset();
+            e.preventDefault();
+        }
+        console.log(e.keyCode);
     },
 
     render: function () {
@@ -222,6 +231,7 @@ module.exports = React.createClass({
                        onClick={this.onClick}
                        onKeyDown={this.onKeyDown}
                        autoComplete="off"
+                       ref="inp"
                         />
                 <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
                 <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
