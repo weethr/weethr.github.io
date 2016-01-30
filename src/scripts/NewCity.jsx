@@ -89,7 +89,7 @@ module.exports = React.createClass({
                 <form onSubmit={this.onSubmit} className="new-city__form">
                     <div className="new-city__item">
                         <label htmlFor="city">
-                            <span>New city: </span>
+                            <span>Add city: </span>
                         </label>
                     </div>
                     <div className="new-city__item">

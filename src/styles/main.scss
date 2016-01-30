@@ -56,15 +56,15 @@ body {
 }
 
 .l-cell.l-header {
-    vertical-align: top;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #E6E6E6;
+    background: #FBFBFB;
+    height: 50px;
 }
 
 .l-cell.l-footer {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    vertical-align: bottom;
+    vertical-align: middle;
+    height: 50px;
 }
 
 /* Some global styles */
