@@ -1,6 +1,17 @@
 @import "../../node_modules/react-select/scss/default.scss";
 @import "../static/fonts/meteoicons/stylesheet";
 
+$color_highlight_bg: #F5F5F5;
+$color_control_border: #CCCCCC;
+$color_control_bg: white;
+$color_control_disabled_border: #E6E6E6;
+$color_control_disabled: #D0D0D0;
+$color_temp_cold: #0075CE;
+$color_temp_warm: #D00000;
+$color_error: red;
+$color_option_highlight_bg: #77d4ff;
+$color_option_empty: $color_control_disabled;
+$color_arrow_bg: #D4D4D4;
 
 .meteoicon {
     font-family: "MeteoconsRegular", serif;
@@ -34,21 +45,19 @@ body {
 }
 
 button {
-    border: 1px solid #CCCCCC;
-    background: white;
+    border: 1px solid $color_control_border;
+    background: $color_control_bg;
     border-radius: 5px;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
 }
 
 button:disabled {
-    color: #D0D0D0;
-    border: 1px solid #E6E6E6;
+    color: $color_control_disabled;
+    border: 1px solid $color_control_disabled_border;
 }
 
 /** Components **/
-
-
 
 .root {
     display: flex;
@@ -97,7 +106,7 @@ button:disabled {
     }
 
     @at-root .error {
-        color: red;
+        color: $color_error;
         margin: 0.25rem;
         font-weight: bold;
     }
@@ -126,7 +135,7 @@ button:disabled {
 
         &__icon {
             width: 50px;
-            padding: 5px;
+            padding: 10px;
             vertical-align: middle;
             text-align: center;
             img {
@@ -148,45 +157,31 @@ button:disabled {
         }
 
         &__temp--cold {
-            color: #0075CE;
+            color: $color_temp_cold;
         }
 
         &__temp--warm {
-            color: #D00000;
+            color: $color_temp_warm;
         }
 
-
-        &__remove-button {
+        &__controls {
             visibility: hidden;
-        }
-
-
-        &__up-down-buttons {
-            visibility: hidden;
+            background: $color_highlight_bg;
         }
 
         &:hover {
-            td {
-                background: #F5F5F5;
-            }
-
-            #{$this}__remove-button {
+            background: $color_highlight_bg;
+            #{$this}__controls {
                 visibility: visible;
             }
-
-            #{$this}__up-down-buttons {
-                visibility: visible;
-            }
-
-            #{$this}__remove-button--hidden {
-                visibility: hidden;
-            }
-
-            #{$this}__up-down-buttons--hidden {
-                visibility: hidden;
-            }
-
         }
+
+        &__controls:hover {
+            #{$this}__controls {
+                visibility: visible;
+            }
+        }
+
 
         &.city--full {
             margin-bottom: 0;
@@ -229,15 +224,28 @@ button:disabled {
             }
 
             #{$this}__remove-button {
-                width: 20px;
-                padding: 0.75rem;
+                padding: 0 0.75rem;
                 text-align: center;
             }
 
             #{$this}__up-down-buttons {
-                width: 10px;
                 padding: 0;
                 text-align: center;
+            }
+
+            #{$this}__controls-parent {
+                width: 1px;
+                position: relative;
+                vertical-align: top;
+            }
+
+            #{$this}__controls {
+                position: absolute;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: 100%;
+                top: 0;
             }
         }
     }
@@ -257,7 +265,7 @@ button:disabled {
     &__input {
         padding: 0.5rem;
         border-radius: 5px;
-        border: 1px solid #CCCCCC;
+        border: 1px solid $color_control_border;
         outline: none;
         font-size: 1rem;
     }
@@ -266,19 +274,19 @@ button:disabled {
         display: none;
         position: absolute;
         left: 0;
-        background: white;
+        background: $color_control_bg;
         width: 100%;
     }
 
     &__option {
-        border: 1px solid #CCCCCC;
+        border: 1px solid $color_control_border;
         border-top-style: none;
         padding: 0.5rem;
         font-size: 1rem;
     }
 
     &__option--highlighted {
-        background: #77d4ff;
+        background: $color_option_highlight_bg;
     }
 
     &__option:last-child {
@@ -286,7 +294,7 @@ button:disabled {
     }
 
     &__option--nothing-found {
-        color: #BDBDBD;
+        color: $color_option_empty;
     }
 
     &--focused {
@@ -317,7 +325,7 @@ button:disabled {
     display: inline-block;
     vertical-align: middle;
     margin: 0 0.5rem 0 0;
-    border-color: #D4D4D4;
+    border-color: $color_arrow_bg;
     border-width: 6px;
     border-left-color: transparent;
     border-right-color: transparent;

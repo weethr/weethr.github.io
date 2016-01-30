@@ -105,9 +105,11 @@ module.exports = React.createClass({
                                         </tr>
                                         <tr>
                                             <td className="city__remove-button" colSpan="3" >
-                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
-                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
-                                                <button onClick={this.onRemove(city.name)}>Remove</button>
+                                                <div  className="city__controls" >
+                                                    <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                                    <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                                    <button onClick={this.onRemove(city.name)}>Remove</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -119,26 +121,24 @@ module.exports = React.createClass({
                                 <table key={city.name} className="city city--short">
                                     <tbody>
                                         <tr>
-                                            <td className="invisible city__up-down-buttons" rowSpan="2" >
-                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
-                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
-                                            </td>
-                                            <td className="invisible city__remove-button" rowSpan="2" >
-                                                <button onClick={this.onRemove(city.name)}>Remove</button>
-                                            </td>
-
                                             <td className="city__icon" title={city.weather.desc.description}>
                                                 <i className="meteoicon">{this.getIconCode(city.weather.desc.icon)}</i>
                                             </td>
                                             <td className="city__name">{ city.name }</td>
                                             <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
-                                            <td className="city__remove-button" rowSpan="2" >
-                                                <button onClick={this.onRemove(city.name)}>Remove</button>
+
+                                            <td className="city__controls-parent" >
+                                                <div  className="city__controls" >
+                                                    <div className="city__remove-button" rowSpan="2" >
+                                                        <button onClick={this.onRemove(city.name)}>Remove</button>
+                                                    </div>
+                                                    <div className="city__up-down-buttons" rowSpan="2" >
+                                                        <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                                        <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td className="city__up-down-buttons" rowSpan="2" >
-                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
-                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
-                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
