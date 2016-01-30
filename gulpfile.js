@@ -89,7 +89,7 @@ gulp.task('scripts_context', function(){
 });
 
 gulp.task('scripts', function(){
-    var bundler = browserify(SRC_ROOT + '/scripts/main.jsx', {
+    var bundler = browserify(SRC_ROOT + '/scripts/main.js', {
         debug: false,
         cache: {},
         packageCache: {},

@@ -40,32 +40,34 @@ module.exports = React.createClass({
     },
 
     getIconCode: function(name) {
-
         switch(name) {
-
-         case "01d": return "B"
-         case "02d": return "H"
-         case "03d": return "N"
-         case "04d": return "Y"
-         case "09d": return "R"
-         case "10d": return "Q"
-         case "11d": return "P"
-         case "13d": return "V"
-         case "50d": return "M"
-         case "01n": return "2"
-         case "02n": return "4"
-         case "03n": return "5"
-         case "04n": return "%"
-         case "09n": return "8"
-         case "10n": return "7"
-         case "11n": return "6"
-         case "13n": return "\""
-         case "50n": return "M"
-      }
-
+             case "01d": return "B"
+             case "02d": return "H"
+             case "03d": return "N"
+             case "04d": return "Y"
+             case "09d": return "R"
+             case "10d": return "Q"
+             case "11d": return "P"
+             case "13d": return "V"
+             case "50d": return "M"
+             case "01n": return "2"
+             case "02n": return "4"
+             case "03n": return "5"
+             case "04n": return "%"
+             case "09n": return "8"
+             case "10n": return "7"
+             case "11n": return "6"
+             case "13n": return "\""
+             case "50n": return "M"
+             default: return ")"
+        }
     },
 
     render: function () {
+        function firstLetterUpperCase(str) {
+            return str.substr(0,1).toUpperCase() + str.substr(1)
+        }
+
         return (
             <div className="city-list">
                 {
@@ -79,8 +81,8 @@ module.exports = React.createClass({
                                 <table key={city.name} className="city city--full">
                                     <tbody>
                                         <tr>
-                                            <td className="city__icon" title={city.weather.desc.description}>
-                                                <i className="meteoicon">{this.getIconCode(city.weather.desc.icon)}</i>
+                                            <td className="city__icon" >
+                                                <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
                                             </td>
                                             <td className="city__name" colSpan="2">{ city.name }</td>
                                         </tr>
@@ -121,8 +123,8 @@ module.exports = React.createClass({
                                 <table key={city.name} className="city city--short">
                                     <tbody>
                                         <tr>
-                                            <td className="city__icon" title={city.weather.desc.description}>
-                                                <i className="meteoicon">{this.getIconCode(city.weather.desc.icon)}</i>
+                                            <td className="city__icon">
+                                                <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
                                             </td>
                                             <td className="city__name">{ city.name }</td>
                                             <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
