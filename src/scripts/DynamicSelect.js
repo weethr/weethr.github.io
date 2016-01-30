@@ -25,7 +25,7 @@ module.exports = React.createClass({
             focused: false,
             blurDisabled: false,
             highlightedOption: null,
-            options: []
+            optionList: [],
         }
     },
 
@@ -39,8 +39,8 @@ module.exports = React.createClass({
         if(!this.state.blurDisabled) {
             this.setState({
                 focused: false,
-                text:"",
-                options:[]
+                text: "",
+                optionList:[],
             })
         }
     },
@@ -62,7 +62,7 @@ module.exports = React.createClass({
                             }
                         })
                         return {
-                            options: dedupResult
+                            optionList: dedupResult
                         }
                     }
                     else {
@@ -73,7 +73,7 @@ module.exports = React.createClass({
                 this.setState( oldState => {
                     if(oldState.text === newText) {
                         return {
-                            options: []
+                            optionList: []
                         }
                     }
                     else {
@@ -87,6 +87,7 @@ module.exports = React.createClass({
     onSelect: function(option) {
         this.setState({
             text: "",
+            optionList: [],
             blurDisabled: false,
             focused: false,
         }, () => {
@@ -120,7 +121,8 @@ module.exports = React.createClass({
 
     onReset: function() {
         this.setState({
-            text: ""
+            text: "",
+            optionList: []
         }, () => {
             if(this.props.onReset) {
                 this.props.onReset()
@@ -131,25 +133,25 @@ module.exports = React.createClass({
     onKeyDown: function(e) {
         if(e.keyCode === 40) { //down
             this.setState((state) => {
-                var options = state.options;
+                var optionList = state.optionList;
                 var highlightedOption = state.highlightedOption;
-                if(options.length !== 0) {
+                if(optionList.length !== 0) {
                     if(highlightedOption === null) {
                         return {
-                            highlightedOption: options[0]
+                            highlightedOption: optionList[0]
                         }
                     }
                     else {
-                        for(var i = 0; i < options.length; ++i) {
-                            if(options[i].value === highlightedOption.value) {
-                                if(i === options.length - 1) {
+                        for(var i = 0; i < optionList.length; ++i) {
+                            if(optionList[i].value === highlightedOption.value) {
+                                if(i === optionList.length - 1) {
                                     return {
-                                        highlightedOption: options[0]
+                                        highlightedOption: optionList[0]
                                     }
                                 }
                                 else {
                                     return {
-                                        highlightedOption: options[i+1]
+                                        highlightedOption: optionList[i+1]
                                     }
                                 }
                             }
@@ -162,25 +164,25 @@ module.exports = React.createClass({
         }
         else if(e.keyCode === 38) { //up
             this.setState((state) => {
-                var options = state.options;
+                var optionList = state.optionList;
                 var highlightedOption = state.highlightedOption;
-                if(options.length !== 0) {
+                if(optionList.length !== 0) {
                     if(highlightedOption === null) {
                         return {
-                            highlightedOption: options[0]
+                            highlightedOption: optionList[0]
                         }
                     }
                     else {
-                        for(var i = 0; i < options.length; ++i) {
-                            if(options[i].value === highlightedOption.value) {
+                        for(var i = 0; i < optionList.length; ++i) {
+                            if(optionList[i].value === highlightedOption.value) {
                                 if(i === 0) {
                                     return {
-                                        highlightedOption: options[options.length - 1]
+                                        highlightedOption: optionList[optionList.length - 1]
                                     }
                                 }
                                 else {
                                     return {
-                                        highlightedOption: options[i-1]
+                                        highlightedOption: optionList[i-1]
                                     }
                                 }
                             }
@@ -206,7 +208,6 @@ module.exports = React.createClass({
             this.onReset();
             e.preventDefault();
         }
-        console.log(e.keyCode);
     },
 
     render: function () {
@@ -236,9 +237,9 @@ module.exports = React.createClass({
                 <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
                 <div className="dynamic-select__option-list" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
                     {
-                        (this.state.options.length === 0)
+                        (this.state.optionList.length === 0)
                         ? (<div className="dynamic-select__option dynamic-select__option--nothing-found">Nothing found</div>)
-                        : this.state.options.map(option => {
+                        : this.state.optionList.map(option => {
                             var className = "dynamic-select__option";
                             if(this.state.highlightedOption !== null && this.state.highlightedOption.value === option.value) {
                                 className += " dynamic-select__option--highlighted";
