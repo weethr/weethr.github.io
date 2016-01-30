@@ -63,6 +63,9 @@ app.get('/cities', (req, res) => {
             apiRes.on('end', () => {
                 var dataJson = JSON.parse(data);
 
+                console.log(dataJson);
+
+
                 if(dataJson.status == "OK") {
                     var cityList = dataJson.predictions.map((prediction) => {
                         return {
@@ -71,6 +74,10 @@ app.get('/cities', (req, res) => {
                     });
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify(cityList));
+                }
+                else if(dataJson.status == "ZERO_RESULTS") {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify([]));
                 }
                 else {
                     console.error("Error: " + dataJson.error_message);
