@@ -165,23 +165,21 @@ button:disabled {
         }
 
         &__controls {
-            visibility: hidden;
+            opacity: 0;
             background: $color_highlight_bg;
         }
 
         &:hover {
             background: $color_highlight_bg;
             #{$this}__controls {
-                visibility: visible;
+                opacity: 1;
             }
         }
 
         &__controls:hover {
-            #{$this}__controls {
-                visibility: visible;
-            }
+            visibility: visible;
+            opacity: 1;
         }
-
 
         &.city--full {
             margin-bottom: 0;
@@ -223,15 +221,6 @@ button:disabled {
                 font-size: $font-weight;
             }
 
-            #{$this}__remove-button {
-                padding: 0 0.75rem;
-                text-align: center;
-            }
-
-            #{$this}__up-down-buttons {
-                padding: 0;
-                text-align: center;
-            }
 
             #{$this}__controls-parent {
                 width: 1px;
@@ -246,6 +235,16 @@ button:disabled {
                 align-items: center;
                 height: 100%;
                 top: 0;
+            }
+
+            #{$this}__remove-button {
+                padding: 0 0.75rem;
+                text-align: center;
+            }
+
+            #{$this}__up-down-buttons {
+                padding: 0;
+                text-align: center;
             }
         }
     }
