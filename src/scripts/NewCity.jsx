@@ -106,9 +106,11 @@ module.exports = React.createClass({
                                 disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}
                                 ref="add_button">Add</button>
                     </div>
-                    <div className="new-city__item">
-                        <img src="images/ajax-loader.gif"
-                             style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
+                    <div className="new-city__item new-city__item--empty">
+                        <div  className="new-city__loader">
+                            <img src="images/ajax-loader.gif"
+                                 style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
+                        </div>
                     </div>
                 </form>
                 {
