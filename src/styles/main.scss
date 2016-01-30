@@ -5,10 +5,16 @@ html {
 }
 
 button {
-    border: 1px solid #CCC;
+    border: 1px solid #CCCCCC;
     background: white;
     border-radius: 5px;
     padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+button:disabled {
+    color: #D0D0D0;
+    border: 1px solid #E6E6E6;
 }
 
 /** Components **/
@@ -33,17 +39,13 @@ button {
         display: flex;
         flex-direction: row;
         align-items: stretch;
+    }
 
-
-        & > label {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        & > *, & > label > * {
-            margin: 0.25rem 0.5rem 0.25rem 0rem;
-        }
+    &__item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.25rem 0.5rem 0.25rem 0rem;
     }
 
     .error {

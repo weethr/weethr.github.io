@@ -87,22 +87,29 @@ module.exports = React.createClass({
         return (
             <div className="new-city">
                 <form onSubmit={this.onSubmit} className="new-city__form">
-                    <label htmlFor="city">
-                        <span>New city: </span>
-                    </label>
-                    <DynamicSelect id="city"
-                                   loadOptions={this.loadOptions}
-                                   value={this.state.selectValue}
-                                   onReset={this.onSelectReset}
-                                   onChange={this.onFinishSearch}
-                                   placeholder="Begin writing city name"
-                    />
-                    <button type="submit"
-                            disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}
-                            ref="add_button"
-                            >Add</button>
-                    <img src="images/ajax-loader.gif"
-                         style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
+                    <div className="new-city__item">
+                        <label htmlFor="city">
+                            <span>New city: </span>
+                        </label>
+                    </div>
+                    <div className="new-city__item">
+                        <DynamicSelect id="city"
+                                       loadOptions={this.loadOptions}
+                                       value={this.state.selectValue}
+                                       onReset={this.onSelectReset}
+                                       onChange={this.onFinishSearch}
+                                       placeholder="Begin writing city name"
+                        />
+                    </div>
+                    <div className="new-city__item">
+                        <button type="submit"
+                                disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}
+                                ref="add_button">Add</button>
+                    </div>
+                    <div className="new-city__item">
+                        <img src="images/ajax-loader.gif"
+                             style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
+                    </div>
                 </form>
                 <div className="error">{this.state.error}</div>
             </div>

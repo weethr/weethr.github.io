@@ -260,6 +260,7 @@ gulp.task('__debug_styles', function(){
     var files = SRC_ROOT + '/styles/**.scss';
     return gulp.src(files)
         .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({browsers: ['last 2 Chrome versions']}))
         .pipe(gulp.dest(DEBUG_ROOT + '/styles'))
 });
 
