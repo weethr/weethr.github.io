@@ -63,9 +63,6 @@ app.get('/cities', (req, res) => {
             apiRes.on('end', () => {
                 var dataJson = JSON.parse(data);
 
-                console.log(dataJson);
-
-
                 if(dataJson.status == "OK") {
                     var cityList = dataJson.predictions.map((prediction) => {
                         return {

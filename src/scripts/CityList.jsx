@@ -39,6 +39,32 @@ module.exports = React.createClass({
         }
     },
 
+    getIconCode: function(name) {
+
+        switch(name) {
+
+         case "01d": return "B"
+         case "02d": return "H"
+         case "03d": return "N"
+         case "04d": return "Y"
+         case "09d": return "R"
+         case "10d": return "Q"
+         case "11d": return "P"
+         case "13d": return "V"
+         case "50d": return "M"
+         case "01n": return "2"
+         case "02n": return "4"
+         case "03n": return "5"
+         case "04n": return "%"
+         case "09n": return "8"
+         case "10n": return "7"
+         case "11n": return "6"
+         case "13n": return "\""
+         case "50n": return "M"
+      }
+
+    },
+
     render: function () {
         return (
             <div className="city-list">
@@ -54,7 +80,7 @@ module.exports = React.createClass({
                                     <tbody>
                                         <tr>
                                             <td className="city__icon" title={city.weather.desc.description}>
-                                                <img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/>
+                                                <i className="meteoicon">{this.getIconCode(city.weather.desc.icon)}</i>
                                             </td>
                                             <td className="city__name" colSpan="2">{ city.name }</td>
                                         </tr>
@@ -93,7 +119,17 @@ module.exports = React.createClass({
                                 <table key={city.name} className="city city--short">
                                     <tbody>
                                         <tr>
-                                            <td className="city__icon" title={city.weather.desc.description}><img src={"http://openweathermap.org/img/w/"+city.weather.desc.icon +".png"}/></td>
+                                            <td className="city__up-down-buttons city__up-down-buttons--hidden" rowSpan="2" >
+                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                            </td>
+                                            <td className="city__remove-button city__remove-button--hidden" rowSpan="2" >
+                                                <button onClick={this.onRemove(city.name)}>Remove</button>
+                                            </td>
+
+                                            <td className="city__icon" title={city.weather.desc.description}>
+                                                <i className="meteoicon">{this.getIconCode(city.weather.desc.icon)}</i>
+                                            </td>
                                             <td className="city__name">{ city.name }</td>
                                             <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
                                             <td className="city__remove-button" rowSpan="2" >

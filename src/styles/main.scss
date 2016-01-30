@@ -1,7 +1,31 @@
 @import "../../node_modules/react-select/scss/default.scss";
+@import "../static/fonts/meteoicons/stylesheet";
+
+
+.meteoicon {
+    font-family: "MeteoconsRegular", serif;
+    font-size: 3rem;
+    font-style: normal;
+}
+
 html {
     font-size: 12pt;
     font-family: 'PT Sans', sans-serif;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
 }
 
 button {
@@ -19,21 +43,40 @@ button:disabled {
 
 /** Components **/
 
-.body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+
 
 .root {
     display: flex;
     flex-direction: column;
+    flex-grow: 1
 }
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.header, .footer {
+    height: 75px;
+}
+
+.display-settings {
+    margin-bottom: 20px;
+}
+
 
 .new-city {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 
     &__form {
         display: flex;
@@ -48,9 +91,10 @@ button:disabled {
         padding: 0.25rem 0.5rem 0.25rem 0rem;
     }
 
-    .error {
+    @at-root .error {
         color: red;
         margin: 0.25rem;
+        font-weight: bold;
     }
 
     /* customize dynamic-select */
@@ -61,19 +105,23 @@ button:disabled {
     }
 }
 
-.display-settings {
-    margin: 0.5rem 0;
-}
 
 .city-list {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+
     @at-root .city {
         $this: #{&};
 
         width: 100%;
+        border-collapse: collapse;
 
         &__icon {
             width: 50px;
-            padding: 0;
+            padding: 5px;
             vertical-align: middle;
             text-align: center;
             img {
@@ -107,12 +155,15 @@ button:disabled {
             visibility: hidden;
         }
 
+
         &__up-down-buttons {
             visibility: hidden;
         }
 
         &:hover {
-            background: #F5F5F5;
+            td {
+                background: #F5F5F5;
+            }
 
             #{$this}__remove-button {
                 visibility: visible;
@@ -121,6 +172,15 @@ button:disabled {
             #{$this}__up-down-buttons {
                 visibility: visible;
             }
+
+            #{$this}__remove-button--hidden {
+                visibility: hidden;
+            }
+
+            #{$this}__up-down-buttons--hidden {
+                visibility: hidden;
+            }
+
         }
 
         &.city--full {
@@ -150,10 +210,17 @@ button:disabled {
         }
 
         &.city--short {
+            $font-weight: 2rem;
+
+            #{$this}__name {
+                font-size: $font-weight;
+            }
+
             #{$this}__temp {
                 vertical-align: middle;
                 text-align: right;
                 width: 4rem;
+                font-size: $font-weight;
             }
 
             #{$this}__remove-button {

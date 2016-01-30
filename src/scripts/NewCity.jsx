@@ -111,7 +111,11 @@ module.exports = React.createClass({
                              style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
                     </div>
                 </form>
-                <div className="error">{this.state.error}</div>
+                {
+                    this.state.error
+                      ? <div className="error">{this.state.error}</div>
+                      : null
+                }
             </div>
 
         )

@@ -211,9 +211,8 @@ module.exports = React.createClass({
                     ? <p className="initializing-msg">Determining current city...</p>
                     : ""
                 }
-                <NewCity onAdd={this.onNewCity}/>
-                <div className="display-settings">
-                    <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                <div className="header">
+                    <NewCity onAdd={this.onNewCity}/>
                 </div>
                 <CityList data={this.state.cityList}
                     displayMode={this.state.displayMode}
@@ -221,6 +220,11 @@ module.exports = React.createClass({
                     onMoveUp={this.onMoveCityUp}
                     onMoveDown={this.onMoveCityDown}
                     />
+                <div className="footer">
+                    <div className="display-settings">
+                        <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                    </div>
+                </div>
             </div>
         )
     }
