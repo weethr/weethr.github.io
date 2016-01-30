@@ -119,11 +119,11 @@ module.exports = React.createClass({
                                 <table key={city.name} className="city city--short">
                                     <tbody>
                                         <tr>
-                                            <td className="city__up-down-buttons city__up-down-buttons--hidden" rowSpan="2" >
+                                            <td className="invisible city__up-down-buttons" rowSpan="2" >
                                                 <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
                                                 <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
                                             </td>
-                                            <td className="city__remove-button city__remove-button--hidden" rowSpan="2" >
+                                            <td className="invisible city__remove-button" rowSpan="2" >
                                                 <button onClick={this.onRemove(city.name)}>Remove</button>
                                             </td>
 

@@ -28,6 +28,11 @@ body {
     flex-grow: 1;
 }
 
+/* this class mean to use for special markup, which is only take space but should not be visible ever */
+.invisible {
+    visibility: hidden !important;
+}
+
 button {
     border: 1px solid #CCCCCC;
     background: white;
