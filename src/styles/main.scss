@@ -4,17 +4,19 @@ html {
     font-family: 'PT Sans', sans-serif;
 }
 
-.body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 button {
     border: 1px solid #CCC;
     background: white;
     border-radius: 5px;
     padding: 0.5rem 1rem;
+}
+
+/** Components **/
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .root {
@@ -27,18 +29,21 @@ button {
     flex-direction: column;
     align-items: flex-start;
 
-    form, form > label {
+    &__form {
         display: flex;
         flex-direction: row;
-        align-items: center;
-    }
+        align-items: stretch;
 
-    .Select {
-        min-width: 350px;
-    }
 
-    form > *, form label > * {
-        margin: 0.25rem 0.5rem 0.25rem 0rem;
+        & > label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        & > *, & > label > * {
+            margin: 0.25rem 0.5rem 0.25rem 0rem;
+        }
     }
 
     .error {
@@ -59,12 +64,12 @@ button {
 }
 
 .city-list {
-    $el: 'city';
+    @at-root .city {
+        $this: #{&};
 
-    .#{$el} {
         width: 100%;
 
-        .#{$el}__icon {
+        &__icon {
             width: 50px;
             padding: 0;
             vertical-align: middle;
@@ -74,127 +79,93 @@ button {
                 vertical-align: bottom;
             }
         }
-        .#{$el}__name {
+
+        &__name {
             font-size: 1.2rem;
             font-weight: bold;
             padding-left: 1rem;
         }
-        .#{$el}__temp {
+
+        &__temp {
             font-size: 1.5rem;
             vertical-align: top;
             text-align: center;
         }
 
-        .#{$el}__temp--cold {
+        &__temp--cold {
             color: #0075CE;
         }
 
-        .#{$el}__temp--warm {
+        &__temp--warm {
             color: #D00000;
         }
 
 
-        .#{$el}__remove-button {
-            button {
-                visibility: hidden;
-            }
-        }
-
-        .arrow-up, .arrow-down {
-            width: 0;
-            height: 0;
-            display: inline-block;
-            vertical-align: middle;
-            margin: 0 0.5rem 0 0;
+        &__remove-button {
             visibility: hidden;
-            border-color: #D4D4D4;
-            border-width: 6px;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-left-style: solid;
-            border-right-style: solid;
         }
 
-        .arrow-up {
-            border-bottom-style: solid;
+        &__up-down-buttons {
+            visibility: hidden;
         }
 
-        .arrow-down {
-            border-top-style: solid;
-        }
+        &:hover {
+            background: #F5F5F5;
 
+            #{$this}__remove-button {
+                visibility: visible;
+            }
 
-    }
-
-
-
-    .#{$el}:hover {
-        background: #F5F5F5;
-
-        .city__remove-button {
-            button {
+            #{$this}__up-down-buttons {
                 visibility: visible;
             }
         }
 
-        .arrow-up, .arrow-down {
-            visibility: visible;
-        }
-    }
+        &.city--full {
+            margin-bottom: 0;
 
+            #{$this}__details {
+                padding-left: 1rem;
+            }
 
+            #{$this}__aux-param {
+                margin-right: 1.5rem;
+                font-weight: bold;
+                font-size: 0.8rem;
+            }
 
-    .#{$el}.city--full {
-        margin-bottom: 0rem;
+            #{$this}__last-update {
+                font-size: 0.6rem;
+                font-style: italic;
+                margin-top: 0.25rem;
+            }
 
-        .#{$el}__details {
-            padding-left: 1rem;
-        }
-
-        .#{$el}__aux-param {
-            margin-right: 1.5rem;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-
-        .#{$el}__last-update {
-            font-size: 0.6rem;
-            font-style: italic;
-            margin-top: 0.25rem;
-        }
-
-        .#{$el}__remove-button {
-            width: 40px;
-            padding: 0.25rem;
-            text-align: right;
+            #{$this}__remove-button {
+                width: 40px;
+                padding: 0.25rem;
+                text-align: right;
+            }
         }
 
-    }
+        &.city--short {
+            #{$this}__temp {
+                vertical-align: middle;
+                text-align: right;
+                width: 4rem;
+            }
 
-    .#{$el}.city--short {
-        .#{$el}__icon {
+            #{$this}__remove-button {
+                width: 20px;
+                padding: 0.75rem;
+                text-align: center;
+            }
 
+            #{$this}__up-down-buttons {
+                width: 10px;
+                padding: 0;
+                text-align: center;
+            }
         }
-
-        .#{$el}__temp {
-            font-size: 1.5rem;
-            vertical-align: middle;
-            text-align: right;
-            width: 4rem;
-        }
-
-        .#{$el}__remove-button {
-            width: 20px;
-            padding: 0.75rem;
-            text-align: center;
-        }
-
-        .#{$el}__up-down-buttons {
-            width: 10px;
-            padding: 0rem;
-            text-align: center;
-        }
-
     }
 }
 
@@ -217,43 +188,41 @@ button {
         font-size: 1rem;
     }
 
-    &__options {
+    &__option-list {
         display: none;
         position: absolute;
         left: 0;
         background: white;
         width: 100%;
+    }
 
-        &__option {
-            border: 1px solid #CCCCCC;
-            border-top-style: none;
-            padding: 0.5rem;
-            font-size: 1rem;
-        }
+    &__option {
+        border: 1px solid #CCCCCC;
+        border-top-style: none;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
 
-        &__option--highlighted {
-            background: #77d4ff;
-        }
+    &__option--highlighted {
+        background: #77d4ff;
+    }
 
-        &__option:last-child {
-            border-radius: 0 0 5px 5px;
-        }
+    &__option:last-child {
+        border-radius: 0 0 5px 5px;
+    }
 
-        &__option--nothing-found {
-            color: #BDBDBD;
-        }
+    &__option--nothing-found {
+        color: #BDBDBD;
     }
 
     &--focused {
-
         #{$this}__input {
             border-radius: 5px 5px 0 0;
         }
 
-        #{$this}__options {
+        #{$this}__option-list {
             display: block;
         }
-
     }
 
     &__reset {
@@ -266,5 +235,27 @@ button {
         cursor: default;
         padding: 2px;
     }
+}
+
+.arrow-up, .arrow-down {
+    width: 0;
+    height: 0;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0.5rem 0 0;
+    border-color: #D4D4D4;
+    border-width: 6px;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-left-style: solid;
+    border-right-style: solid;
+}
+
+.arrow-up {
+    border-bottom-style: solid;
+}
+
+.arrow-down {
+    border-top-style: solid;
 }
 

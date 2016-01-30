@@ -72,6 +72,7 @@ module.exports = React.createClass({
         this.setState({
             selectValue: selectedOption
         });
+        //this.refs.add_button.focus()
     },
 
     onSelectReset: function() {
@@ -85,7 +86,7 @@ module.exports = React.createClass({
         //todo: change placeholder text
         return (
             <div className="new-city">
-                <form onSubmit={this.onSubmit} >
+                <form onSubmit={this.onSubmit} className="new-city__form">
                     <label htmlFor="city">
                         <span>New city: </span>
                     </label>
@@ -97,7 +98,9 @@ module.exports = React.createClass({
                                    placeholder="Begin writing city name"
                     />
                     <button type="submit"
-                            disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}>Add</button>
+                            disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}
+                            ref="add_button"
+                            >Add</button>
                     <img src="images/ajax-loader.gif"
                          style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
                 </form>

@@ -234,14 +234,14 @@ module.exports = React.createClass({
                        ref="inp"
                         />
                 <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
-                <div className="dynamic-select__options" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
+                <div className="dynamic-select__option-list" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
                     {
                         (this.state.options.length === 0)
-                        ? (<div className="dynamic-select__options__option dynamic-select__options__option--nothing-found">Nothing found</div>)
+                        ? (<div className="dynamic-select__option dynamic-select__option--nothing-found">Nothing found</div>)
                         : this.state.options.map(option => {
-                            var className = "dynamic-select__options__option";
+                            var className = "dynamic-select__option";
                             if(this.state.highlightedOption !== null && this.state.highlightedOption.value === option.value) {
-                                className += " dynamic-select__options__option--highlighted";
+                                className += " dynamic-select__option--highlighted";
                             }
                             return <div key={option.value}
                                         className={className}
