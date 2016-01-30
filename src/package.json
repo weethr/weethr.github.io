@@ -1,9 +1,9 @@
 {
-  "description": "Weather app for 4xxi",
+  "description": "Simple weather app",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "http://github.com/koluch/4xxi_weather"
+    "url": "http://github.com/weethr/weethr.github.io"
   },
   "devDependencies": {
     "anybar": "^1.0.0",

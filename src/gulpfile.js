@@ -41,8 +41,8 @@ var gulp = require('gulp'),
 
 
 var DEBUG_ROOT = './debug';
-var SRC_ROOT = './src';
-var PROD_ROOT = './public';
+var SRC_ROOT = '.';
+var PROD_ROOT = '..';
 
 
 
