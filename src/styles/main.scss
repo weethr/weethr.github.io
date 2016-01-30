@@ -13,16 +13,12 @@ $color_option_highlight_bg: #77d4ff;
 $color_option_empty: $color_control_disabled;
 $color_arrow_bg: #D4D4D4;
 
-.meteoicon {
-    font-family: "MeteoconsRegular", serif;
-    font-size: 3rem;
-    font-style: normal;
-}
 
 html {
     font-size: 12pt;
     font-family: 'PT Sans', sans-serif;
     height: 100%;
+    width: 100%;
 }
 
 body {
@@ -32,16 +28,46 @@ body {
     padding: 0;
 }
 
-.body {
+/* Root layout elements  */
+.l-body {
     width: 100%;
     height: 100%;
 }
 
-
-/* this class mean to use for special markup, which is only take space but should not be visible ever */
-.invisible {
-    visibility: hidden !important;
+.l-root {
+    height: 100%;
+    width: 100%;
+    display: table;
 }
+
+.l-row {
+    display: table-row;
+}
+
+.l-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.l-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.l-cell.l-header {
+    vertical-align: top;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.l-cell.l-footer {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    vertical-align: bottom;
+}
+
+/* Some global styles */
 
 button {
     border: 1px solid $color_control_border;
@@ -56,45 +82,18 @@ button:disabled {
     border: 1px solid $color_control_disabled_border;
 }
 
+
+.meteoicon {
+    font-family: "MeteoconsRegular", serif;
+    font-size: 3rem;
+    font-style: normal;
+}
+
 /** Components **/
 
-.root {
-    height: 100%;
-    width: 100%;
-    display: table;
-}
-
-.row {
-    display: table-row;
-}
-
-.cell {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-
-.header {
-}
-
-.footer {
-}
-
-.content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.header, .footer {
-    height: 75px;
-    text-align: center;
-}
 
 .display-settings {
-    margin-bottom: 20px;
 }
-
 
 .new-city {
     display: flex;
@@ -172,6 +171,7 @@ button:disabled {
             font-size: 1.2rem;
             font-weight: bold;
             padding-left: 1rem;
+            padding-right: 1rem;
         }
 
         &__temp {

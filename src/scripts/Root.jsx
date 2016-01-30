@@ -205,9 +205,9 @@ module.exports = React.createClass({
 
     render: function () {
         return (
-            <div className="root">
-                <div className="row header">
-                    <div className="cell">
+            <div className="l-root">
+                <div className="l-row ">
+                    <div className="l-cell l-header">
                         {
                             (!this.state.initialized)
                                 ? <p className="initializing-msg">Determining current city...</p>
@@ -216,9 +216,9 @@ module.exports = React.createClass({
                         <NewCity onAdd={this.onNewCity}/>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="cell">
-                        <div className="content">
+                <div className="l-row">
+                    <div className="l-cell">
+                        <div className="l-content">
                             <CityList data={this.state.cityList}
                                       displayMode={this.state.displayMode}
                                       onRemove={this.onRemoveCity}
@@ -228,10 +228,12 @@ module.exports = React.createClass({
                         </div>
                     </div>
                 </div>
-                <div className="row footer">
-                    <div className="cell">
-                        <div className="display-settings">
-                            <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                <div className="l-row">
+                    <div className="l-cell l-footer">
+                        <div className="l-content">
+                            <div className="display-settings">
+                                <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                            </div>
                         </div>
                     </div>
                 </div>
