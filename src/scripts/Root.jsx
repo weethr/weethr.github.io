@@ -206,23 +206,33 @@ module.exports = React.createClass({
     render: function () {
         return (
             <div className="root">
-                {
-                    (!this.state.initialized)
-                    ? <p className="initializing-msg">Determining current city...</p>
-                    : ""
-                }
-                <div className="header">
-                    <NewCity onAdd={this.onNewCity}/>
+                <div className="row header">
+                    <div className="cell">
+                        {
+                            (!this.state.initialized)
+                                ? <p className="initializing-msg">Determining current city...</p>
+                                : null
+                        }
+                        <NewCity onAdd={this.onNewCity}/>
+                    </div>
                 </div>
-                <CityList data={this.state.cityList}
-                    displayMode={this.state.displayMode}
-                    onRemove={this.onRemoveCity}
-                    onMoveUp={this.onMoveCityUp}
-                    onMoveDown={this.onMoveCityDown}
-                    />
-                <div className="footer">
-                    <div className="display-settings">
-                        <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                <div className="row">
+                    <div className="cell">
+                        <div className="content">
+                            <CityList data={this.state.cityList}
+                                      displayMode={this.state.displayMode}
+                                      onRemove={this.onRemoveCity}
+                                      onMoveUp={this.onMoveCityUp}
+                                      onMoveDown={this.onMoveCityDown}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="row footer">
+                    <div className="cell">
+                        <div className="display-settings">
+                            <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                        </div>
                     </div>
                 </div>
             </div>
