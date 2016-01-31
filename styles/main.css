@@ -37,6 +37,8 @@
   color: #333;
   cursor: default;
   display: table;
+  border-spacing: 0;
+  border-collapse: separate;
   height: 36px;
   outline: none;
   overflow: hidden;
@@ -217,6 +219,7 @@
 
 .Select-option {
   box-sizing: border-box;
+  background-color: #fff;
   color: #666666;
   cursor: pointer;
   display: block;
