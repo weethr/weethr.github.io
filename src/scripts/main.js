@@ -23,9 +23,13 @@ var React = require('react'),
     ReactDom = require('react-dom'),
     Root = require('./Root');
 
-    document.addEventListener('DOMContentLoaded', () => {
-        ReactDom.render(
-            <Root/>,
-            document.getElementById("react")
-        );
-    });
+if(window.context.env === "PROD" && window.location.protocol === "http:") {
+    window.location.href = window.location.href.replace(/^http/, "https")
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    ReactDom.render(
+        <Root/>,
+        document.getElementById("react")
+    );
+});
