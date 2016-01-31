@@ -11,7 +11,7 @@ var Promise = require('es6-promise').Promise,
 
 module.exports.fetchWeather = (city) => {
 
-    return ajax.get('/weather?q=' + city).then((weatherData) => {
+    return ajax.get(window.context.backend_url + '/weather?q=' + city).then((weatherData) => {
         return {
             name: city,
             weather: {

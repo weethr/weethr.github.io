@@ -8,5 +8,5 @@
  */
  window.context = {
      env: "PROD",
-     backend_url: "https://ru-koluch-moneytrack-backend.appspot.com"
+     backend_url: "https://ru-koluch-weethr-backend.appspot.com"
  }

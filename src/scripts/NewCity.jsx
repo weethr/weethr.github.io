@@ -58,7 +58,7 @@ module.exports = React.createClass({
     },
 
     loadOptions: function(input) {
-        return ajax.get('/cities?q=' + input).then((cities) => {
+        return ajax.get(window.context.backend_url + '/cities?q=' + input).then((cities) => {
             return cities.map((item) => {
                 return {
                     value: item.city,
