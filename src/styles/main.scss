@@ -8,7 +8,7 @@ $color_control_disabled: #D0D0D0;
 $color_temp_cold: #0075CE;
 $color_temp_warm: #D00000;
 $color_error: red;
-$color_option_highlight_bg: #77d4ff;
+$color_option_highlight_bg: #ededed;
 $color_option_empty: $color_control_disabled;
 $color_arrow_bg: #D4D4D4;
 
@@ -56,7 +56,7 @@ body {
 
 .l-cell.l-header {
     vertical-align: middle;
-    height: 50px;
+    height: 65px;
 }
 
 .l-cell.l-footer {
@@ -77,6 +77,12 @@ button {
 button:disabled {
     color: $color_control_disabled;
     border: 1px solid $color_control_disabled_border;
+}
+
+button:focus {
+    border: 1px solid #bababa;
+    background: #EFEFEF;
+    outline: none;
 }
 
 

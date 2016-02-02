@@ -125,7 +125,7 @@ module.exports = React.createClass({
     },
 
     onNewCity: function (cityName) {
-        var promise = dataAccess.fetchWeather(cityName);
+        var promise = fetchWeather(cityName);
         return promise.then((newCity) => {
             this.setState((oldState) => {
                 var noSuchCity = oldState.cityList.filter((x) => x.name === cityName).length === 0;
@@ -230,7 +230,11 @@ module.exports = React.createClass({
                     <div className="l-cell l-footer">
                         <div className="l-content">
                             <div className="display-settings">
-                                <label><input type="checkbox" checked={this.state.displayMode === "full"} onChange={this.onChangeDisplayMode}/> show detailed information</label>
+                                <label><input type="checkbox"
+                                              checked={this.state.displayMode === "full"}
+                                              onChange={this.onChangeDisplayMode}
+                                              tabIndex="-1"
+                                              />show detailed information</label>
                             </div>
                         </div>
                     </div>

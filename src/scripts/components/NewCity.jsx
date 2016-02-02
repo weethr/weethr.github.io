@@ -46,6 +46,7 @@ export default React.createClass({
                 selectValue: null,
                 waiting: false
             });
+            this.refs.select.focus();
         })
     },
 
@@ -99,6 +100,7 @@ export default React.createClass({
                                        onReset={this.onSelectReset}
                                        onChange={this.onFinishSearch}
                                        placeholder="Begin writing city name"
+                                       ref="select"
                         />
                     </div>
                     <div className="new-city__item">

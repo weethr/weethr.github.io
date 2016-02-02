@@ -210,6 +210,10 @@ export default React.createClass({
         }
     },
 
+    focus: function() {
+        this.refs.inp.focus()
+    },
+
     render: function () {
         var className = "dynamic-select";
         if(this.state.focused) {

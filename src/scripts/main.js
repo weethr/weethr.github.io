@@ -21,8 +21,9 @@
 
 import React from 'react'
 import ReactDom from 'react-dom'
-import Root from './Root'
+import Root from './components/Root'
 
+// Force use https (only on production)
 if(window.context.env === "PROD" && window.location.protocol === "http:") {
     window.location.href = window.location.href.replace(/^http/, "https")
 }
