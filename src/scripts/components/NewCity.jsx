@@ -101,12 +101,13 @@ export default React.createClass({
                                        onChange={this.onFinishSearch}
                                        placeholder="Begin writing city name"
                                        ref="select"
+                                       tabIndex="1"
                         />
                     </div>
                     <div className="new-city__item">
                         <button type="submit"
                                 disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}
-                                ref="add_button">Add</button>
+                                ref="add_button" tabIndex="2">Add</button>
                     </div>
                     <div className="new-city__item new-city__item--empty">
                         <div  className="new-city__loader">

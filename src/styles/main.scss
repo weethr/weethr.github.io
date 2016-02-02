@@ -72,16 +72,19 @@ button {
     border-radius: 5px;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
+    color: black;
 }
 
 button:disabled {
     color: $color_control_disabled;
     border: 1px solid $color_control_disabled_border;
+    background: white;
 }
 
 button:focus {
     border: 1px solid #bababa;
     background: #EFEFEF;
+    color: black;
     outline: none;
 }
 
@@ -304,6 +307,7 @@ button:focus {
         border: 1px solid $color_control_border;
         outline: none;
         font-size: 1rem;
+        margin: 0;
     }
 
     &__option-list {

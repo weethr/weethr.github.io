@@ -225,7 +225,12 @@ export default React.createClass({
         /* todo: is it save to use symbol like this &#10006; */
         return (
             <div className={className}>
-                <input id={this.props.id}
+                <input tabIndex={this.props.tabIndex}
+                       autoComplete="off"
+                       autoCorrect="off"
+                       autoCapitalize="off"
+                       spellCheck="false"
+                       id={this.props.id}
                        className="dynamic-select__input"
                        type="text"
                        placeholder={(!this.state.focused && this.state.text === "") ? this.props.placeholder : ""}
@@ -235,7 +240,6 @@ export default React.createClass({
                        onChange={this.onInput}
                        onClick={this.onClick}
                        onKeyDown={this.onKeyDown}
-                       autoComplete="off"
                        ref="inp"
                         />
                 <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
