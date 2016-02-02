@@ -84,7 +84,6 @@ button:disabled {
 
 .meteoicon {
     font-family: "MeteoconsRegular", serif;
-    font-size: 3rem;
     font-style: normal;
 }
 
@@ -160,6 +159,7 @@ button:disabled {
             padding: 10px;
             vertical-align: middle;
             text-align: center;
+            font-size: 2rem;
             img {
                 width: 100%;
                 vertical-align: bottom;
@@ -228,6 +228,7 @@ button:disabled {
                 padding: 0.25rem;
                 text-align: right;
             }
+
         }
 
         &.city--short {
@@ -235,6 +236,10 @@ button:disabled {
 
             #{$this}__name {
                 font-size: $font-weight;
+            }
+
+            #{$this}__icon {
+                font-size: 3rem;
             }
 
             #{$this}__temp {

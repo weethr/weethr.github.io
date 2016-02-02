@@ -8,7 +8,7 @@
  */
 var Promise = require('es6-promise').Promise
 
-module.exports.get = (url) => {
+module.exports.get = (url, props = {}) => {
     let xmlhttp;
 
     return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ module.exports.get = (url) => {
             }
         }
 
-        xmlhttp.withCredentials = true;
+        xmlhttp.withCredentials = props.withCredentials === false ? false : true;
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
     })

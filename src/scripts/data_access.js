@@ -45,7 +45,7 @@ module.exports.fetchCurrentCity = () => {
         var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='
             + position.coords.latitude + ','
             + position.coords.longitude + '&sensor=true&language=en';
-        return ajax.get(url);
+        return ajax.get(url, {withCredentials:false});
     })
     .then((geoInfo) => {
         if (!geoInfo.results.length > 0) {

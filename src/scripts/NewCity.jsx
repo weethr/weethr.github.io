@@ -58,6 +58,7 @@ module.exports = React.createClass({
     },
 
     loadOptions: function(input) {
+        //todo: move this call to data_access
         return ajax.get(window.context.backend_url + '/cities?q=' + input).then((cities) => {
             return cities.map((item) => {
                 return {
