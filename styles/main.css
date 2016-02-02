@@ -47,8 +47,6 @@ body {
 
 .l-cell.l-header {
   vertical-align: middle;
-  border-bottom: 1px solid #E6E6E6;
-  background: #FBFBFB;
   height: 50px; }
 
 .l-cell.l-footer {
@@ -69,7 +67,6 @@ button:disabled {
 
 .meteoicon {
   font-family: "MeteoconsRegular", serif;
-  font-size: 3rem;
   font-style: normal; }
 
 /** Components **/
@@ -141,7 +138,8 @@ button:disabled {
       width: 50px;
       padding: 10px;
       vertical-align: middle;
-      text-align: center; }
+      text-align: center;
+      font-size: 2rem; }
       .city__icon img {
         width: 100%;
         vertical-align: bottom; }
@@ -186,6 +184,8 @@ button:disabled {
         text-align: right; }
     .city.city--short .city__name {
       font-size: 2rem; }
+    .city.city--short .city__icon {
+      font-size: 3rem; }
     .city.city--short .city__temp {
       vertical-align: middle;
       text-align: right;
@@ -214,6 +214,9 @@ button:disabled {
     .city.city--short .city__up-down-buttons {
       padding: 0;
       text-align: center; }
+  .city-list__empty {
+    color: #D0D0D0;
+    font-style: italic; }
 
 .initializing-msg {
   font-weight: bold;
