@@ -9,7 +9,7 @@
 
 import React from 'react'
 
-import {fetchCityList} from './data_access'
+import {fetchCityList} from '../data_access'
 import DynamicSelect from './DynamicSelect'
 
 export default React.createClass({

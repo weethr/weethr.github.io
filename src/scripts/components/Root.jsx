@@ -11,10 +11,9 @@ import React from 'react'
 import update from 'react-addons-update'
 import {Promise} from 'es6-promise'
 
-
 import NewCity from './NewCity'
 import CityList from './CityList'
-import {fetchWeather, fetchCurrentCity} from './data_access.js'
+import {fetchWeather, fetchCurrentCity} from '../data_access.js'
 
 module.exports = React.createClass({
 
