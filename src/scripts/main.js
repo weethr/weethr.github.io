@@ -19,9 +19,9 @@
  * Created: 01.11.2015 23:04
  */
 
-var React = require('react'),
-    ReactDom = require('react-dom'),
-    Root = require('./Root');
+import React from 'react'
+import ReactDom from 'react-dom'
+import Root from './Root'
 
 if(window.context.env === "PROD" && window.location.protocol === "http:") {
     window.location.href = window.location.href.replace(/^http/, "https")

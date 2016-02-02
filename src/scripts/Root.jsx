@@ -7,15 +7,14 @@
  * Created: 09.12.2015 22:31
  */
 
-var React = require('react'),
-    update = require('react-addons-update'),
-    ajax = require('./ajax'),
-    Promise = require('es6-promise').Promise;
+import React from 'react'
+import update from 'react-addons-update'
+import {Promise} from 'es6-promise'
 
 
-var NewCity = require('./NewCity'),
-    CityList = require('./CityList'),
-    dataAccess = require('./data_access.js');
+import NewCity from './NewCity'
+import CityList from './CityList'
+import {fetchWeather, fetchCurrentCity} from './data_access.js'
 
 module.exports = React.createClass({
 
@@ -55,8 +54,8 @@ module.exports = React.createClass({
             // Stop initilizing if it lasts to long
             setTimeout(stopInitializing, 12000)
 
-            dataAccess.fetchCurrentCity().then((cityName) => {
-                return dataAccess.fetchWeather(cityName);
+            fetchCurrentCity().then((cityName) => {
+                return fetchWeather(cityName);
             })
             .then((cityWeather) => {
                 this.setState((oldState) => {
@@ -88,7 +87,7 @@ module.exports = React.createClass({
 
     componentDidMount: function () {
         var updateList = () => {
-            var newCityPromiseList = this.state.cityList.map((city) => dataAccess.fetchWeather(city.name));
+            var newCityPromiseList = this.state.cityList.map((city) => fetchWeather(city.name));
 
             newCityPromiseList.forEach((newCityPromise) => {
                 newCityPromise.then((newCity) => {

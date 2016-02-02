@@ -7,8 +7,8 @@
  * Created: 09.12.2015 22:31
  */
 
-var React = require('react'),
-    strftime = require('strftime');
+import React from 'react'
+import strftime from 'strftime'
 
 function formatTemp(temp) {
     temp = Math.round(temp);
@@ -20,7 +20,7 @@ function formatTemp(temp) {
     }
 }
 
-module.exports = React.createClass({
+export default React.createClass({
     onRemove: function(name) {
         return () => {
             this.props.onRemove(name)
@@ -71,7 +71,8 @@ module.exports = React.createClass({
         return (
             <div className="city-list">
                 {
-                    this.props.data.map((city) => {
+                    this.props.data.length > 0
+                    ? this.props.data.map((city) => {
                         var tempClasses = "city__temp";
                         if(city.weather.temp > 0) {tempClasses += " city__temp--warm"}
                         else if(city.weather.temp < 0) {tempClasses += " city__temp--cold"}
@@ -148,6 +149,7 @@ module.exports = React.createClass({
                         }
 
                     })
+                    : <div className="city-list__empty">There are no cities added yet</div>
                 }
             </div>
         )

@@ -7,12 +7,12 @@
  * Created: 09.12.2015 22:31
  */
 
-var React = require('react'),
-    ajax = require('./ajax');
+import React from 'react'
 
-var DynamicSelect = require('./DynamicSelect');
+import {fetchCityList} from './data_access'
+import DynamicSelect from './DynamicSelect'
 
-module.exports = React.createClass({
+export default React.createClass({
 
     onSubmit: function (e) {
         e.preventDefault();
@@ -58,15 +58,14 @@ module.exports = React.createClass({
     },
 
     loadOptions: function(input) {
-        //todo: move this call to data_access
-        return ajax.get(window.context.backend_url + '/cities?q=' + input).then((cities) => {
-            return cities.map((item) => {
-                return {
-                    value: item.city,
-                    label: item.city
+        return fetchCityList(input).then((cities) => (
+            cities.map((city) => (
+                {
+                    value: city.name,
+                    label: city.name
                 }
-            });
-        });
+            ))
+        ))
     },
 
     onFinishSearch: function(selectedOption) {

@@ -15,9 +15,9 @@
  * Created: 09.12.2015 22:31
  */
 
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+export default React.createClass({
 
     getInitialState: function(){
         return {

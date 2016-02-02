@@ -6,12 +6,12 @@
  *
  * Created: 14.12.2015 05:14
  */
-var Promise = require('es6-promise').Promise,
-    ajax = require('./ajax');
+import {Promise} from 'es6-promise'
+import {get} from './ajax'
 
-module.exports.fetchWeather = (city) => {
+export const fetchWeather = (city) => {
 
-    return ajax.get(window.context.backend_url + '/weather?q=' + city).then((weatherData) => {
+    return get(window.context.backend_url + '/weather?q=' + city).then((weatherData) => {
         return {
             name: city,
             weather: {
@@ -32,7 +32,7 @@ module.exports.fetchWeather = (city) => {
     });
 }
 
-module.exports.fetchCurrentCity = () => {
+export const fetchCurrentCity = () => {
     var promise = new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition((position) => {
             resolve(position);
@@ -45,7 +45,7 @@ module.exports.fetchCurrentCity = () => {
         var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='
             + position.coords.latitude + ','
             + position.coords.longitude + '&sensor=true&language=en';
-        return ajax.get(url, {withCredentials:false});
+        return get(url, {withCredentials:false});
     })
     .then((geoInfo) => {
         if (!geoInfo.results.length > 0) {
@@ -64,4 +64,8 @@ module.exports.fetchCurrentCity = () => {
         var cityName = cityComponent.long_name;
         return cityName;
     })
+}
+
+export const fetchCityList = (prefix) => {
+    return get(window.context.backend_url + '/cities?q=' + prefix)
 }
