@@ -47,7 +47,7 @@ body {
 
 .l-cell.l-header {
   vertical-align: middle;
-  height: 50px; }
+  height: 65px; }
 
 .l-cell.l-footer {
   vertical-align: middle;
@@ -59,11 +59,19 @@ button {
   background: white;
   border-radius: 5px;
   padding: 0.5rem 1rem;
-  font-size: 0.9rem; }
+  font-size: 0.9rem;
+  color: black; }
 
 button:disabled {
   color: #D0D0D0;
-  border: 1px solid #E6E6E6; }
+  border: 1px solid #E6E6E6;
+  background: white; }
+
+button:focus {
+  border: 1px solid #bababa;
+  background: #EFEFEF;
+  color: black;
+  outline: none; }
 
 .meteoicon {
   font-family: "MeteoconsRegular", serif;
@@ -229,7 +237,8 @@ button:disabled {
     border-radius: 5px;
     border: 1px solid #CCCCCC;
     outline: none;
-    font-size: 1rem; }
+    font-size: 1rem;
+    margin: 0; }
   .dynamic-select__option-list {
     display: none;
     position: absolute;
@@ -242,7 +251,7 @@ button:disabled {
     padding: 0.5rem;
     font-size: 1rem; }
   .dynamic-select__option--highlighted {
-    background: #77d4ff; }
+    background: #ededed; }
   .dynamic-select__option:last-child {
     border-radius: 0 0 5px 5px; }
   .dynamic-select__option--nothing-found {
