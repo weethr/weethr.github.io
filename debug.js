@@ -21,5 +21,5 @@ function runS(cmd, options) {
 }
 
 runS("npm update", {cwd:"./src"})
-runA("node ./src/node_modules/node-static/bin/cli.js -a 192.168.1.185 -p 8082 src/debug")
+runA("node ./src/node_modules/node-static/bin/cli.js -a localhost -p 8082 src/debug")
 runA("gulp --cwd src debug");

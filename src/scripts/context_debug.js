@@ -8,5 +8,5 @@
  */
  window.context = {
      env: "DEBUG",
-     backend_url: "http://192.168.1.185:8081"
+     backend_url: "http://localhost:8081"
  }
