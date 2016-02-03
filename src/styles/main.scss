@@ -199,7 +199,6 @@ button:focus {
         }
 
         &:hover {
-            background: $color_highlight_bg;
             #{$this}__controls {
                 opacity: 1;
             }
