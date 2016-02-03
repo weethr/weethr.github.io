@@ -253,22 +253,24 @@ button:focus {
                 text-align: right;
                 width: 4rem;
                 font-size: $font-weight;
+                padding: 10px;
             }
 
 
             #{$this}__controls-parent {
                 width: 1px;
                 position: relative;
-                vertical-align: top;
+                vertical-align: middle;
             }
 
             #{$this}__controls {
-                position: absolute;
+                position: relative;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 height: 100%;
                 top: 0;
+                width: 1px;
             }
 
             #{$this}__remove-button {
