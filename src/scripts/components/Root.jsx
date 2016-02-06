@@ -21,7 +21,7 @@ module.exports = React.createClass({
         var defaultState = {
             initialized: false,
             cityList: [],
-            displayMode: "full"
+            displayMode: "short"
         };
         var state;
         var savedState = localStorage.getItem("reactState");
