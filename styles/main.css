@@ -97,7 +97,10 @@ button:focus {
             flex-direction: row;
     -webkit-align-items: stretch;
         -ms-flex-align: stretch;
-            align-items: stretch; }
+            align-items: stretch;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
   .new-city__item {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -164,14 +167,10 @@ button:focus {
     .city__temp--warm {
       color: #D00000; }
     .city__controls {
-      opacity: 0;
-      background: #F5F5F5; }
-    .city:hover {
-      background: #F5F5F5; }
-      .city:hover .city__controls {
-        opacity: 1; }
+      opacity: 0; }
+    .city:hover .city__controls {
+      opacity: 1; }
     .city__controls:hover {
-      visibility: visible;
       opacity: 1; }
     .city.city--full {
       margin-bottom: 0; }
@@ -197,13 +196,14 @@ button:focus {
       vertical-align: middle;
       text-align: right;
       width: 4rem;
-      font-size: 2rem; }
+      font-size: 2rem;
+      padding: 10px; }
     .city.city--short .city__controls-parent {
       width: 1px;
       position: relative;
-      vertical-align: top; }
+      vertical-align: middle; }
     .city.city--short .city__controls {
-      position: absolute;
+      position: relative;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -214,7 +214,8 @@ button:focus {
           -ms-flex-align: center;
               align-items: center;
       height: 100%;
-      top: 0; }
+      top: 0;
+      width: 1px; }
     .city.city--short .city__remove-button {
       padding: 0 0.75rem;
       text-align: center; }
@@ -230,7 +231,19 @@ button:focus {
   text-align: center; }
 
 .dynamic-select {
-  position: relative; }
+  position: relative;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-content: stretch;
+      -ms-flex-line-pack: stretch;
+          align-content: stretch; }
   .dynamic-select__input {
     padding: 0.5rem;
     border-radius: 5px;
@@ -238,6 +251,8 @@ button:focus {
     outline: none;
     font-size: 1rem;
     margin: 0; }
+    .dynamic-select__input::-ms-clear {
+      display: none; }
   .dynamic-select__option-list {
     display: none;
     position: absolute;
