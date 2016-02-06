@@ -42,9 +42,10 @@ export const fetchCurrentCity = () => {
     })
 
     return promise.then((position) => {
-        var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='
-            + position.coords.latitude + ','
-            + position.coords.longitude + '&sensor=true&language=en';
+        const proto = window.context.env === "DEBUG" ? "http" : "https"
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        const url = `${proto}://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&language=en`;
         return get(url, {withCredentials:false});
     })
     .then((geoInfo) => {
