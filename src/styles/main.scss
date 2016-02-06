@@ -108,6 +108,7 @@ button:focus {
         display: flex;
         flex-direction: row;
         align-items: stretch;
+        justify-content: center;
     }
 
     &__item {
@@ -204,7 +205,6 @@ button:focus {
         }
 
         &__controls:hover {
-            visibility: visible;
             opacity: 1;
         }
 
@@ -299,6 +299,10 @@ button:focus {
     $this: #{&};
 
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: stretch;
 
     &__input {
         padding: 0.5rem;
@@ -307,6 +311,10 @@ button:focus {
         outline: none;
         font-size: 1rem;
         margin: 0;
+
+        &::-ms-clear {
+            display: none;
+        }
     }
 
     &__option-list {
