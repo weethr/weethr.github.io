@@ -28,6 +28,37 @@ if(window.context.env === "PROD" && window.location.protocol === "http:") {
     window.location.href = window.location.href.replace(/^http/, "https")
 }
 
+// Fix tab button behaviour in Safari
+document.addEventListener('keydown', (e) => {
+    if(e.keyCode === 9) {
+        var inputs = Array.prototype.slice.call(document.querySelectorAll("input, button, textarea"));
+        inputs = inputs.filter((inp) => {
+            if(inp.nodeName.toLowerCase() === "input" && inp.getAttribute("type") === "hidden") {
+                return false
+            }
+            return inp.tabIndex > 0 && !inp.disabled
+        })
+
+        if(inputs.length > 0) {
+            inputs = inputs.sort((x,y) => x.tabIndex - y.tabIndex)
+            for(var i = 0; i < inputs.length; ++i) {
+                if(inputs[i] === document.activeElement) {
+                    if(i == inputs.length - 1) {
+                        inputs[0].focus()
+                    }
+                    else {
+                        inputs[i+1].focus()
+                    }
+                    break;
+                }
+            }
+        }
+        e.preventDefault()
+        return false;
+    }
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     ReactDom.render(
         <Root/>,
