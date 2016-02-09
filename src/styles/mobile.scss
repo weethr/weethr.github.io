@@ -1,0 +1,10 @@
+@media only screen and (max-width: 800px) {
+    .city-list {
+        @at-root .city {
+            $this: #{&};
+            &__controls {
+                opacity: 1;
+            }
+        }
+    }
+}

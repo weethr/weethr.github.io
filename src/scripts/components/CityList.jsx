@@ -111,7 +111,7 @@ export default React.createClass({
                                                 <div  className="city__controls" >
                                                     <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
                                                     <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
-                                                    <button onClick={this.onRemove(city.name)} tabIndex="-1">Remove</button>
+                                                    <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -133,7 +133,7 @@ export default React.createClass({
                                             <td className="city__controls-parent" >
                                                 <div  className="city__controls" >
                                                     <div className="city__remove-button" rowSpan="2" >
-                                                        <button onClick={this.onRemove(city.name)} tabIndex="-1">Remove</button>
+                                                        <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
                                                     </div>
                                                     <div className="city__up-down-buttons" rowSpan="2" >
                                                         <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
