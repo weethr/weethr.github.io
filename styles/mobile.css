@@ -36,4 +36,8 @@
     .city.city--short .city__up-down-buttons {
       display: none; }
     .city.city--short .city__remove-button {
-      padding: 0 0.2rem; } }
+      padding: 0 0.2rem; }
+  .dynamic-select__input {
+    font-size: 1.75rem; }
+  .dynamic-select__option {
+    font-size: 1.75rem; } }

@@ -70,4 +70,16 @@
             }
         }
     }
+
+    .dynamic-select {
+        $this: #{&};
+
+        &__input {
+            font-size: 1.75rem;
+        }
+
+        &__option {
+            font-size: 1.75rem;
+        }
+    }
 }
