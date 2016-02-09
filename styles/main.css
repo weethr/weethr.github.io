@@ -72,6 +72,9 @@ button:focus {
   color: black;
   outline: none; }
 
+i.icon {
+  font-size: 1rem; }
+
 .meteoicon {
   font-family: "MeteoconsRegular", serif;
   font-style: normal; }
@@ -84,9 +87,9 @@ button:focus {
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   /* customize dynamic-select */ }
   .new-city__form {
     display: -webkit-flex;
