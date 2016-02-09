@@ -105,7 +105,7 @@ i.icon {
 .new-city {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 
     &__form {
         display: flex;

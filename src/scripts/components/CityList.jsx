@@ -125,7 +125,7 @@ export default React.createClass({
                                     <tbody>
                                         <tr>
                                             <td className="city__icon">
-                                                <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
+                                                    <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
                                             </td>
                                             <td className="city__name">{ city.name }</td>
                                             <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
@@ -133,7 +133,7 @@ export default React.createClass({
                                             <td className="city__controls-parent" >
                                                 <div  className="city__controls" >
                                                     <div className="city__remove-button" rowSpan="2" >
-                                                        <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                        <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
                                                     </div>
                                                     <div className="city__up-down-buttons" rowSpan="2" >
                                                         <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
