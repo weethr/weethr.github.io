@@ -16,6 +16,11 @@ export default React.createClass({
 
     onSubmit: function (e) {
         e.preventDefault();
+        this.onAdd();
+        return false;
+    },
+
+    onAdd: function () {
 
         this.setState({
             waiting: true
@@ -71,14 +76,15 @@ export default React.createClass({
     onFinishSearch: function(selectedOption) {
         this.setState({
             selectValue: selectedOption
-        });
-        //this.refs.add_button.focus()
+        }, () => {
+            this.onAdd()
+        })
     },
 
     onSelectReset: function() {
         this.setState({
             selectValue: null
-        });
+        })
     },
 
     render: function () {
@@ -102,11 +108,6 @@ export default React.createClass({
                                        ref="select"
                                        tabIndex="1"
                         />
-                    </div>
-                    <div className="new-city__item">
-                        <button type="submit"
-                                disabled={this.props.disabled || this.state.waiting || this.state.selectValue === null || this.state.selectValue.value === ""}
-                                ref="add_button" tabIndex="2">Add</button>
                     </div>
                     <div className="new-city__item new-city__item--empty">
                         <div  className="new-city__loader">

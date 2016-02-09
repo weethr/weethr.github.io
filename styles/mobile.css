@@ -16,7 +16,7 @@
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
-  .new-city__item:nth-child(4) {
+  .new-city__item:nth-child(3) {
     width: 20px; }
   .city-list {
     width: 100%; }
