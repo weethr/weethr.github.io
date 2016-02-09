@@ -314,6 +314,7 @@ i.icon {
         outline: none;
         font-size: 1rem;
         margin: 0;
+        -webkit-appearance: none;
 
         &::-ms-clear {
             display: none;
