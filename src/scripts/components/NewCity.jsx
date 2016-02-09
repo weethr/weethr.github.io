@@ -46,7 +46,6 @@ export default React.createClass({
                 selectValue: null,
                 waiting: false
             });
-            this.refs.select.focus();
         })
     },
 
