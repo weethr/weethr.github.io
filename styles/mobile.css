@@ -1,6 +1,8 @@
 @media only screen and (max-width: 480px) {
   i.icon {
     font-size: 1.25rem; }
+  .fa {
+    font-size: 1.25rem; }
   .new-city__form {
     -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
@@ -38,6 +40,8 @@
     .city.city--short .city__remove-button {
       padding: 0 0.2rem; }
   .dynamic-select__input {
+    font-size: 1.75rem; }
+  .dynamic-select__icon > .fa {
     font-size: 1.75rem; }
   .dynamic-select__option {
     font-size: 1.75rem; } }
