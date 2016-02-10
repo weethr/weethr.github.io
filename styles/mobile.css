@@ -42,6 +42,7 @@
   .dynamic-select__input {
     font-size: 1.75rem; }
   .dynamic-select__icon > .fa {
-    font-size: 1.75rem; }
+    font-size: 1.75rem;
+    min-width: 1.75rem; }
   .dynamic-select__option {
     font-size: 1.75rem; } }
