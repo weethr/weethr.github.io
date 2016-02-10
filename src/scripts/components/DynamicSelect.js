@@ -26,6 +26,7 @@ export default React.createClass({
             blurDisabled: false,
             highlightedOption: null,
             optionList: [],
+            waiting: false
         }
     },
 
@@ -49,7 +50,8 @@ export default React.createClass({
         var newText = e.target.value;
         this.setState({
             text: newText,
-            highlightedOption: null
+            highlightedOption: null,
+            waiting: true
         }, () => {
             //todo: handle failed future
             this.props.loadOptions(this.state.text).then(result => {
@@ -80,6 +82,10 @@ export default React.createClass({
                         return oldState
                     }
                 })
+            }).then(() => {
+                this.setState({
+                    waiting: false,
+                })
             });
         });
     },
@@ -89,7 +95,6 @@ export default React.createClass({
             text: "",
             optionList: [],
             blurDisabled: false,
-            focused: false,
         }, () => {
             this.props.onChange(option)
         })
@@ -214,6 +219,16 @@ export default React.createClass({
         this.refs.inp.focus()
     },
 
+    onOptionClick: function(e, option) {
+        e.preventDefault()
+        this.setState({
+            focused: false,
+            blurDisabled: false,
+        }, () => {
+            this.onSelect(option)
+        })
+    },
+
     render: function () {
         var className = "dynamic-select";
         if(this.state.focused) {
@@ -223,8 +238,14 @@ export default React.createClass({
         var value = this.props.value || {value:"",label:""};
 
         /* todo: is it save to use symbol like this &#10006; */
+
         return (
             <div className={className}>
+                {
+                    this.state.waiting
+                    ? <i className="dynamic-select__state-icon fa fa-spinner"></i>
+                    : <i className="dynamic-select__state-icon fa fa-search"></i>
+                }
                 <input tabIndex={this.props.tabIndex}
                        autoComplete="off"
                        autoCorrect="off"
@@ -256,7 +277,7 @@ export default React.createClass({
                                         className={className}
                                         onMouseOver={e => this.onMouseOverOption(option)}
                                         onMouseOut={e => this.onMouseOutOption()}
-                                        onClick={(e) => {e.preventDefault();this.onSelect(option)}}
+                                        onClick={e => this.onOptionClick(e, option)}
                                     >{option.label}</div>
                         })
                     }

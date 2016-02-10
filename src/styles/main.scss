@@ -309,6 +309,7 @@ i.icon {
 
     &__input {
         padding: 0.5rem;
+        padding-left: 20px;
         border-radius: 5px;
         border: 1px solid $color_control_border;
         outline: none;
@@ -327,6 +328,7 @@ i.icon {
         left: 0;
         background: $color_control_bg;
         width: 100%;
+        z-index: 1;
     }
 
     &__option {
@@ -367,6 +369,29 @@ i.icon {
         font-size: 12px;
         cursor: default;
         padding: 2px;
+    }
+
+    &__state-icon {
+        position: absolute;
+        top: 50%;
+        margin-top: -0.375rem;
+        left: 5px;
+        color: gray;
+        font-size: 0.75rem;
+    }
+
+    .fa-spinner {
+        animation: spin 1000ms infinite linear;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(359deg);
+        }
     }
 }
 
