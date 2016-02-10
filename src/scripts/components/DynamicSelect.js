@@ -241,29 +241,33 @@ export default React.createClass({
 
         return (
             <div className={className}>
-                {
-                    this.state.waiting
-                    ? <i className="dynamic-select__state-icon fa fa-spinner"></i>
-                    : <i className="dynamic-select__state-icon fa fa-search"></i>
-                }
-                <input tabIndex={this.props.tabIndex}
-                       autoComplete="off"
-                       autoCorrect="off"
-                       autoCapitalize="off"
-                       spellCheck="false"
-                       id={this.props.id}
-                       className="dynamic-select__input"
-                       type="text"
-                       placeholder={(!this.state.focused && this.state.text === "") ? this.props.placeholder : ""}
-                       value={this.state.focused ? this.state.text : value.label}
-                       onFocus={this.onFocus}
-                       onBlur={this.onBlur}
-                       onChange={this.onInput}
-                       onClick={this.onClick}
-                       onKeyDown={this.onKeyDown}
-                       ref="inp"
-                        />
-                <div className="dynamic-select__reset" onClick={this.onReset}>&#10006;</div>
+                <div className="dynamic-select__pseudo-input">
+                    <div className="dynamic-select__icon">
+                    {
+                        this.state.waiting
+                            ? <i className="fa fa-spinner"></i>
+                            : <i className="fa fa-search"></i>
+                    }
+                    </div>
+                    <input tabIndex={this.props.tabIndex}
+                           autoComplete="off"
+                           autoCorrect="off"
+                           autoCapitalize="off"
+                           spellCheck="false"
+                           id={this.props.id}
+                           className="dynamic-select__input"
+                           type="text"
+                           placeholder={(!this.state.focused && this.state.text === "") ? this.props.placeholder : ""}
+                           value={this.state.focused ? this.state.text : value.label}
+                           onFocus={this.onFocus}
+                           onBlur={this.onBlur}
+                           onChange={this.onInput}
+                           onClick={this.onClick}
+                           onKeyDown={this.onKeyDown}
+                           ref="inp"
+                    />
+                    <div className="dynamic-select__icon" onClick={this.onReset}><i className="fa fa-times"></i></div>
+                </div>
                 <div className="dynamic-select__option-list" onMouseOver={this.onMouseOverOptionList} onMouseOut={this.onMouseOutOptionList} >
                     {
                         (this.state.optionList.length === 0)

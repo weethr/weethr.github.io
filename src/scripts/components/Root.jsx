@@ -118,7 +118,7 @@ module.exports = React.createClass({
             // When all requests finished
             Promise.all(newCityPromiseList).then(() => {
                 this.saveState();
-                setTimeout(updateList, 10000);
+                setTimeout(updateList, 5 * 60 * 1000);
             })
         };
         updateList();

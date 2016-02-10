@@ -4,6 +4,10 @@
         font-size: 1.25rem;
     }
 
+    .fa {
+        font-size: 1.25rem;
+    }
+
     .new-city {
         &__form {
             justify-content: space-between;
@@ -78,8 +82,15 @@
             font-size: 1.75rem;
         }
 
+        &__icon {
+            > .fa {
+                font-size: 1.75rem;
+            }
+        }
+
         &__option {
             font-size: 1.75rem;
         }
     }
+
 }

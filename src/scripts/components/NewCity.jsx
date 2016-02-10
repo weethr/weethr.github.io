@@ -109,10 +109,9 @@ export default React.createClass({
                                        tabIndex="1"
                         />
                     </div>
-                    <div className="new-city__item new-city__item--empty">
+                    <div className="new-city__item new-city__item--empty" style={{display:this.state.waiting ? "inherit" : "none"}} >
                         <div  className="new-city__loader">
-                            <img src="images/ajax-loader.gif"
-                                 style={{visibility:this.state.waiting ? "visible" : "hidden"}}/>
+                            <i className="dynamic-select__state-icon fa fa-spinner"></i>
                         </div>
                     </div>
                 </form>
