@@ -1,4 +1,6 @@
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 520px) {
+  .l-cell {
+    padding: 5px; }
   i.icon {
     font-size: 1.25rem; }
   .fa {
@@ -41,8 +43,10 @@
       padding: 0 0.2rem; }
   .dynamic-select__input {
     font-size: 1.75rem; }
-  .dynamic-select__icon > .fa {
-    font-size: 1.75rem;
-    min-width: 1.75rem; }
+  .dynamic-select__icon {
+    padding: 0 0.5rem; }
+    .dynamic-select__icon > .fa {
+      font-size: 1.75rem;
+      min-width: 1.75rem; }
   .dynamic-select__option {
     font-size: 1.75rem; } }
