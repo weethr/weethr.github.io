@@ -1,0 +1,9 @@
+CACHE MANIFEST
+
+# Cache manifest version 1
+
+images/
+fonts/
+styles/
+scripts/
+favicon.ico
