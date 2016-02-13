@@ -78,19 +78,21 @@ export default React.createClass({
                         else if(city.weather.temp < 0) {tempClasses += " city__temp--cold"}
 
                         if(this.props.displayMode === "full") {
+
                             return (
-                                <table key={city.name} className="city city--full">
-                                    <tbody>
-                                        <tr>
-                                            <td className="city__icon" >
-                                                <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
-                                            </td>
-                                            <td className="city__name" colSpan="2">{ city.name }</td>
-                                        </tr>
-                                        <tr>
-                                            <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
-                                            <td className="city__details">
-                                                <div>
+                                <div className="city city--full">
+                                    <div className="city__main-info">
+                                        <div className="city__icon" >
+                                            <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
+                                        </div>
+                                        <div className="city__name">
+                                            { city.name }
+                                        </div>
+                                    </div>
+                                    <div className="city__details-row">
+                                        <div className={tempClasses}>{ formatTemp(city.weather.temp) }</div>
+                                        <div className="city__details">
+                                            <div>
                                                     <span className="city__aux-param">
                                                         Pressure: {city.weather.pressure} hPa
                                                     </span>
@@ -100,51 +102,45 @@ export default React.createClass({
                                                     <span className="city__aux-param">
                                                         Wind: {city.weather.wind.speed} m/s ({city.weather.wind.deg}°)
                                                     </span>
-                                                </div>
-                                                <div className="city__last-update">
-                                                    Last update: {strftime('%T %F', new Date(city.weather.dt))}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="city__remove-button" colSpan="3" >
-                                                <div  className="city__controls" >
-                                                    <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
-                                                    <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
-                                                    <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </div>
+                                            <div className="city__last-update">
+                                                Last update: {strftime('%T %F', new Date(city.weather.dt))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="city__controls">
+                                        <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                        <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                        <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+
                             )
                         }
                         else {
                             return (
-                                <table key={city.name} className="city city--short">
-                                    <tbody>
-                                        <tr>
-                                            <td className="city__icon">
-                                                    <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
-                                            </td>
-                                            <td className="city__name">{ city.name }</td>
-                                            <td className={tempClasses}>{ formatTemp(city.weather.temp) }</td>
-
-                                            <td className="city__controls-parent" >
-                                                <div  className="city__controls" >
-                                                    <div className="city__remove-button" rowSpan="2" >
-                                                        <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
-                                                    </div>
-                                                    <div className="city__up-down-buttons" rowSpan="2" >
-                                                        <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
-                                                        <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div className="city city--short">
+                                    <div className="city__icon">
+                                        <i aria-hidden="true" className="meteoicon" title={firstLetterUpperCase(city.weather.desc.description)}>{this.getIconCode(city.weather.desc.icon)}</i>
+                                    </div>
+                                    <div className="city__name">
+                                        { city.name }
+                                    </div>
+                                    <div  className={tempClasses}>
+                                        { formatTemp(city.weather.temp) }
+                                    </div>
+                                    <div className="city__controls-parent" >
+                                        <div  className="city__controls" >
+                                            <div className="city__remove-button" rowSpan="2" >
+                                                <button onClick={this.onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
+                                            </div>
+                                            <div className="city__up-down-buttons" rowSpan="2" >
+                                                <div className="arrow-up" onClick={this.onMoveUp(city.name)}></div>
+                                                <div className="arrow-down" onClick={this.onMoveDown(city.name)}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         }
 

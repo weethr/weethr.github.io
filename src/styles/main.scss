@@ -175,33 +175,35 @@ i.icon {
     @at-root .city {
         $this: #{&};
 
-        width: 100%;
-        border-collapse: collapse;
+        display: flex;
 
         &__icon {
-            width: 50px;
-            padding: 10px;
+            display: flex;
+            align-items: center;
             vertical-align: middle;
-            text-align: center;
             font-size: 2rem;
             img {
                 width: 100%;
                 vertical-align: bottom;
             }
+            flex-shrink: 0;
         }
 
         &__name {
+            display: flex;
+            align-items: center;
+
             font-size: 1.2rem;
             font-weight: bold;
-            padding-left: 1rem;
-            padding-right: 1rem;
             line-height: 1.9rem;
         }
 
         &__temp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.5rem;
-            vertical-align: top;
-            text-align: center;
+            flex-shrink: 0;
         }
 
         &__temp--cold {
@@ -213,6 +215,8 @@ i.icon {
         }
 
         &__controls {
+            display: flex;
+            flex-shrink: 0;
             opacity: 0;
         }
 
@@ -227,10 +231,35 @@ i.icon {
         }
 
         &.city--full {
+            flex-direction: column;
             margin-bottom: 0;
 
+            #{$this}__icon, #{$this}__temp {
+                min-width: 50px;
+                justify-content: center;
+                padding-right: 1rem;
+            }
+
+            #{$this}__details, #{$this}__temp {
+                padding-top: 0.5rem;
+            }
+
+            #{$this}____name {
+                justify-content: center;
+            }
+
+
+            #{$this}__main-info {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #{$this}__details-row {
+                display: flex;
+                flex-direction: row;
+            }
+
             #{$this}__details {
-                padding-left: 1rem;
             }
 
             #{$this}__aux-param {
@@ -245,10 +274,9 @@ i.icon {
                 margin-top: 0.25rem;
             }
 
-            #{$this}__remove-button {
-                width: 40px;
-                padding: 0.25rem;
-                text-align: right;
+            #{$this}__controls {
+                justify-content: flex-end;
+                align-items: center;
             }
 
         }
@@ -256,24 +284,35 @@ i.icon {
         &.city--short {
             $font-weight: 2rem;
 
+            padding: 1rem 0;
+
             #{$this}__name {
+                display: flex;
+                align-items: center;
                 font-size: $font-weight;
+                flex-grow: 1;
+                padding: 0 2rem;
             }
 
             #{$this}__icon {
+                display: flex;
+                align-items: center;
                 font-size: 3rem;
             }
 
             #{$this}__temp {
-                vertical-align: middle;
-                text-align: right;
-                width: 4rem;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
                 font-size: $font-weight;
-                padding: 10px;
+                padding: 0 0.25rem;
             }
 
 
             #{$this}__controls-parent {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
                 width: 1px;
                 position: relative;
                 vertical-align: middle;

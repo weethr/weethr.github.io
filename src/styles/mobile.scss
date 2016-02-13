@@ -59,6 +59,11 @@
             }
 
             &.city--short {
+                #{$this}__controls-parent {
+                    width: initial;
+                }
+
+
                 #{$this}__controls {
                     justify-content: center;
                     width: initial;
