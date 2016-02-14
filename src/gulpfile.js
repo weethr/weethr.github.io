@@ -35,6 +35,7 @@ var gulp = require('gulp'),
     babelify = require('babelify'),
     babelPresetEs2015 = require('babel-preset-es2015'),
     babelPresetReact = require('babel-preset-react'),
+    babelPresetStage0 = require('babel-preset-stage-0'),
     notifier = require('node-notifier');
 
     packageJson = require('./package.json');
@@ -108,7 +109,7 @@ gulp.task('scripts', function(){
 
     bundler = bundler.transform(babelify, {
         global: true,
-        presets: [babelPresetReact, babelPresetEs2015]
+        presets: [babelPresetStage0, babelPresetReact, babelPresetEs2015]
     })
 
     return bundler.bundle()
@@ -147,14 +148,14 @@ gulp.task('debug_scripts_vendor',  function(){
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: true,
+        fullPaths: false,
         extensions: [".js", ".jsx"],
         require: Object.keys(packageJson.dependencies)
     });
 
     bundler = bundler.transform(babelify, {
         global: true,
-        presets: [babelPresetReact, babelPresetEs2015]
+        presets: [babelPresetStage0, babelPresetReact, babelPresetEs2015]
     })
     bundler = watchify(bundler);
 
@@ -217,7 +218,7 @@ gulp.task('debug_scripts', function(){
     })
 
     bundler = bundler.transform(babelify, {
-        presets: [babelPresetReact, babelPresetEs2015]
+        presets: [babelPresetStage0, babelPresetReact, babelPresetEs2015]
     })
     bundler = watchify(bundler);
 
