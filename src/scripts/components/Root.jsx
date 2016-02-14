@@ -10,12 +10,15 @@
 import React from 'react'
 import update from 'react-addons-update'
 import {Promise} from 'es6-promise'
+import HTML5Backend from 'react-dnd-html5-backend'
+import {DragDropContext} from 'react-dnd'
 
 import NewCity from './NewCity'
 import CityList from './CityList'
 import {fetchWeather, fetchCurrentCity} from '../data_access.js'
 
-module.exports = React.createClass({
+
+const Root = React.createClass({
 
     getInitialState: function () {
         var defaultState = {
@@ -54,26 +57,26 @@ module.exports = React.createClass({
             setTimeout(stopInitializing, 12000)
 
             fetchCurrentCity().then((cityName) => {
-                return fetchWeather(cityName);
-            })
-            .then((cityWeather) => {
-                this.setState((oldState) => {
-                    // If app is already initialized (for example, by timeout) - do nothing
-                    if(oldState.initialized) return oldState;
-                    var newState;
-                    newState = update(oldState, {
-                        cityList: {$push: [cityWeather]}
-                    });
-                    this.saveState(newState);
-                    return newState;
+                    return fetchWeather(cityName);
                 })
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .then(() => {
-                stopInitializing();
-            });
+                .then((cityWeather) => {
+                    this.setState((oldState) => {
+                        // If app is already initialized (for example, by timeout) - do nothing
+                        if(oldState.initialized) return oldState;
+                        var newState;
+                        newState = update(oldState, {
+                            cityList: {$push: [cityWeather]}
+                        });
+                        this.saveState(newState);
+                        return newState;
+                    })
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+                .then(() => {
+                    stopInitializing();
+                });
         }
         this.saveState(state);
         return state;
@@ -90,24 +93,24 @@ module.exports = React.createClass({
 
             newCityPromiseList.forEach((newCityPromise) => {
                 newCityPromise.then((newCity) => {
-                    // Atomically update old state, replacing old city with new, if this city is still in the list
-                    this.setState((oldState) => {
-                        var newCityList = oldState.cityList.map((oldCity) => {
-                            if (oldCity.name === newCity.name) {
-                                return newCity;
-                            }
-                            else {
-                                return oldCity;
-                            }
+                        // Atomically update old state, replacing old city with new, if this city is still in the list
+                        this.setState((oldState) => {
+                            var newCityList = oldState.cityList.map((oldCity) => {
+                                if (oldCity.name === newCity.name) {
+                                    return newCity;
+                                }
+                                else {
+                                    return oldCity;
+                                }
+                            });
+                            return update(oldState, {
+                                cityList: {$set: newCityList}
+                            })
                         });
-                        return update(oldState, {
-                            cityList: {$set: newCityList}
-                        })
-                    });
-                })
-                .catch((reason) => {
-                    console.error("Failed to update '" + reason.city + "': " + reason.message);
-                })
+                    })
+                    .catch((reason) => {
+                        console.error(reason);
+                    })
             });
 
             // Resolve all promises, even if some of them failed
@@ -201,6 +204,10 @@ module.exports = React.createClass({
         })
     },
 
+    onRearrangeCities: function() {
+        console.log("on rearrange cities", arguments);
+    },
+
     render: function () {
         return (
             <div className="l-root">
@@ -222,6 +229,7 @@ module.exports = React.createClass({
                                       onRemove={this.onRemoveCity}
                                       onMoveUp={this.onMoveCityUp}
                                       onMoveDown={this.onMoveCityDown}
+                                      onRearrange={this.onRearrangeCities}
                             />
                         </div>
                     </div>
@@ -234,7 +242,7 @@ module.exports = React.createClass({
                                               checked={this.state.displayMode === "full"}
                                               onChange={this.onChangeDisplayMode}
                                               tabIndex="-1"
-                                              />show detailed information</label>
+                                />show detailed information</label>
                             </div>
                         </div>
                     </div>
@@ -243,3 +251,5 @@ module.exports = React.createClass({
         )
     }
 });
+
+export default DragDropContext(HTML5Backend)(Root)
