@@ -22,13 +22,34 @@ const component = React.createClass({
             className += " dragable-item--dragging"
         }
 
-        return connectDragSource(connectDropTarget(
-            <div className={className}>
+        var previewStyle = {
+            display:isDragging ? "block" : "none",
+            position: "absolute",
+            top: "0",
+            left: "0",
+            "box-shadow": "0 0 10px black",
+        };
+        return (
+            <div style={{position:"relative"}}>
                 {
-                    this.props.children
+                    connectDragSource(connectDropTarget(
+                        <div className={className}>
+                            {
+                                this.props.children
+                            }
+                        </div>
+                    ))
+                }
+                {
+                    <div style={previewStyle}>
+                        {
+                            this.props.children
+                        }
+                    </div>
                 }
             </div>
-        ))
+        )
+
     }
 });
 

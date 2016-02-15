@@ -11,6 +11,7 @@ import React from 'react'
 import update from 'react-addons-update'
 import {Promise} from 'es6-promise'
 import HTML5Backend from 'react-dnd-html5-backend'
+import TouchBackend from 'react-dnd-touch-backend'
 import {DragDropContext} from 'react-dnd'
 
 import NewCity from './NewCity'
@@ -260,4 +261,4 @@ const Root = React.createClass({
     }
 });
 
-export default DragDropContext(HTML5Backend)(Root)
+export default DragDropContext(TouchBackend({ enableMouseEvents: true }))(Root)
