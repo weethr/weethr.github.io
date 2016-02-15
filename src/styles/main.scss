@@ -452,6 +452,13 @@ i.icon {
     }
 }
 
+
+.dragable-item {
+    &--dragging {
+        opacity: 0;
+    }
+}
+
 .arrow-up, .arrow-down {
     width: 0;
     height: 0;

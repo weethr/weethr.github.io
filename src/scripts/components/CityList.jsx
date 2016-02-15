@@ -43,7 +43,7 @@ export default React.createClass({
                             <DragableItem key={city.name}
                                           item={{cityName:city.name}}
                                           index={i}
-                                          onRearrange={this.props.onRearrange}>
+                                          onSwap={this.props.onSwap}>
                                 <City city={city}
                                       onRemove={this.onRemove}
                                       onMoveUp={this.onMoveUp}

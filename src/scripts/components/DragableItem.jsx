@@ -6,6 +6,7 @@
  * Created: 14.02.2016 14:34
  */
 import React from 'react'
+import {findDOMNode} from 'react-dom'
 import {DragSource, DropTarget} from 'react-dnd'
 import strftime from 'strftime'
 
@@ -16,8 +17,13 @@ const component = React.createClass({
     render: function() {
         const {connectDragSource, connectDropTarget, isDragging} = this.props
 
+        let className = "dragable-item"
+        if(isDragging) {
+            className += " dragable-item--dragging"
+        }
+
         return connectDragSource(connectDropTarget(
-            <div className="dragable" style={{opacity: isDragging ? 0.1 : 1}}>
+            <div className={className}>
                 {
                     this.props.children
                 }
@@ -54,9 +60,20 @@ var sourced = DragSource(ITEM_TYPE, sourceSpec, sourceCollect)(component);
 
 const targetSpec = {
     hover: (props, monitor, component) => {
-        var dragI = monitor.getItem().index;
-        var currentI = props.index;
-        console.log("on hover", dragI, currentI);
+        const dragI = monitor.getItem().index;
+        const currentI = props.index;
+
+        const componentRect = findDOMNode(component).getBoundingClientRect();
+        const middleY = componentRect.bottom - (componentRect.height / 2)
+
+        const mouseY = monitor.getClientOffset().y;
+
+        if (dragI > currentI && mouseY < middleY
+          || dragI < currentI && mouseY > middleY ) {
+            props.onSwap(dragI, currentI)
+            monitor.getItem().index = currentI
+        }
+
     },
 
     drop: (props, monitor, component) => {

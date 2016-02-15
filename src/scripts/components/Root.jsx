@@ -171,8 +171,8 @@ const Root = React.createClass({
     },
 
     onMoveCityUp: function (cityName) {
-        this.setState((oldState) => {
-            var newCityList = oldState.cityList.slice(0);
+        this.setState((state) => {
+            var newCityList = state.cityList.slice(0);
             for (var i = 1; i < newCityList.length; i++) {
                 if(newCityList[i].name === cityName) {
                     var tmp = newCityList[i-1];
@@ -181,15 +181,15 @@ const Root = React.createClass({
                     break;
                 }
             }
-            return update(oldState, {
+            return {
                 cityList: {$set: newCityList}
-            })
+            }
         })
     },
 
     onMoveCityDown: function(cityName) {
-        this.setState((oldState) => {
-            var newCityList = oldState.cityList.slice(0);
+        this.setState((state) => {
+            var newCityList = state.cityList.slice(0);
             for (var i = 0; i < newCityList.length - 1; i++) {
                 if(newCityList[i].name === cityName) {
                     var tmp = newCityList[i+1];
@@ -198,14 +198,22 @@ const Root = React.createClass({
                     break;
                 }
             }
-            return update(oldState, {
+            return {
                 cityList: {$set: newCityList}
-            })
+            }
         })
     },
 
-    onRearrangeCities: function() {
-        console.log("on rearrange cities", arguments);
+    onSwapCities: function(i1, i2) {
+        this.setState((state) => {
+            const newCityList = state.cityList.slice(0);
+            const tmp = newCityList[i1]
+            newCityList[i1] = newCityList[i2]
+            newCityList[i2] = tmp;
+            return {
+                cityList: newCityList
+            }
+        })
     },
 
     render: function () {
@@ -229,7 +237,7 @@ const Root = React.createClass({
                                       onRemove={this.onRemoveCity}
                                       onMoveUp={this.onMoveCityUp}
                                       onMoveDown={this.onMoveCityDown}
-                                      onRearrange={this.onRearrangeCities}
+                                      onSwap={this.onSwapCities}
                             />
                         </div>
                     </div>
