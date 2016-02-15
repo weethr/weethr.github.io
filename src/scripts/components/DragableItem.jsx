@@ -15,7 +15,7 @@ const ITEM_TYPE =  "drag_types_city" //todo: get from props?
 
 const component = React.createClass({
     render: function() {
-        const {connectDragSource, connectDropTarget, isDragging} = this.props
+        const {connectDragSource, connectDropTarget, isDragging, offset} = this.props
 
         let className = "dragable-item"
         if(isDragging) {
@@ -25,7 +25,7 @@ const component = React.createClass({
         var previewStyle = {
             display:isDragging ? "block" : "none",
             position: "absolute",
-            top: "0",
+            top: offset + "px",
             left: "0",
             "box-shadow": "0 0 10px black",
         };
@@ -102,9 +102,18 @@ const targetSpec = {
     },
 };
 
-const targetCollect = (connect, monitor) => ({
-    connectDropTarget: connect.dropTarget(),
-})
+const targetCollect = (connect, monitor) => {
+    var offset = 0
+    if(monitor.isOver()) {
+        var y = monitor.getClientOffset().y;
+        var initY = monitor.getInitialClientOffset().y;
+        offset = y - initY
+    }
+    return {
+        connectDropTarget: connect.dropTarget(),
+        offset: offset,
+    }
+}
 
 var targeted = DropTarget(ITEM_TYPE, targetSpec, targetCollect)(sourced);
 
