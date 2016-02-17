@@ -177,6 +177,9 @@ const Root = React.createClass({
             const tmp = newCityList[i1]
             newCityList[i1] = newCityList[i2]
             newCityList[i2] = tmp;
+            this.saveState(update(state, {
+                cityList: {$set: newCityList}
+            }));
             return {
                 cityList: newCityList
             }
