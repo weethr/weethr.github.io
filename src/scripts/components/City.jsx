@@ -11,10 +11,12 @@ import strftime from 'strftime'
 
 export default React.createClass({
 
+    //todo: add props types
 
     render: function() {
         const {city, onRemove, displayMode, isDragging} = this.props
 
+        console.log("City!", city);
 
         var tempClasses = "city__temp";
         if(city.weather.temp > 0) {tempClasses += " city__temp--warm"}

@@ -11,6 +11,7 @@ import React from 'react'
 
 import City from './City'
 import DragableItem from './DragableItem'
+import PreviewDragLayer from './PreviewDragLayer'
 
 export default React.createClass({
     onRemove: function(name) {
@@ -41,7 +42,7 @@ export default React.createClass({
                     ? this.props.data.map((city, i) => {
                         return (
                             <DragableItem key={city.name}
-                                          item={{cityName:city.name}}
+                                          item={city}
                                           index={i}
                                           onSwap={this.props.onSwap}>
                                 <City city={city}
@@ -54,6 +55,7 @@ export default React.createClass({
                     })
                     : <div className="city-list__empty">There are no cities added yet</div>
                 }
+                <PreviewDragLayer/>
             </div>
         )
     }

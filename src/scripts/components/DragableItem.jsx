@@ -9,47 +9,38 @@ import React from 'react'
 import {findDOMNode} from 'react-dom'
 import {DragSource, DropTarget} from 'react-dnd'
 import strftime from 'strftime'
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 const ITEM_TYPE =  "drag_types_city" //todo: get from props?
 
 
 const component = React.createClass({
+
+    componentDidMount() {
+        // Use empty image as a drag preview so browsers don't draw it
+        // and we can draw whatever we want on the custom drag layer instead.
+        this.props.connectDragPreview(getEmptyImage(), {
+            // IE fallback: specify that we'd rather screenshot the node
+            // when it already knows it's being dragged so we can hide it with CSS.
+            captureDraggingState: true
+        });
+    },
+
     render: function() {
-        const {connectDragSource, connectDropTarget, isDragging, offset} = this.props
+        const {connectDragSource, connectDropTarget, isDragging} = this.props
 
         let className = "dragable-item"
         if(isDragging) {
             className += " dragable-item--dragging"
         }
 
-        var previewStyle = {
-            display:isDragging ? "block" : "none",
-            position: "absolute",
-            top: offset + "px",
-            left: "0",
-            "box-shadow": "0 0 10px black",
-        };
-        return (
-            <div style={{position:"relative"}}>
+        return connectDragSource(connectDropTarget(
+            <div className={className}>
                 {
-                    connectDragSource(connectDropTarget(
-                        <div className={className}>
-                            {
-                                this.props.children
-                            }
-                        </div>
-                    ))
-                }
-                {
-                    <div style={previewStyle}>
-                        {
-                            this.props.children
-                        }
-                    </div>
+                    this.props.children
                 }
             </div>
-        )
-
+        ))
     }
 });
 
@@ -59,16 +50,13 @@ const component = React.createClass({
 
 const sourceSpec = {
     beginDrag: (props, monitor, component) => {
-        return {item: props.item, index: props.index}
-    },
-
-    endDrag: (props, monitor, component) => {
-        console.log("endDrag: not imlemented");
+        return {data: props.item, index: props.index}
     },
 };
 
 const sourceCollect = (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging(),
 })
 
@@ -103,15 +91,8 @@ const targetSpec = {
 };
 
 const targetCollect = (connect, monitor) => {
-    var offset = 0
-    if(monitor.isOver()) {
-        var y = monitor.getClientOffset().y;
-        var initY = monitor.getInitialClientOffset().y;
-        offset = y - initY
-    }
     return {
         connectDropTarget: connect.dropTarget(),
-        offset: offset,
     }
 }
 
