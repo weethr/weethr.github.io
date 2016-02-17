@@ -29,6 +29,7 @@
   "dependencies": {
     "disposables": "file:node_modules_patched/disposables-1.0.1.tar.gz",
     "dnd-core": "file:node_modules_patched/dnd-core-2.0.1.tar.gz",
+    "react-dnd-touch-backend":  "file:node_modules_patched/react-dnd-touch-backend-0.2.4.tar.gz",
 
     "es6-promise": "^3.0.2",
     "react": "^0.14.2",
