@@ -1,4 +1,4 @@
-@media only screen and (max-width: 520px) {
+@media only screen and (max-width: 800px) {
 
     .l-cell {
         padding: 5px;
@@ -104,4 +104,25 @@
         }
     }
 
+    .dragable-item {
+        width: 100%;
+
+        &__holder {
+            display: flex;
+            opacity: 1;
+            padding: 0 1rem;
+
+            > .icon.fa.fa-sort {
+                font-size: 2rem;
+                color: #dddddd;
+            }
+
+        }
+
+
+    }
+
+
 }
+
+

@@ -336,6 +336,7 @@ i.icon {
             #{$this}__up-down-buttons {
                 padding: 0;
                 text-align: center;
+                display: none;
             }
         }
     }
@@ -454,9 +455,29 @@ i.icon {
 
 
 .dragable-item {
+    display: flex;
+    background: white;
+    &__holder {
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        cursor: move;
+        opacity: 0;
+    }
+    &__body {
+        display: flex;
+        flex-grow: 1;
+        align-items: stretch;
+        flex-direction: column;
+    }
     &--dragging {
         opacity: 0;
         cursor: move;
+    }
+
+    &:hover > &__holder {
+        opacity: 1;
     }
 }
 

@@ -34,13 +34,16 @@ const component = React.createClass({
             className += " dragable-item--dragging"
         }
 
-        return connectDragSource(connectDropTarget(
+        return connectDropTarget(
             <div className={className}>
-                {
-                    this.props.children
-                }
+                {connectDragSource(<div className="dragable-item__holder"><i className="icon fa fa-sort"></i></div>)}
+                <div className="dragable-item__body">
+                    {
+                        this.props.children
+                    }
+                </div>
             </div>
-        ))
+        )
     }
 });
 

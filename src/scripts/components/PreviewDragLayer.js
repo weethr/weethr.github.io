@@ -41,16 +41,24 @@ var component = React.createClass({
         };
 
         const previewStyle = {
-            transform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`
+            transform: `translate(${initialOffset.x}px, ${currentOffset.y}px)`,
+            border: "0px solid black",
         };
 
         return (
             <div style={layerStyle}>
                 <div style={previewStyle}>
-                    <City city={data}
-                          onRemove={() => {}}
-                          onMoveUp={() => {}}
-                          onMoveDown={() => {}}/>
+
+                    <div className="dragable-item">
+                        <div className="dragable-item__holder"><i className="icon fa fa-sort"></i></div>
+                        <div className="dragable-item__body">
+                            <City city={data}
+                                  onRemove={() => {}}
+                                  onMoveUp={() => {}}
+                                  onMoveDown={() => {}}/>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         )
