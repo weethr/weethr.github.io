@@ -171,40 +171,6 @@ const Root = React.createClass({
         })
     },
 
-    onMoveCityUp: function (cityName) {
-        this.setState((state) => {
-            var newCityList = state.cityList.slice(0);
-            for (var i = 1; i < newCityList.length; i++) {
-                if(newCityList[i].name === cityName) {
-                    var tmp = newCityList[i-1];
-                    newCityList[i-1] = newCityList[i]
-                    newCityList[i] = tmp;
-                    break;
-                }
-            }
-            return {
-                cityList: {$set: newCityList}
-            }
-        })
-    },
-
-    onMoveCityDown: function(cityName) {
-        this.setState((state) => {
-            var newCityList = state.cityList.slice(0);
-            for (var i = 0; i < newCityList.length - 1; i++) {
-                if(newCityList[i].name === cityName) {
-                    var tmp = newCityList[i+1];
-                    newCityList[i+1] = newCityList[i]
-                    newCityList[i] = tmp;
-                    break;
-                }
-            }
-            return {
-                cityList: {$set: newCityList}
-            }
-        })
-    },
-
     onSwapCities: function(i1, i2) {
         this.setState((state) => {
             const newCityList = state.cityList.slice(0);
@@ -236,8 +202,6 @@ const Root = React.createClass({
                             <CityList data={this.state.cityList}
                                       displayMode={this.state.displayMode}
                                       onRemove={this.onRemoveCity}
-                                      onMoveUp={this.onMoveCityUp}
-                                      onMoveDown={this.onMoveCityDown}
                                       onSwap={this.onSwapCities}
                             />
                         </div>

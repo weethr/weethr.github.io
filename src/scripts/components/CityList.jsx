@@ -19,19 +19,6 @@ export default React.createClass({
         }
     },
 
-    onMoveUp: function(name) {
-        return () => {
-            this.props.onMoveUp(name)
-        }
-    },
-
-    onMoveDown: function(name) {
-        return () => {
-            this.props.onMoveDown(name)
-        }
-    },
-
-
     render: function () {
 
         return (
@@ -46,8 +33,6 @@ export default React.createClass({
                                           onSwap={this.props.onSwap}>
                                 <City city={city}
                                       onRemove={this.onRemove}
-                                      onMoveUp={this.onMoveUp}
-                                      onMoveDown={this.onMoveDown}
                                       displayMode={this.props.displayMode}/>
                             </DragableItem>
                         )

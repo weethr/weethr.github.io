@@ -463,12 +463,12 @@ i.icon {
     margin: 5px;
 
     &__holder {
-        width: 20px;
         display: flex;
         align-items: center;
-        justify-items: center;
+        justify-content: center;
         cursor: move;
         opacity: 0;
+        padding: 0 1.5rem 0 0.5rem;
     }
     &__body {
         display: flex;

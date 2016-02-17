@@ -53,8 +53,6 @@ export default React.createClass({
                         </div>
                     </div>
                     <div className="city__controls">
-                        <div className="arrow-up" onClick={this.props.onMoveUp(city.name)}></div>
-                        <div className="arrow-down" onClick={this.props.onMoveDown(city.name)}></div>
                         <button onClick={onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
                     </div>
                 </div>
@@ -76,10 +74,6 @@ export default React.createClass({
                         <div  className="city__controls" >
                             <div className="city__remove-button" rowSpan="2" >
                                 <button onClick={onRemove(city.name)} tabIndex="-1"><i className="icon fa fa-trash-o" aria-hidden="true"></i></button>
-                            </div>
-                            <div className="city__up-down-buttons" rowSpan="2" >
-                                <div className="arrow-up" onClick={this.props.onMoveUp(city.name)}></div>
-                                <div className="arrow-down" onClick={this.props.onMoveDown(city.name)}></div>
                             </div>
                         </div>
                     </div>

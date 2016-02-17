@@ -36,7 +36,7 @@ const component = React.createClass({
 
         return connectDropTarget(
             <div className={className}>
-                {connectDragSource(<div className="dragable-item__holder"><i className="icon fa fa-sort"></i></div>)}
+                {connectDragSource(<div className="dragable-item__holder"><i className="icon fa fa-th"></i></div>)}
                 <div className="dragable-item__body">
                     {
                         this.props.children
