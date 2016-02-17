@@ -455,8 +455,13 @@ i.icon {
 
 
 .dragable-item {
+    $this: #{&};
+
     display: flex;
     background: white;
+    padding: 5px;
+    margin: 5px;
+
     &__holder {
         width: 20px;
         display: flex;
@@ -471,15 +476,23 @@ i.icon {
         align-items: stretch;
         flex-direction: column;
     }
+
     &--dragging {
-        opacity: 0;
         cursor: move;
+        box-sizing: border-box;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.17);
+        border-radius: 5px;
     }
 
-    &:hover > &__holder {
-        opacity: 1;
+    &:hover, &--dragging  {
+        #{$this}__holder {
+            opacity: 1;
+        }
     }
+
 }
+
+
 
 .arrow-up, .arrow-down {
     width: 0;

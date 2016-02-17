@@ -11,7 +11,6 @@ import React from 'react'
 
 import City from './City'
 import DragableItem from './DragableItem'
-import PreviewDragLayer from './PreviewDragLayer'
 
 export default React.createClass({
     onRemove: function(name) {
@@ -55,7 +54,6 @@ export default React.createClass({
                     })
                     : <div className="city-list__empty">There are no cities added yet</div>
                 }
-                <PreviewDragLayer/>
             </div>
         )
     }
