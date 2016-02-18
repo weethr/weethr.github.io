@@ -271,7 +271,7 @@ i.icon {
                     -ms-grid-row-align: center;
                 align-items: center; }
     .city.city--short {
-      padding: 1rem 0; }
+      padding: 0.5rem 0; }
       .city.city--short .city__name {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -304,7 +304,7 @@ i.icon {
                 justify-content: flex-end;
         font-size: 2rem;
         padding: 0 0.25rem; }
-      .city.city--short .city__controls-parent {
+      .city.city--short .city__controls {
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -314,25 +314,11 @@ i.icon {
         -webkit-flex-shrink: 0;
             -ms-flex-negative: 0;
                 flex-shrink: 0;
-        width: 1px;
-        position: relative;
-        vertical-align: middle; }
-      .city.city--short .city__controls {
-        position: relative;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-flex-direction: row;
-            -ms-flex-direction: row;
-                flex-direction: row;
-        -webkit-align-items: center;
-            -ms-flex-align: center;
-                align-items: center;
-        height: 100%;
-        top: 0;
-        width: 1px; }
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        width: 75px; }
       .city.city--short .city__remove-button {
-        padding: 0 0.75rem;
         text-align: center; }
       .city.city--short .city__up-down-buttons {
         padding: 0;
@@ -437,8 +423,10 @@ i.icon {
   display: -ms-flexbox;
   display: flex;
   background: white;
-  padding: 5px;
-  margin: 5px; }
+  padding: 10px;
+  border-width: 5px;
+  border-style: dotted;
+  border-color: transparent; }
   .dragable-item__holder {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -451,7 +439,7 @@ i.icon {
             justify-content: center;
     cursor: move;
     opacity: 0;
-    padding: 0 1.5rem 0 0.5rem; }
+    width: 75px; }
   .dragable-item__body {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -468,8 +456,8 @@ i.icon {
   .dragable-item--dragging {
     cursor: move;
     box-sizing: border-box;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.17);
-    border-radius: 5px; }
+    border-radius: 10px;
+    border-color: #FFA900; }
   .dragable-item:hover .dragable-item__holder, .dragable-item--dragging .dragable-item__holder {
     opacity: 1; }
 

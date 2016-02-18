@@ -30,13 +30,8 @@
       margin-bottom: 0; }
       .city.city--full .city__details > div > span {
         display: block; }
-    .city.city--short .city__controls-parent {
-      width: initial; }
     .city.city--short .city__controls {
-      -webkit-justify-content: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      width: initial; }
+      width: 65px; }
     .city.city--short .city__temp {
       width: initial; }
     .city.city--short .city__up-down-buttons {
@@ -61,7 +56,8 @@
       display: -ms-flexbox;
       display: flex;
       opacity: 1;
-      padding: 0 1rem; }
+      width: 40px;
+      padding-right: 10px; }
       .dragable-item__holder > .icon.fa.fa-sort {
         font-size: 2rem;
         color: #dddddd; } }
